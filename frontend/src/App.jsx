@@ -6,6 +6,7 @@ import Budget from './screens/Budget'
 import Report from './screens/Report'
 import Onboarding from './screens/Onboarding'
 import Signup from './pages/Signup'
+import Landing from './pages/Landing'
 
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState('overview')
@@ -44,11 +45,44 @@ export default function App() {
 
   const CurrentScreen = screens[currentScreen] || Overview
 
-  // Show signup page if on /signup route
-  if (currentPath === '/signup') {
-    return <Signup onSuccess={() => window.location.href = '/'} />
+  // Show landing page if on root
+  if (currentPath === '/' || currentPath === '') {
+    return <Landing />
   }
 
+  // Show signup page if on /signup route
+  if (currentPath === '/signup') {
+    return <Signup onSuccess={() => window.location.href = '/dashboard'} />
+  }
+
+  // Show dashboard for /dashboard and any dashboard routes
+  if (currentPath.startsWith('/dashboard')) {
+    return (
+      <div style={{ display: 'flex' }}>
+        <Sidebar active={currentScreen} onNavigate={setCurrentScreen} />
+        <div style={{ marginLeft: '64px', width: 'calc(100% - 64px)' }}>
+          <div style={{ height: '60px', background: '#141414', borderBottom: '1px solid rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 24px' }}>
+            <h1 style={{ fontFamily: '"DM Serif Display", serif', fontSize: '20px' }}>AgentCFO</h1>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ fontSize: '12px', color: 'rgba(232,230,225,0.7)' }}>System</span>
+              <div style={{
+                width: '8px',
+                height: '8px',
+                background: isProxyActive ? '#C8F264' : '#FF4D4D',
+                borderRadius: '50%',
+                animation: isProxyActive ? 'pulse 2s infinite' : 'none',
+              }} />
+            </div>
+          </div>
+          <main style={{ padding: '24px', background: '#080808', minHeight: 'calc(100vh - 60px)' }}>
+            <CurrentScreen />
+          </main>
+        </div>
+      </div>
+    )
+  }
+
+  // Default to dashboard
   return (
     <div style={{ display: 'flex' }}>
       <Sidebar active={currentScreen} onNavigate={setCurrentScreen} />
