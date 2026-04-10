@@ -3,11 +3,19 @@ import { calculateCost } from './costCalculator.js';
 import { logAPICall } from './database.js';
 
 const OPENAI_API_BASE = 'https://api.openai.com';
-const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
 export const requestLog = [];
 
 export async function forwardToOpenAI(req, res, agentName = 'unknown') {
+  const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+
+  if (!OPENAI_API_KEY) {
+    console.error('ERROR: OPENAI_API_KEY environment variable is not set');
+    return res.status(500).json({
+      error: 'OpenAI API key not configured. Please set OPENAI_API_KEY environment variable.'
+    });
+  }
+
   const path = '/v1/chat/completions';
   const url = `${OPENAI_API_BASE}${path}`;
 
@@ -27,6 +35,7 @@ export async function forwardToOpenAI(req, res, agentName = 'unknown') {
   console.log(`[${timestamp}] Agent: ${agentName}, Model: ${requestBody.model}`);
 
   try {
+    console.log(`Forwarding request to OpenAI for model: ${requestBody.model}`);
     const openaiRes = await fetch(url, {
       method: 'POST',
       headers: {
