@@ -1,34 +1,61 @@
-import { useState } from 'react'
-import DashboardPage from './pages/DashboardPage'
-import OnboardingPage from './pages/OnboardingPage'
+import { useState, useEffect } from 'react'
+import MainLayout from './layouts/MainLayout'
+import Sidebar from './layouts/Sidebar'
+import Overview from './screens/Overview'
+import Agents from './screens/Agents'
+import Budget from './screens/Budget'
+import Report from './screens/Report'
+import Onboarding from './screens/Onboarding'
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState('dashboard')
+  const [currentScreen, setCurrentScreen] = useState('overview')
+  const [isProxyActive, setIsProxyActive] = useState(false)
+
+  useEffect(() => {
+    const checkProxy = async () => {
+      try {
+        const res = await fetch('https://agentcfo-production.up.railway.app/health')
+        setIsProxyActive(res.ok)
+      } catch {
+        setIsProxyActive(false)
+      }
+    }
+    checkProxy()
+    const interval = setInterval(checkProxy, 30000)
+    return () => clearInterval(interval)
+  }, [])
+
+  const screens = {
+    overview: Overview,
+    agents: Agents,
+    budget: Budget,
+    report: Report,
+    onboarding: Onboarding,
+  }
+
+  const CurrentScreen = screens[currentScreen] || Overview
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <nav className="bg-white shadow-sm border-b border-gray-200">
-        <div className="container flex items-center justify-between h-16">
-          <h1 className="text-2xl font-bold text-gray-900">AgentCFO</h1>
-          <div className="flex gap-4">
-            <button
-              onClick={() => setCurrentPage('dashboard')}
-              className={`px-4 py-2 rounded ${currentPage === 'dashboard' ? 'bg-blue-600 text-white' : 'text-gray-700 hover:bg-gray-100'}`}
-            >
-              Dashboard
-            </button>
-            <button
-              onClick={() => setCurrentPage('onboarding')}
-              className={`px-4 py-2 rounded ${currentPage === 'onboarding' ? 'bg-blue-600 text-white' : 'text-gray-700 hover:bg-gray-100'}`}
-            >
-              Onboarding
-            </button>
+    <div style={{ display: 'flex' }}>
+      <Sidebar active={currentScreen} onNavigate={setCurrentScreen} />
+      <div style={{ marginLeft: '64px', width: 'calc(100% - 64px)' }}>
+        <div style={{ height: '60px', background: '#141414', borderBottom: '1px solid rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 24px' }}>
+          <h1 style={{ fontFamily: '"DM Serif Display", serif', fontSize: '20px' }}>AgentCFO</h1>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span style={{ fontSize: '12px', color: 'rgba(232,230,225,0.7)' }}>System</span>
+            <div style={{
+              width: '8px',
+              height: '8px',
+              background: isProxyActive ? '#C8F264' : '#FF4D4D',
+              borderRadius: '50%',
+              animation: isProxyActive ? 'pulse 2s infinite' : 'none',
+            }} />
           </div>
         </div>
-      </nav>
-
-      {currentPage === 'dashboard' && <DashboardPage />}
-      {currentPage === 'onboarding' && <OnboardingPage />}
+        <main style={{ padding: '24px', background: '#080808', minHeight: 'calc(100vh - 60px)' }}>
+          <CurrentScreen />
+        </main>
+      </div>
     </div>
   )
 }
