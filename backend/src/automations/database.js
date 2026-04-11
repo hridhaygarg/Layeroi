@@ -136,3 +136,16 @@ export async function checkHighIntentCompany(company) {
     pages,
   };
 }
+
+export async function getTopAgent(userId) {
+  const { data, error } = await supabase
+    .from('api_calls')
+    .select('agent_name, cost_usd')
+    .eq('user_id', userId)
+    .order('cost_usd', { ascending: false })
+    .limit(1)
+    .single();
+
+  if (error || !data) return null;
+  return { name: data.agent_name, cost: data.cost_usd };
+}

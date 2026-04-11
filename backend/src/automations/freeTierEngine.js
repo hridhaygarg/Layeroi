@@ -1,5 +1,5 @@
 import { Resend } from 'resend';
-import { logUser, getUserAgentCount, getUserSpend } from './database.js';
+import { logUser, getUserAgentCount, getUserSpend, getTopAgent } from './database.js';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -67,16 +67,7 @@ export async function checkFreeTierUpgradeTriggers() {
       .distinct();
 
     if (daysSinceSignup === 5 && agents && agents.length >= 2) {
-      await resend.emails.send({
-        from: 'product@layerROI.com',
-        to: user.email,
-        subject: `Your free tier gets 2 agents – you've hit the limit`,
-        html: `
-          <p>Hi ${user.name},</p>
-          <p>You've connected ${agents.length} agents already – that's the free limit.</p>
-          <p>Upgrade to track unlimited agents: <a href="https://layeroi.com/upgrade">Get started</a></p>
-        `,
-      });
+      await sendDay5Email(user, agents.length);
     }
 
     // Day 10: Show spending with upgrade pitch
@@ -92,7 +83,7 @@ export async function checkFreeTierUpgradeTriggers() {
 }
 
 export async function sendDay2Email(user) {
-  const topAgent = await logUser.getTopAgent(user.id);
+  const topAgent = await getTopAgent(user.id);
 
   if (topAgent) {
     await resend.emails.send({
@@ -108,16 +99,29 @@ export async function sendDay2Email(user) {
   }
 }
 
+export async function sendDay5Email(user, agentCount) {
+  await resend.emails.send({
+    from: 'product@layerROI.com',
+    to: user.email,
+    subject: `Your free tier gets 2 agents – you've hit the limit`,
+    html: `
+      <p>Hi ${user.name},</p>
+      <p>You've connected ${agentCount} agents already – that's the free limit.</p>
+      <p>Upgrade to track unlimited agents: <a href="https://layeroi.com/upgrade">Get started</a></p>
+    `,
+  });
+}
+
 export async function sendDay10Email(user) {
   const { createClient } = await import('@supabase/supabase-js');
   const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
 
   const { data: costs } = await supabase
     .from('api_calls')
-    .select('cost')
+    .select('cost_usd')
     .eq('user_id', user.id);
 
-  const totalSpend = costs?.reduce((sum, call) => sum + call.cost, 0) || 0;
+  const totalSpend = costs?.reduce((sum, call) => sum + call.cost_usd, 0) || 0;
 
   if (totalSpend > 0) {
     await resend.emails.send({
