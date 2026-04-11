@@ -35,13 +35,60 @@ export async function createFreeUser(name, email, company) {
 }
 
 export async function checkFreeTierUpgradeTriggers() {
-  // Day 2: Show first costs
-  // Day 5: Alert if 2 agents connected
-  // Day 10: Show spending with upgrade pitch
-  // Day 14: Trial ending
+  const { createClient } = await import('@supabase/supabase-js');
+  const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
 
-  // This runs every 6 hours via cron
-  // For each user, check their days since signup and trigger appropriate email
+  // Get all free tier users
+  const { data: users, error } = await supabase
+    .from('users')
+    .select('*')
+    .eq('plan', 'free');
+
+  if (error) {
+    console.error('Error fetching users:', error);
+    return;
+  }
+
+  for (const user of users) {
+    const daysSinceSignup = Math.floor(
+      (new Date() - new Date(user.created_at)) / (1000 * 60 * 60 * 24)
+    );
+
+    // Day 2: Show first costs
+    if (daysSinceSignup === 2) {
+      await sendDay2Email(user);
+    }
+
+    // Day 5: Alert if 2+ agents connected
+    const { data: agents } = await supabase
+      .from('api_calls')
+      .select('agent_name', { count: 'exact' })
+      .eq('user_id', user.id)
+      .distinct();
+
+    if (daysSinceSignup === 5 && agents && agents.length >= 2) {
+      await resend.emails.send({
+        from: 'product@layerROI.com',
+        to: user.email,
+        subject: `Your free tier gets 2 agents – you've hit the limit`,
+        html: `
+          <p>Hi ${user.name},</p>
+          <p>You've connected ${agents.length} agents already – that's the free limit.</p>
+          <p>Upgrade to track unlimited agents: <a href="https://layeroi.com/upgrade">Get started</a></p>
+        `,
+      });
+    }
+
+    // Day 10: Show spending with upgrade pitch
+    if (daysSinceSignup === 10) {
+      await sendDay10Email(user);
+    }
+
+    // Day 14: Trial ending
+    if (daysSinceSignup === 14) {
+      await sendDay14Email(user);
+    }
+  }
 }
 
 export async function sendDay2Email(user) {
@@ -56,6 +103,31 @@ export async function sendDay2Email(user) {
         <p>Hi ${user.name},</p>
         <p>Your ${topAgent.name} agent spent $${topAgent.cost} in the first 48 hours with ROI of ${topAgent.roi}×.</p>
         <p>Track all your agents on the <a href="https://layeroi.com">dashboard</a>.</p>
+      `,
+    });
+  }
+}
+
+export async function sendDay10Email(user) {
+  const { createClient } = await import('@supabase/supabase-js');
+  const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
+
+  const { data: costs } = await supabase
+    .from('api_calls')
+    .select('cost')
+    .eq('user_id', user.id);
+
+  const totalSpend = costs?.reduce((sum, call) => sum + call.cost, 0) || 0;
+
+  if (totalSpend > 0) {
+    await resend.emails.send({
+      from: 'product@layerROI.com',
+      to: user.email,
+      subject: `You've spent $${totalSpend.toFixed(2)} on AI in 10 days`,
+      html: `
+        <p>Hi ${user.name},</p>
+        <p>Your AI agents have already spent <strong>$${totalSpend.toFixed(2)}</strong> in 10 days.</p>
+        <p>Can you afford not to track ROI per agent? Upgrade for full visibility: <a href="https://layeroi.com/upgrade">Upgrade now</a></p>
       `,
     });
   }
