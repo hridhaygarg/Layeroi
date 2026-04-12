@@ -1,5 +1,6 @@
 // Log all environment variable names at startup (not values, just names)
 console.log('🔍 STARTUP: Environment variables present:', Object.keys(process.env).filter(k => !k.startsWith('npm') && !k.startsWith('_')).sort());
+console.log('🚀 Server starting... PORT:', process.env.PORT, 'NODE_ENV:', process.env.NODE_ENV);
 
 import express from 'express';
 import cors from 'cors';
@@ -208,7 +209,7 @@ process.on('SIGTERM', async () => {
   process.exit(0);
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`Layer ROI server running on port ${PORT}`);
   console.log(`Proxy endpoint: POST http://localhost:${PORT}/v1/chat/completions`);
 });
