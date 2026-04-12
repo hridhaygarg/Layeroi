@@ -61,7 +61,7 @@ export async function sendWeeklyAdminReport() {
     const adminEmail = process.env.ADMIN_EMAIL || 'founder@layeroi.com';
 
     await resend.emails.send({
-      from: 'reports@layerROI.com',
+      from: 'Layer ROI <hello@layeroi.com>',
       to: adminEmail,
       subject: `📊 Layer ROI Weekly Report – ${new Date().toLocaleDateString()}`,
       html: `

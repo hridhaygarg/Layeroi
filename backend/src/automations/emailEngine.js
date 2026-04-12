@@ -31,7 +31,7 @@ export async function sendColdEmailSequence() {
 
     // Email 1: Initial outreach
     await resend.emails.send({
-      from: 'sales@layerROI.com',
+      from: 'Layer ROI <hello@layeroi.com>',
       to: email,
       subject: `Do you know which of your AI agents are profitable?`,
       html: `

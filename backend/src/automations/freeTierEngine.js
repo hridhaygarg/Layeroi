@@ -19,7 +19,7 @@ export async function createFreeUser(name, email, company) {
 
   // Send welcome email
   await resend.emails.send({
-    from: 'onboarding@layerROI.com',
+    from: 'Layer ROI <hello@layeroi.com>',
     to: email,
     subject: 'Welcome to Layer ROI – Your API Key Inside',
     html: `
@@ -87,7 +87,7 @@ export async function sendDay2Email(user) {
 
   if (topAgent) {
     await resend.emails.send({
-      from: 'product@layerROI.com',
+      from: 'Layer ROI <hello@layeroi.com>',
       to: user.email,
       subject: `Your first 48 hours — Layer ROI found something interesting`,
       html: `
@@ -101,7 +101,7 @@ export async function sendDay2Email(user) {
 
 export async function sendDay5Email(user, agentCount) {
   await resend.emails.send({
-    from: 'product@layerROI.com',
+    from: 'Layer ROI <hello@layeroi.com>',
     to: user.email,
     subject: `Your free tier gets 2 agents – you've hit the limit`,
     html: `
@@ -125,7 +125,7 @@ export async function sendDay10Email(user) {
 
   if (totalSpend > 0) {
     await resend.emails.send({
-      from: 'product@layerROI.com',
+      from: 'Layer ROI <hello@layeroi.com>',
       to: user.email,
       subject: `You've spent $${totalSpend.toFixed(2)} on AI in 10 days`,
       html: `
@@ -141,7 +141,7 @@ export async function sendDay14Email(user) {
   const totalSpend = await getUserSpend(user.id, 14);
 
   await resend.emails.send({
-    from: 'product@layerROI.com',
+    from: 'Layer ROI <hello@layeroi.com>',
     to: user.email,
     subject: `Your trial is ending – 20% off your first month`,
     html: `
