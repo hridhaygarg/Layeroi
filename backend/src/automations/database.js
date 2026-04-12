@@ -3,19 +3,23 @@ import { createClient } from '@supabase/supabase-js';
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_KEY || process.env.SUPABASE_ANON_KEY || process.env.SUPABASE_SERVICE_KEY;
 
+let supabase = null;
+
 if (!supabaseUrl || !supabaseKey) {
-  console.error('❌ CRITICAL: Missing Supabase credentials', {
+  console.warn('⚠️ WARNING: Missing Supabase credentials - database functions will be no-ops', {
     hasUrl: !!supabaseUrl,
     hasKey: !!supabaseKey,
-    providedUrl: supabaseUrl ? 'yes' : 'no',
-    providedKey: supabaseKey ? 'yes' : 'no'
   });
-  process.exit(1);
+} else {
+  supabase = createClient(supabaseUrl, supabaseKey);
+  console.log('✅ Supabase initialized successfully');
 }
 
-const supabase = createClient(supabaseUrl, supabaseKey);
-
 export async function logContent(data) {
+  if (!supabase) {
+    console.log('ℹ️ Skipping logContent - Supabase not available');
+    return;
+  }
   const { error } = await supabase.from('seo_content').insert([{
     topic: data.topic,
     title: data.title,
@@ -44,6 +48,11 @@ export async function getNextTopic() {
     'ai_agent_governance',
   ];
 
+  if (!supabase) {
+    console.log('ℹ️ Supabase not available - returning first topic');
+    return topics[0];
+  }
+
   const lastPublished = await supabase
     .from('seo_content')
     .select('topic')
@@ -56,6 +65,10 @@ export async function getNextTopic() {
 }
 
 export async function logLead(data) {
+  if (!supabase) {
+    console.log('ℹ️ Skipping logLead - Supabase not available');
+    return;
+  }
   const { error } = await supabase.from('cold_email_leads').insert([{
     first_name: data.firstName,
     last_name: data.lastName,
@@ -69,6 +82,10 @@ export async function logLead(data) {
 }
 
 export async function checkLeadIntent() {
+  if (!supabase) {
+    console.log('ℹ️ Supabase not available - returning empty leads');
+    return [];
+  }
   const { data } = await supabase
     .from('cold_email_leads')
     .select('*')
@@ -78,6 +95,10 @@ export async function checkLeadIntent() {
 }
 
 export async function logUser(data) {
+  if (!supabase) {
+    console.log('ℹ️ Skipping logUser - Supabase not available');
+    return null;
+  }
   const { data: user, error } = await supabase
     .from('free_tier_users')
     .insert([{
@@ -98,6 +119,10 @@ export async function logUser(data) {
 }
 
 export async function getUserAgentCount(userId) {
+  if (!supabase) {
+    console.log('ℹ️ Supabase not available - returning 0 agent count');
+    return 0;
+  }
   const { data } = await supabase
     .from('api_calls')
     .select('agent_name')
@@ -107,6 +132,10 @@ export async function getUserAgentCount(userId) {
 }
 
 export async function getUserSpend(userId, days) {
+  if (!supabase) {
+    console.log('ℹ️ Supabase not available - returning 0 spend');
+    return 0;
+  }
   const startDate = new Date();
   startDate.setDate(startDate.getDate() - days);
 
@@ -120,6 +149,10 @@ export async function getUserSpend(userId, days) {
 }
 
 export async function logCompanyVisit(data) {
+  if (!supabase) {
+    console.log('ℹ️ Skipping logCompanyVisit - Supabase not available');
+    return;
+  }
   const { error } = await supabase.from('company_visits').insert([{
     company: data.company,
     page: data.page,
@@ -130,6 +163,10 @@ export async function logCompanyVisit(data) {
 }
 
 export async function checkHighIntentCompany(company) {
+  if (!supabase) {
+    console.log('ℹ️ Supabase not available - returning empty intent');
+    return { visits: 0, pages: [] };
+  }
   const sevenDaysAgo = new Date();
   sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
@@ -148,6 +185,10 @@ export async function checkHighIntentCompany(company) {
 }
 
 export async function getTopAgent(userId) {
+  if (!supabase) {
+    console.log('ℹ️ Supabase not available - returning null agent');
+    return null;
+  }
   const { data, error } = await supabase
     .from('api_calls')
     .select('agent_name, cost_usd')

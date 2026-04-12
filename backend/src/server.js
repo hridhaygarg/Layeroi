@@ -1,6 +1,9 @@
 // Log all environment variable names at startup (not values, just names)
 console.log('🔍 STARTUP: Environment variables present:', Object.keys(process.env).filter(k => !k.startsWith('npm') && !k.startsWith('_')).sort());
 console.log('🚀 Server starting... PORT:', process.env.PORT, 'NODE_ENV:', process.env.NODE_ENV);
+console.log('SUPABASE_URL:', process.env.SUPABASE_URL ? 'SET' : 'MISSING');
+console.log('SUPABASE_KEY:', process.env.SUPABASE_KEY ? 'SET' : 'MISSING');
+console.log('PORT:', process.env.PORT);
 
 import express from 'express';
 import cors from 'cors';
