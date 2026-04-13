@@ -16,7 +16,8 @@ import {
   agentsRoutes,
   statsRoutes,
   managementRoutes,
-  automationsRoutes
+  automationsRoutes,
+  authRoutes
 } from './api/routes/index.js';
 
 dotenv.config();
@@ -39,6 +40,7 @@ app.use(extractAgentName);
 
 // Routes
 app.use(healthRoutes);
+app.use(authRoutes);
 app.use(proxyRoutes);
 app.use(costsRoutes);
 app.use(agentsRoutes);
