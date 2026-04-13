@@ -1,0 +1,7 @@
+export { default as healthRoutes } from './health.js';
+export { default as proxyRoutes, blockedAgents } from './proxy.js';
+export { default as costsRoutes } from './costs.js';
+export { default as agentsRoutes } from './agents.js';
+export { default as statsRoutes } from './stats.js';
+export { default as managementRoutes } from './management.js';
+export { default as automationsRoutes } from './automations.js';
