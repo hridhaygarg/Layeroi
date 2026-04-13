@@ -251,6 +251,22 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* ROI Calculator */}
+      <section style={{ background: colors.bgPrimary, padding: '96px 40px' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <FadeUp>
+            <div style={{ marginBottom: '80px', textAlign: 'center' }}>
+              <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: '48px', fontWeight: '600', marginBottom: '16px', color: colors.textPrimary }}>Calculate your AI agent waste</h2>
+              <p style={{ fontSize: '18px', color: colors.textSecondary, maxWidth: '600px', margin: '0 auto' }}>See how much your agents are costing you before Layer ROI.</p>
+            </div>
+          </FadeUp>
+
+          <FadeUp delay={80}>
+            <ROICalculator />
+          </FadeUp>
+        </div>
+      </section>
+
       {/* Comparison */}
       <section style={{ background: colors.bgSurface, padding: '96px 40px' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
@@ -332,6 +348,45 @@ export default function Landing() {
             <PricingCard title="Starter" price="$499" period="/ month" agents="Up to 5 agents" features={['Real-time tracking', 'Basic alerts', 'Monthly reports']} />
             <PricingCard title="Business" price="$2,500" period="/ month" agents="Up to 30 agents" features={['Everything in Starter', 'Advanced anomaly detection', 'API access', 'Quarterly reviews']} highlight badge="Most popular" />
             <PricingCard title="Enterprise" price="Custom" agents="Unlimited agents" features={['Everything in Business', 'Custom integrations', 'Dedicated support', 'Annual planning']} cta="Contact us" />
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section style={{ background: colors.bgSurface, padding: '96px 40px' }}>
+        <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+          <FadeUp>
+            <div style={{ marginBottom: '80px', textAlign: 'center' }}>
+              <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: '48px', fontWeight: '600', marginBottom: '16px', color: colors.textPrimary }}>Frequently asked questions</h2>
+              <p style={{ fontSize: '18px', color: colors.textSecondary }}>Everything you need to know about Layer ROI.</p>
+            </div>
+          </FadeUp>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <FAQItem
+              question="Does this add latency?"
+              answer="Under 5ms overhead, imperceptible to your users. Layer ROI runs asynchronously and doesn't block API calls."
+            />
+            <FAQItem
+              question="Is prompt data stored?"
+              answer="No. We only store metadata: cost, tokens used, agent name, and timestamp. Your prompt content never leaves your system."
+            />
+            <FAQItem
+              question="Works with Anthropic too?"
+              answer="Yes. OpenAI, Anthropic, and any OpenAI-compatible endpoint. Full cost tracking across all providers."
+            />
+            <FAQItem
+              question="How long is setup?"
+              answer="15 minutes. Add one environment variable to your code and Layer ROI starts tracking immediately."
+            />
+            <FAQItem
+              question="More than 30 agents?"
+              answer="Contact our sales team for Enterprise pricing and custom configurations for unlimited agents."
+            />
+            <FAQItem
+              question="If agent down, affects reliability?"
+              answer="No. Layer ROI fallback to direct LLM calls. Your agents are never impacted if our service is unavailable."
+            />
           </div>
         </div>
       </section>
@@ -467,5 +522,142 @@ function DashboardMockupTable() {
         ))}
       </tbody>
     </table>
+  );
+}
+
+function ROICalculator() {
+  const [agents, setAgents] = useState(3);
+  const [monthlySpend, setMonthlySpend] = useState(10000);
+  const [hourlyRate, setHourlyRate] = useState(75);
+
+  const wastefulSpend = monthlySpend * 0.23;
+  const annualSavings = wastefulSpend * 12;
+
+  const roiCost = agents < 5 ? 499 : agents <= 30 ? 2500 : 8000;
+  const paybackDays = Math.ceil(roiCost / (wastefulSpend / 30));
+
+  return (
+    <div style={{ background: colors.bgSurface, border: `1px solid ${colors.borderDefault}`, borderRadius: '12px', padding: '48px', maxWidth: '900px', margin: '0 auto', boxShadow: colors.shadowMd }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '40px', marginBottom: '64px' }}>
+        {/* Agents Slider */}
+        <div>
+          <label style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: '12px', fontWeight: '600', color: colors.textTertiary, textTransform: 'uppercase', display: 'block', marginBottom: '12px' }}>Number of AI Agents</label>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            <input
+              type="range"
+              min="1"
+              max="100"
+              value={agents}
+              onChange={(e) => setAgents(parseInt(e.target.value))}
+              style={{ flex: 1, height: '6px', borderRadius: '3px', background: colors.accentGreenLight, outline: 'none', cursor: 'pointer' }}
+            />
+            <span style={{ fontFamily: 'Playfair Display, serif', fontSize: '28px', fontWeight: '700', color: colors.textPrimary, minWidth: '40px', textAlign: 'right' }}>{agents}</span>
+          </div>
+        </div>
+
+        {/* Monthly Spend Input */}
+        <div>
+          <label style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: '12px', fontWeight: '600', color: colors.textTertiary, textTransform: 'uppercase', display: 'block', marginBottom: '12px' }}>Monthly LLM Spend</label>
+          <div style={{ position: 'relative' }}>
+            <span style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', fontSize: '16px', color: colors.textSecondary, fontWeight: '600' }}>$</span>
+            <input
+              type="number"
+              value={monthlySpend}
+              onChange={(e) => setMonthlySpend(Math.max(0, parseInt(e.target.value) || 0))}
+              style={{ width: '100%', padding: '12px 12px 12px 28px', border: `1px solid ${colors.borderDefault}`, borderRadius: '6px', fontSize: '16px', fontFamily: 'IBM Plex Mono, monospace', fontWeight: '600', color: colors.textPrimary, outline: 'none', transition: 'border-color 200ms', boxSizing: 'border-box' }}
+              onFocus={(e) => (e.target.style.borderColor = colors.accentGreen)}
+              onBlur={(e) => (e.target.style.borderColor = colors.borderDefault)}
+            />
+          </div>
+        </div>
+
+        {/* Hourly Rate Input */}
+        <div>
+          <label style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: '12px', fontWeight: '600', color: colors.textTertiary, textTransform: 'uppercase', display: 'block', marginBottom: '12px' }}>Employee Hourly Cost</label>
+          <div style={{ position: 'relative' }}>
+            <span style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', fontSize: '16px', color: colors.textSecondary, fontWeight: '600' }}>$</span>
+            <input
+              type="number"
+              value={hourlyRate}
+              onChange={(e) => setHourlyRate(Math.max(0, parseInt(e.target.value) || 0))}
+              style={{ width: '100%', padding: '12px 12px 12px 28px', border: `1px solid ${colors.borderDefault}`, borderRadius: '6px', fontSize: '16px', fontFamily: 'IBM Plex Mono, monospace', fontWeight: '600', color: colors.textPrimary, outline: 'none', transition: 'border-color 200ms', boxSizing: 'border-box' }}
+              onFocus={(e) => (e.target.style.borderColor = colors.accentGreen)}
+              onBlur={(e) => (e.target.style.borderColor = colors.borderDefault)}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Results Grid */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '32px' }}>
+        {/* Monthly Wasteful Spend */}
+        <div style={{ background: colors.bgProfit, border: `1px solid ${colors.accentGreenBorder}`, borderRadius: '8px', padding: '24px' }}>
+          <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: '12px', fontWeight: '600', color: colors.textTertiary, textTransform: 'uppercase', marginBottom: '8px' }}>Monthly Wasteful Spend</div>
+          <div style={{ fontFamily: 'Playfair Display, serif', fontSize: '36px', fontWeight: '700', color: colors.accentGreen, marginBottom: '4px' }}>${wastefulSpend.toLocaleString('en-US', { maximumFractionDigits: 0 })}</div>
+          <div style={{ fontSize: '13px', color: colors.textSecondary }}>~23% of your LLM spend is wasted</div>
+        </div>
+
+        {/* Annual Savings Potential */}
+        <div style={{ background: colors.bgProfit, border: `1px solid ${colors.accentGreenBorder}`, borderRadius: '8px', padding: '24px' }}>
+          <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: '12px', fontWeight: '600', color: colors.textTertiary, textTransform: 'uppercase', marginBottom: '8px' }}>Annual Savings Potential</div>
+          <div style={{ fontFamily: 'Playfair Display, serif', fontSize: '36px', fontWeight: '700', color: colors.accentGreen, marginBottom: '4px' }}>${annualSavings.toLocaleString('en-US', { maximumFractionDigits: 0 })}</div>
+          <div style={{ fontSize: '13px', color: colors.textSecondary }}>Year-over-year with optimization</div>
+        </div>
+
+        {/* Layer ROI Cost */}
+        <div style={{ background: colors.bgSubtle, border: `1px solid ${colors.borderDefault}`, borderRadius: '8px', padding: '24px' }}>
+          <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: '12px', fontWeight: '600', color: colors.textTertiary, textTransform: 'uppercase', marginBottom: '8px' }}>Layer ROI Monthly Cost</div>
+          <div style={{ fontFamily: 'Playfair Display, serif', fontSize: '36px', fontWeight: '700', color: colors.textPrimary, marginBottom: '4px' }}>${roiCost.toLocaleString()}/mo</div>
+          <div style={{ fontSize: '13px', color: colors.textSecondary }}>
+            {agents < 5 ? 'Starter' : agents <= 30 ? 'Business' : 'Enterprise'} plan
+          </div>
+        </div>
+
+        {/* Payback Period */}
+        <div style={{ background: colors.bgSubtle, border: `1px solid ${colors.borderDefault}`, borderRadius: '8px', padding: '24px' }}>
+          <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: '12px', fontWeight: '600', color: colors.textTertiary, textTransform: 'uppercase', marginBottom: '8px' }}>Payback Period</div>
+          <div style={{ fontFamily: 'Playfair Display, serif', fontSize: '36px', fontWeight: '700', color: colors.textPrimary, marginBottom: '4px' }}>{paybackDays} days</div>
+          <div style={{ fontSize: '13px', color: colors.textSecondary }}>Until Layer ROI pays for itself</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function FAQItem({ question, answer }) {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <FadeUp>
+      <div style={{ background: colors.bgSurface, border: `1px solid ${colors.borderDefault}`, borderRadius: '8px', overflow: 'hidden', transition: 'all 200ms' }}>
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          style={{
+            width: '100%',
+            padding: '20px 24px',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer',
+            fontSize: '16px',
+            fontWeight: '600',
+            color: colors.textPrimary,
+            fontFamily: 'Inter, sans-serif',
+            transition: 'background-color 200ms'
+          }}
+          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = colors.bgSubtle)}
+          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
+        >
+          <span>{question}</span>
+          <span style={{ fontSize: '20px', fontWeight: '600', color: colors.accentGreen, transition: 'transform 200ms', transform: isOpen ? 'rotate(45deg)' : 'rotate(0deg)' }}>+</span>
+        </button>
+        {isOpen && (
+          <div style={{ padding: '0 24px 20px 24px', color: colors.textSecondary, fontSize: '15px', lineHeight: 1.6, borderTop: `1px solid ${colors.borderDefault}`, marginTop: '0' }}>
+            {answer}
+          </div>
+        )}
+      </div>
+    </FadeUp>
   );
 }

@@ -19,23 +19,23 @@ const colors = {
 };
 
 export default function Signup() {
-  const [formData, setFormData] = useState({ name: '', email: '', company: '' });
+  const [step, setStep] = useState('email'); // 'email', 'details', 'complete'
+  const [formData, setFormData] = useState({ email: '', name: '', company: '' });
   const [loading, setLoading] = useState(false);
   const [apiKey, setApiKey] = useState('');
   const [error, setError] = useState('');
-  const [success, setSuccess] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleEmailSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
 
-    if (!formData.name || !formData.email || !formData.company) {
-      setError('All fields are required');
+    if (!formData.email) {
+      setError('Email is required');
       setLoading(false);
       return;
     }
@@ -44,15 +44,14 @@ export default function Signup() {
       const res = await fetch('https://api.layeroi.com/api/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+        body: JSON.stringify({ email: formData.email, name: '', company: '' })
       });
 
       const data = await res.json();
 
       if (data.success) {
         setApiKey(data.apiKey);
-        setSuccess(true);
-        setFormData({ name: '', email: '', company: '' });
+        setStep('details');
       } else {
         setError(data.error || 'Signup failed');
       }
@@ -61,6 +60,17 @@ export default function Signup() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleDetailsSubmit = async (e) => {
+    e.preventDefault();
+    // For now, just complete the signup without sending the details
+    // In a real app, you'd update the user profile here
+    setStep('complete');
+  };
+
+  const skipDetails = () => {
+    setStep('complete');
   };
 
   const copyToClipboard = () => {
@@ -119,20 +129,11 @@ export default function Signup() {
 
         {/* Right Side - Form */}
         <div style={{ background: colors.bgPrimary, padding: '80px 60px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-          {!success ? (
-            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+          {step === 'email' && (
+            <form onSubmit={handleEmailSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
               <div>
-                <label style={{ display: 'block', fontSize: '14px', fontWeight: '600', color: colors.textPrimary, marginBottom: '8px' }}>Full name</label>
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  placeholder="Sarah Chen"
-                  style={{ width: '100%', padding: '12px 16px', border: `1px solid ${colors.borderDefault}`, borderRadius: '6px', fontFamily: 'Inter, sans-serif', fontSize: '16px', background: colors.bgSurface, color: colors.textPrimary, transition: 'all 200ms' }}
-                  onFocus={(e) => (e.target.style.borderColor = colors.accentGreen)}
-                  onBlur={(e) => (e.target.style.borderColor = colors.borderDefault)}
-                />
+                <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: '28px', fontWeight: '700', color: colors.textPrimary, marginBottom: '8px' }}>Create your account</h2>
+                <p style={{ color: colors.textSecondary, fontSize: '14px', marginBottom: '24px' }}>Just your email to get started. We'll generate your API key instantly.</p>
               </div>
 
               <div>
@@ -149,8 +150,45 @@ export default function Signup() {
                 />
               </div>
 
+              {error && <div style={{ padding: '12px', background: '#fef2f2', border: `1px solid ${colors.dangerRed}`, borderRadius: '6px', color: colors.dangerRed, fontSize: '14px' }}>{error}</div>}
+
+              <button
+                type="submit"
+                disabled={loading}
+                style={{ width: '100%', background: colors.accentGreen, color: colors.bgSurface, padding: '14px', borderRadius: '6px', border: 'none', fontFamily: 'Inter, sans-serif', fontSize: '16px', fontWeight: '600', cursor: loading ? 'not-allowed' : 'pointer', opacity: loading ? 0.7 : 1, transition: 'all 200ms' }}
+                onMouseDown={(e) => !loading && (e.target.style.transform = 'scale(0.98)')}
+                onMouseUp={(e) => !loading && (e.target.style.transform = 'scale(1)')}
+              >
+                {loading ? 'Creating account...' : 'Get API key →'}
+              </button>
+
+              <p style={{ fontSize: '12px', color: colors.textTertiary, textAlign: 'center' }}>By signing up, you agree to our Terms of Service and Privacy Policy</p>
+            </form>
+          )}
+
+          {step === 'details' && (
+            <form onSubmit={handleDetailsSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
               <div>
-                <label style={{ display: 'block', fontSize: '14px', fontWeight: '600', color: colors.textPrimary, marginBottom: '8px' }}>Company</label>
+                <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: '28px', fontWeight: '700', color: colors.textPrimary, marginBottom: '8px' }}>Tell us about yourself</h2>
+                <p style={{ color: colors.textSecondary, fontSize: '14px', marginBottom: '24px' }}>Optional. Helps us personalize your dashboard.</p>
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '14px', fontWeight: '600', color: colors.textPrimary, marginBottom: '8px' }}>Full name <span style={{ color: colors.textTertiary }}>optional</span></label>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  placeholder="Sarah Chen"
+                  style={{ width: '100%', padding: '12px 16px', border: `1px solid ${colors.borderDefault}`, borderRadius: '6px', fontFamily: 'Inter, sans-serif', fontSize: '16px', background: colors.bgSurface, color: colors.textPrimary, transition: 'all 200ms' }}
+                  onFocus={(e) => (e.target.style.borderColor = colors.accentGreen)}
+                  onBlur={(e) => (e.target.style.borderColor = colors.borderDefault)}
+                />
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '14px', fontWeight: '600', color: colors.textPrimary, marginBottom: '8px' }}>Company <span style={{ color: colors.textTertiary }}>optional</span></label>
                 <input
                   type="text"
                   name="company"
@@ -163,24 +201,31 @@ export default function Signup() {
                 />
               </div>
 
-              {error && <div style={{ padding: '12px', background: '#fef2f2', border: `1px solid ${colors.dangerRed}`, borderRadius: '6px', color: colors.dangerRed, fontSize: '14px' }}>{error}</div>}
-
               <button
                 type="submit"
-                disabled={loading}
-                style={{ width: '100%', background: colors.accentGreen, color: colors.bgSurface, padding: '14px', borderRadius: '6px', border: 'none', fontFamily: 'Inter, sans-serif', fontSize: '16px', fontWeight: '600', cursor: loading ? 'not-allowed' : 'pointer', opacity: loading ? 0.7 : 1, transition: 'all 200ms' }}
-                onMouseDown={(e) => !loading && (e.target.style.transform = 'scale(0.98)')}
-                onMouseUp={(e) => !loading && (e.target.style.transform = 'scale(1)')}
+                style={{ width: '100%', background: colors.accentGreen, color: colors.bgSurface, padding: '14px', borderRadius: '6px', border: 'none', fontFamily: 'Inter, sans-serif', fontSize: '16px', fontWeight: '600', cursor: 'pointer', transition: 'all 200ms' }}
+                onMouseDown={(e) => (e.target.style.transform = 'scale(0.98)')}
+                onMouseUp={(e) => (e.target.style.transform = 'scale(1)')}
               >
-                {loading ? 'Creating account...' : 'Create free account →'}
+                Complete signup →
               </button>
 
-              <p style={{ fontSize: '12px', color: colors.textTertiary, textAlign: 'center' }}>By signing up, you agree to our Terms of Service and Privacy Policy</p>
+              <button
+                type="button"
+                onClick={skipDetails}
+                style={{ width: '100%', background: 'transparent', color: colors.textSecondary, padding: '12px', borderRadius: '6px', border: `1px solid ${colors.borderDefault}`, fontFamily: 'Inter, sans-serif', fontSize: '16px', fontWeight: '600', cursor: 'pointer', transition: 'all 200ms' }}
+                onMouseDown={(e) => (e.target.style.transform = 'scale(0.98)')}
+                onMouseUp={(e) => (e.target.style.transform = 'scale(1)')}
+              >
+                Skip for now
+              </button>
             </form>
-          ) : (
+          )}
+
+          {step === 'complete' && (
             <div style={{ textAlign: 'center' }}>
               <div style={{ width: '64px', height: '64px', background: colors.accentGreenLight, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px', fontSize: '32px' }}>✓</div>
-              <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: '32px', fontWeight: '700', color: colors.textPrimary, marginBottom: '12px' }}>Account created!</h2>
+              <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: '32px', fontWeight: '700', color: colors.textPrimary, marginBottom: '12px' }}>Ready to track costs!</h2>
               <p style={{ color: colors.textSecondary, marginBottom: '32px', fontSize: '16px' }}>Your API key is ready. Update one line of code in your agent.</p>
 
               <div style={{ background: colors.bgSubtle, border: `1px solid ${colors.borderDefault}`, borderRadius: '8px', padding: '16px', marginBottom: '24px', position: 'relative' }}>

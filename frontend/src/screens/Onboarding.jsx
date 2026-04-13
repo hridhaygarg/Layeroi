@@ -15,10 +15,20 @@ const colors = {
 
 export default function Onboarding() {
   const [copied, setCopied] = useState(false);
-  const codeBlock = `const client = new OpenAI({
+  const [provider, setProvider] = useState('openai');
+
+  const codeBlocks = {
+    openai: `const client = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
   baseURL: 'https://api.layeroi.com'
-})`;
+});`,
+    anthropic: `const client = new Anthropic({
+  apiKey: process.env.ANTHROPIC_API_KEY,
+  baseURL: 'https://api.layeroi.com'
+});`
+  };
+
+  const codeBlock = codeBlocks[provider];
 
   return (
     <div style={{ maxWidth: '700px' }}>
@@ -90,33 +100,65 @@ export default function Onboarding() {
           marginBottom: '16px',
           display: 'flex',
           alignItems: 'center',
-          gap: '8px',
+          justifyContent: 'space-between',
         }}>
           <div style={{
-            width: '24px',
-            height: '24px',
-            borderRadius: '50%',
-            background: colors.accentGreen,
-            color: '#ffffff',
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center',
-            fontFamily: 'Playfair Display, serif',
-            fontSize: '14px',
-            fontWeight: '700',
+            gap: '8px',
           }}>
-            2
+            <div style={{
+              width: '24px',
+              height: '24px',
+              borderRadius: '50%',
+              background: colors.accentGreen,
+              color: '#ffffff',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontFamily: 'Playfair Display, serif',
+              fontSize: '14px',
+              fontWeight: '700',
+            }}>
+              2
+            </div>
+            <p style={{
+              fontFamily: 'IBM Plex Mono, monospace',
+              fontSize: '13px',
+              color: colors.textSecondary,
+              fontWeight: '600',
+              textTransform: 'uppercase',
+              letterSpacing: '0.5px',
+            }}>
+              Code Example
+            </p>
           </div>
-          <p style={{
-            fontFamily: 'IBM Plex Mono, monospace',
-            fontSize: '13px',
-            color: colors.textSecondary,
-            fontWeight: '600',
-            textTransform: 'uppercase',
-            letterSpacing: '0.5px',
+          <div style={{
+            display: 'flex',
+            gap: '8px',
           }}>
-            Code Example
-          </p>
+            {['openai', 'anthropic'].map((p) => (
+              <button
+                key={p}
+                onClick={() => setProvider(p)}
+                style={{
+                  padding: '6px 14px',
+                  borderRadius: '4px',
+                  border: `1px solid ${provider === p ? colors.accentGreen : colors.borderDefault}`,
+                  background: provider === p ? colors.bgProfit : 'transparent',
+                  color: provider === p ? colors.accentGreen : colors.textSecondary,
+                  fontFamily: 'IBM Plex Mono, monospace',
+                  fontSize: '12px',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  transition: 'all 200ms',
+                  textTransform: 'capitalize'
+                }}
+              >
+                {p}
+              </button>
+            ))}
+          </div>
         </div>
 
         <div style={{
