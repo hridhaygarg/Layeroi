@@ -26,6 +26,15 @@ export default function App() {
   const [isProxyActive, setIsProxyActive] = useState(false)
   const [currentPath, setCurrentPath] = useState(window.location.pathname)
 
+  // Track page views in Google Analytics
+  useEffect(() => {
+    if (window.gtag) {
+      window.gtag('config', 'G-BNYSXHQPSQ', {
+        page_path: currentPath
+      });
+    }
+  }, [currentPath])
+
   useEffect(() => {
     const handlePopState = () => {
       setCurrentPath(window.location.pathname)
