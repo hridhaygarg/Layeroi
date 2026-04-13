@@ -6,35 +6,19 @@ export async function createUser(userData) {
   const { email, name, company } = userData;
 
   try {
-    // First, create organisation for the user
-    const orgSlug = company.toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 50);
+    const userId = crypto.randomUUID();
     const orgId = crypto.randomUUID();
+    const orgSlug = company.toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 50);
 
-    const { error: orgError } = await supabase
-      .from('organisations')
-      .insert([
-        {
-          id: orgId,
-          name: company,
-          slug: `${orgSlug}-${Date.now()}`,
-          created_by: null, // Will be updated to user_id after user creation
-        }
-      ]);
-
-    if (orgError) {
-      logger.error('Failed to create organisation', orgError);
-      throw new Error(`Organisation creation failed: ${orgError.message}`);
-    }
-
-    // Then create user
-    const { data, error: userError } = await supabase
+    // Step 1: Create user WITHOUT org_id first (to break circular dependency)
+    const { data: createdUsers, error: userError } = await supabase
       .from('users')
       .insert([
         {
+          id: userId,
           email,
           name,
           company,
-          org_id: orgId,
         }
       ])
       .select();
@@ -44,11 +28,40 @@ export async function createUser(userData) {
       throw new Error(`User creation failed: ${userError.message}`);
     }
 
-    if (!data || data.length === 0) {
+    if (!createdUsers || createdUsers.length === 0) {
       throw new Error('User creation returned no data');
     }
 
-    return data[0];
+    // Step 2: Create organisation owned by this user
+    const { error: orgError } = await supabase
+      .from('organisations')
+      .insert([
+        {
+          id: orgId,
+          name: company,
+          slug: `${orgSlug}-${Date.now()}`,
+          created_by: userId,
+        }
+      ]);
+
+    if (orgError) {
+      logger.error('Failed to create organisation', orgError);
+      throw new Error(`Organisation creation failed: ${orgError.message}`);
+    }
+
+    // Step 3: Update user to reference the organisation
+    const { data: updatedUsers, error: updateError } = await supabase
+      .from('users')
+      .update({ org_id: orgId })
+      .eq('id', userId)
+      .select();
+
+    if (updateError) {
+      logger.error('Failed to update user with org_id', updateError);
+      throw new Error(`User update failed: ${updateError.message}`);
+    }
+
+    return updatedUsers?.[0] || createdUsers[0];
   } catch (error) {
     logger.error('Create user failed', { email, error: error.message });
     throw error; // Propagate error instead of swallowing it
