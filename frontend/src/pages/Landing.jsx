@@ -251,6 +251,73 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* Comparison */}
+      <section style={{ background: colors.bgSurface, padding: '96px 40px' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <FadeUp>
+            <div style={{ marginBottom: '80px', textAlign: 'center' }}>
+              <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', fontWeight: '600', color: colors.accentGreen, letterSpacing: '2px', textTransform: 'uppercase' }}>How We Compare</span>
+              <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: '48px', fontWeight: '600', marginTop: '16px', color: colors.textPrimary }}>Why CFOs choose Layer ROI</h2>
+              <p style={{ fontSize: '18px', color: colors.textSecondary, maxWidth: '600px', margin: '24px auto 0' }}>Other tools monitor infrastructure. Layer ROI shows financial impact.</p>
+            </div>
+          </FadeUp>
+
+          <FadeUp delay={80}>
+            <div style={{ overflowX: 'auto', borderRadius: '12px', border: `1px solid ${colors.borderDefault}`, boxShadow: colors.shadowSm }}>
+              <table style={{ width: '100%', borderCollapse: 'collapse', fontFamily: 'Inter, sans-serif', backgroundColor: colors.bgSurface }}>
+                <thead>
+                  <tr style={{ borderBottom: `2px solid ${colors.borderDefault}`, backgroundColor: colors.bgSubtle }}>
+                    <th style={{ textAlign: 'left', padding: '20px 24px', fontFamily: 'Playfair Display, serif', fontSize: '14px', fontWeight: '600', color: colors.textPrimary }}>Tool</th>
+                    <th style={{ textAlign: 'left', padding: '20px 24px', fontFamily: 'Inter, sans-serif', fontSize: '13px', fontWeight: '600', color: colors.textSecondary, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Built For</th>
+                    <th style={{ textAlign: 'left', padding: '20px 24px', fontFamily: 'Inter, sans-serif', fontSize: '13px', fontWeight: '600', color: colors.textSecondary, textTransform: 'uppercase', letterSpacing: '0.5px' }}>What It Shows</th>
+                    <th style={{ textAlign: 'center', padding: '20px 24px', fontFamily: 'Inter, sans-serif', fontSize: '13px', fontWeight: '600', color: colors.textSecondary, textTransform: 'uppercase', letterSpacing: '0.5px' }}>CFO-Ready</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {[
+                    { tool: 'Layer ROI', buildup: 'CFOs', shows: 'P&L per agent, ROI, cost per task, profitability', cfo: true, highlight: true },
+                    { tool: 'Datadog', buildup: 'Engineers', shows: 'Tokens, traces, infrastructure logs', cfo: false },
+                    { tool: 'Helicone', buildup: 'Engineers', shows: 'API logs, token usage, latency', cfo: false },
+                    { tool: 'LiteLLM', buildup: 'Developers', shows: 'Spend by API key, model costs', cfo: false },
+                    { tool: 'Bifrost', buildup: 'DevOps', shows: 'Cost by provider, infrastructure metrics', cfo: false },
+                  ].map((row, i) => (
+                    <tr key={i} style={{
+                      borderBottom: `1px solid ${colors.borderDefault}`,
+                      backgroundColor: row.highlight ? colors.bgProfit : (i % 2 === 0 ? colors.bgSurface : colors.bgSubtle),
+                      transition: 'all 150ms'
+                    }} onMouseEnter={(e) => !row.highlight && (e.currentTarget.style.backgroundColor = colors.bgSubtle)} onMouseLeave={(e) => !row.highlight && (e.currentTarget.style.backgroundColor = i % 2 === 0 ? colors.bgSurface : colors.bgSubtle)}>
+                      <td style={{ padding: '20px 24px', fontFamily: 'Playfair Display, serif', fontSize: '16px', fontWeight: '600', color: colors.textPrimary }}>
+                        {row.tool}
+                        {row.highlight && <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', fontWeight: '600', color: colors.accentGreen, backgroundColor: colors.accentGreenLight, padding: '4px 10px', borderRadius: '4px', marginLeft: '12px' }}>BEST FOR CFOS</span>}
+                      </td>
+                      <td style={{ padding: '20px 24px', color: colors.textSecondary, fontSize: '14px' }}>{row.buildup}</td>
+                      <td style={{ padding: '20px 24px', color: colors.textSecondary, fontSize: '14px' }}>{row.shows}</td>
+                      <td style={{ padding: '20px 24px', textAlign: 'center' }}>
+                        <span style={{
+                          display: 'flex',
+                          width: '24px',
+                          height: '24px',
+                          borderRadius: '50%',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          fontWeight: 'bold',
+                          fontSize: '14px',
+                          backgroundColor: row.cfo ? colors.bgProfit : colors.bgLoss,
+                          color: row.cfo ? colors.accentGreen : colors.dangerRed,
+                          border: `1px solid ${row.cfo ? colors.accentGreenBorder : colors.dangerBorder}`
+                        }}>
+                          {row.cfo ? '✓' : '✗'}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </FadeUp>
+        </div>
+      </section>
+
       {/* Pricing */}
       <section style={{ background: colors.bgSurface, padding: '96px 40px' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
