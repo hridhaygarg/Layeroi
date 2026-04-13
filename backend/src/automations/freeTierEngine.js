@@ -1,7 +1,8 @@
 import { Resend } from 'resend';
 import { logUser, getUserAgentCount, getUserSpend, getTopAgent } from './database.js';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const RESEND_KEY = process.env.RESEND_API_KEY;
+const resend = RESEND_KEY ? new Resend(RESEND_KEY) : null;
 
 export async function createFreeUser(name, email, company) {
   const apiKey = `sk-${Math.random().toString(36).substr(2, 32)}`;

@@ -1,8 +1,11 @@
 import { Resend } from 'resend';
 import { logLead, checkLeadIntent } from './database.js';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const RESEND_KEY = process.env.RESEND_API_KEY;
 const APOLLO_KEY = process.env.APOLLO_API_KEY;
+
+// Initialize Resend only if API key is available
+const resend = RESEND_KEY ? new Resend(RESEND_KEY) : null;
 
 export async function fetchLeadsFromApollo() {
   const { default: axios } = await import('axios');

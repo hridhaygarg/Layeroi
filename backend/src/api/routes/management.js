@@ -1,7 +1,7 @@
 import express from 'express';
 import { blockedAgents } from './proxy.js';
 import { logger } from '../../utils/logger.js';
-import { requestLog } from '../../loopDetector.js';
+import { requestLog } from '../../utils/requestLog.js';
 
 const router = express.Router();
 

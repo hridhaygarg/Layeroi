@@ -2,7 +2,8 @@ import express from 'express';
 import dotenv from 'dotenv';
 import { logger } from './utils/logger.js';
 import { CONFIG } from './config/constants.js';
-import { initLoopDetector, initAutomations } from './loopDetector.js';
+import { initLoopDetector } from './loopDetector.js';
+import { initAutomations } from './automations/cron.js';
 
 // Import middleware
 import { corsMiddleware, errorHandler, requestLogger, extractAgentName } from './api/middleware/index.js';
