@@ -11,6 +11,7 @@ const Agents = lazy(() => import('./screens/Agents'))
 const Budget = lazy(() => import('./screens/Budget'))
 const Report = lazy(() => import('./screens/Report'))
 const Onboarding = lazy(() => import('./screens/Onboarding'))
+const Outreach = lazy(() => import('./screens/Outreach'))
 const Signup = lazy(() => import('./pages/Signup'))
 const Login = lazy(() => import('./pages/Login'))
 
@@ -53,6 +54,7 @@ export default function App() {
     budget: 'Budget',
     report: 'Reports',
     onboarding: 'Onboarding',
+    outreach: 'Outreach',
   }
 
   // Set page title based on current screen
@@ -107,6 +109,7 @@ export default function App() {
     budget: Budget,
     report: Report,
     onboarding: Onboarding,
+    outreach: Outreach,
   }
 
   const CurrentScreen = screens[currentScreen] || Overview
@@ -293,6 +296,7 @@ export default function App() {
                   {key === 'budget' && '💰'}
                   {key === 'report' && '📈'}
                   {key === 'onboarding' && '🚀'}
+                  {key === 'outreach' && '🎯'}
                 </span>
                 {name}
               </button>
@@ -447,6 +451,7 @@ export default function App() {
                 {key === 'budget' && '💰'}
                 {key === 'report' && '📈'}
                 {key === 'onboarding' && '🚀'}
+                {key === 'outreach' && '🎯'}
               </span>
               {name}
             </button>

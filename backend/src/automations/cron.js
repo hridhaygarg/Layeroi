@@ -2,6 +2,12 @@ import cron from 'node-cron';
 import { generateSEOArticle } from './seoEngine.js';
 import { sendColdEmailSequence, checkClicksAndAlert } from './emailEngine.js';
 import { checkFreeTierUpgradeTriggers } from './freeTierEngine.js';
+import {
+  buildOutreachQueue,
+  generateMessagesForQueue,
+  sendOutreachEmails,
+  sendFollowUpReminders,
+} from './outreachEngine.js';
 
 let cronJobs = [];
 
@@ -74,12 +80,68 @@ export function initAutomations() {
     })
   );
 
+  // Outreach Engine: Build queue every Monday at 12:30 AM UTC (6:00 AM IST)
+  cronJobs.push(
+    cron.schedule('30 0 * * 1', async () => {
+      try {
+        console.log('[CRON] Building outreach queue for the week...');
+        const result = await buildOutreachQueue();
+        console.log(`[CRON] Queue built: ${result.prospectCount} prospects added`);
+      } catch (err) {
+        console.error('[CRON ERROR] Outreach queue build failed:', err.message);
+      }
+    })
+  );
+
+  // Outreach Engine: Generate messages for pending prospects every Monday at 1:00 AM UTC (6:30 AM IST)
+  cronJobs.push(
+    cron.schedule('0 1 * * 1', async () => {
+      try {
+        console.log('[CRON] Generating personalized messages...');
+        const result = await generateMessagesForQueue();
+        console.log(`[CRON] Messages generated: ${result.messageCount}`);
+      } catch (err) {
+        console.error('[CRON ERROR] Message generation failed:', err.message);
+      }
+    })
+  );
+
+  // Outreach Engine: Send emails for queued prospects every Monday at 2:00 AM UTC (7:30 AM IST)
+  cronJobs.push(
+    cron.schedule('0 2 * * 1', async () => {
+      try {
+        console.log('[CRON] Sending outreach emails...');
+        const result = await sendOutreachEmails();
+        console.log(`[CRON] Emails sent: ${result.sentCount}`);
+      } catch (err) {
+        console.error('[CRON ERROR] Email sending failed:', err.message);
+      }
+    })
+  );
+
+  // Outreach Engine: Send follow-up reminders every Thursday at 12:30 AM UTC (6:00 AM IST)
+  cronJobs.push(
+    cron.schedule('30 0 * * 4', async () => {
+      try {
+        console.log('[CRON] Queueing follow-up reminders...');
+        const result = await sendFollowUpReminders();
+        console.log(`[CRON] Follow-ups queued: ${result.followUpCount}`);
+      } catch (err) {
+        console.error('[CRON ERROR] Follow-up queueing failed:', err.message);
+      }
+    })
+  );
+
   console.log(`✅ ${cronJobs.length} automation cron jobs scheduled`);
   console.log('   → SEO generation: Tue/Fri 10:00 UTC');
   console.log('   → Cold emails: Mon 08:00 UTC');
   console.log('   → Click checks: Every 6 hours');
   console.log('   → Free tier checks: Every 6 hours');
   console.log('   → Weekly reports: Sun 09:00 UTC');
+  console.log('   → Outreach queue build: Mon 00:30 UTC (6:00 AM IST)');
+  console.log('   → Outreach message gen: Mon 01:00 UTC (6:30 AM IST)');
+  console.log('   → Outreach email send: Mon 02:00 UTC (7:30 AM IST)');
+  console.log('   → Follow-up reminders: Thu 00:30 UTC (6:00 AM IST)');
 }
 
 export function stopAutomations() {

@@ -1,4 +1,4 @@
-import { Home, BarChart3, Settings, Users, FileText } from 'lucide-react';
+import { Home, BarChart3, Settings, Users, FileText, Target } from 'lucide-react';
 
 export default function Sidebar({ active, onNavigate, colors }) {
   const items = [
@@ -6,6 +6,7 @@ export default function Sidebar({ active, onNavigate, colors }) {
     { icon: Users, label: 'Agents', id: 'agents' },
     { icon: BarChart3, label: 'Budget', id: 'budget' },
     { icon: FileText, label: 'Reports', id: 'report' },
+    { icon: Target, label: 'Outreach', id: 'outreach' },
     { icon: Settings, label: 'Onboarding', id: 'onboarding' },
   ];
 
