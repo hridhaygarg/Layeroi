@@ -148,6 +148,7 @@ CREATE TABLE outreach_queue (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   org_id UUID NOT NULL REFERENCES organizations(id) ON DELETE CASCADE,
   prospect_id UUID NOT NULL REFERENCES prospects(id) ON DELETE CASCADE,
+  sequence_id UUID REFERENCES automation_sequences(id) ON DELETE SET NULL,
   status VARCHAR(50) DEFAULT 'pending',
   message TEXT,
   personalized_message TEXT,
@@ -199,6 +200,33 @@ CREATE INDEX idx_outreach_created ON outreach_queue(created_at);
 
 CREATE TRIGGER update_outreach_queue_updated_at BEFORE UPDATE ON outreach_queue
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+-- Automation sequences for email workflows
+CREATE TABLE automation_sequences (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  org_id UUID NOT NULL REFERENCES organizations(id) ON DELETE CASCADE,
+  name VARCHAR(255) NOT NULL,
+  description TEXT,
+  steps JSONB NOT NULL DEFAULT '[]'::jsonb,
+  status VARCHAR(50) DEFAULT 'draft',
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX idx_automation_sequences_org_status ON automation_sequences(org_id, status);
+CREATE INDEX idx_automation_sequences_created ON automation_sequences(created_at);
+
+CREATE TRIGGER update_automation_sequences_updated_at BEFORE UPDATE ON automation_sequences
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+-- RLS for automation_sequences
+ALTER TABLE automation_sequences ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY automation_sequences_read ON automation_sequences
+  FOR SELECT USING (
+    org_id IN (SELECT org_id FROM team_members WHERE user_id = auth.uid())
+    OR auth.role() = 'service_role'
+  );
 
 -- Email events for tracking opens, clicks, replies
 CREATE TABLE email_events (
