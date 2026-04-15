@@ -1,0 +1,709 @@
+/*
+ * Responsive Design System
+ * Mobile-first approach with comprehensive breakpoint utilities
+ */
+
+:root {
+  /* Breakpoints - mobile first */
+  --breakpoint-mobile: 375px;
+  --breakpoint-tablet: 768px;
+  --breakpoint-desktop: 1024px;
+  --breakpoint-wide: 1280px;
+  --breakpoint-xlarge: 1536px;
+
+  /* Mobile-first spacing scale (16-point grid) */
+  --space-0: 0;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* Responsive font sizes (mobile first) */
+  --font-size-xs: 12px;
+  --font-size-sm: 14px;
+  --font-size-base: 16px;
+  --font-size-lg: 18px;
+  --font-size-xl: 20px;
+  --font-size-2xl: 24px;
+  --font-size-3xl: 28px;
+  --font-size-4xl: 32px;
+  --font-size-5xl: 36px;
+  --font-size-6xl: 40px;
+  --font-size-7xl: 48px;
+
+  /* Touch targets (minimum 48px for accessibility) */
+  --touch-target: 48px;
+  --touch-padding: 12px;
+
+  /* Responsive container widths */
+  --container-mobile: 100%;
+  --container-tablet: calc(100% - 32px);
+  --container-desktop: 1200px;
+
+  /* Sidebar widths */
+  --sidebar-width-mobile: 0;
+  --sidebar-width-tablet: 64px;
+  --sidebar-width-desktop: 256px;
+
+  /* Viewport padding */
+  --viewport-padding-mobile: 16px;
+  --viewport-padding-tablet: 24px;
+  --viewport-padding-desktop: 32px;
+
+  /* Responsive grid columns */
+  --grid-columns-mobile: 1;
+  --grid-columns-tablet: 2;
+  --grid-columns-desktop: 3;
+  --grid-columns-wide: 4;
+
+  /* Line heights for responsive text */
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.75;
+
+  /* Border radius scale */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 999px;
+
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ============================================
+   BASE RESPONSIVE UTILITIES
+   ============================================ */
+
+/* Container wrapper for max-width control */
+.container {
+  width: var(--container-mobile);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--viewport-padding-mobile);
+  padding-right: var(--viewport-padding-mobile);
+}
+
+@media (min-width: 768px) {
+  .container {
+    width: var(--container-tablet);
+    padding-left: var(--viewport-padding-tablet);
+    padding-right: var(--viewport-padding-tablet);
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    width: var(--container-desktop);
+    padding-left: var(--viewport-padding-desktop);
+    padding-right: var(--viewport-padding-desktop);
+  }
+}
+
+/* Responsive grid system */
+.grid {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: repeat(var(--grid-columns-mobile), 1fr);
+}
+
+@media (min-width: 768px) {
+  .grid {
+    gap: var(--space-6);
+    grid-template-columns: repeat(var(--grid-columns-tablet), 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    gap: var(--space-8);
+    grid-template-columns: repeat(var(--grid-columns-desktop), 1fr);
+  }
+}
+
+@media (min-width: 1280px) {
+  .grid {
+    grid-template-columns: repeat(var(--grid-columns-wide), 1fr);
+  }
+}
+
+/* Two-column grid */
+.grid-2 {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .grid-2 {
+    gap: var(--space-6);
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Three-column grid */
+.grid-3 {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .grid-3 {
+    gap: var(--space-6);
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid-3 {
+    gap: var(--space-8);
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Four-column grid */
+.grid-4 {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .grid-4 {
+    gap: var(--space-6);
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid-4 {
+    gap: var(--space-8);
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1280px) {
+  .grid-4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ============================================
+   DISPLAY UTILITIES
+   ============================================ */
+
+/* Hide on mobile */
+.hide-mobile {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .hide-mobile {
+    display: block;
+  }
+}
+
+/* Hide on tablet and below */
+.hide-tablet {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .hide-tablet {
+    display: block;
+  }
+}
+
+/* Hide on desktop and above */
+.show-mobile {
+  display: block;
+}
+
+@media (min-width: 768px) {
+  .show-mobile {
+    display: none;
+  }
+}
+
+.show-tablet {
+  display: block;
+}
+
+@media (min-width: 1024px) {
+  .show-tablet {
+    display: none;
+  }
+}
+
+/* ============================================
+   TYPOGRAPHY RESPONSIVE UTILITIES
+   ============================================ */
+
+.text-xs {
+  font-size: var(--font-size-xs);
+  line-height: var(--line-height-tight);
+}
+
+.text-sm {
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-normal);
+}
+
+.text-base {
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-normal);
+}
+
+.text-lg {
+  font-size: var(--font-size-lg);
+  line-height: var(--line-height-normal);
+}
+
+.text-xl {
+  font-size: var(--font-size-xl);
+  line-height: var(--line-height-relaxed);
+}
+
+.text-2xl {
+  font-size: var(--font-size-2xl);
+  line-height: var(--line-height-relaxed);
+}
+
+.text-3xl {
+  font-size: var(--font-size-3xl);
+  line-height: var(--line-height-relaxed);
+}
+
+.text-4xl {
+  font-size: var(--font-size-4xl);
+  line-height: var(--line-height-relaxed);
+}
+
+/* Responsive headings */
+.h1 {
+  font-size: var(--font-size-3xl);
+  line-height: var(--line-height-tight);
+  font-weight: 700;
+}
+
+@media (min-width: 768px) {
+  .h1 {
+    font-size: var(--font-size-5xl);
+  }
+}
+
+@media (min-width: 1024px) {
+  .h1 {
+    font-size: var(--font-size-6xl);
+  }
+}
+
+.h2 {
+  font-size: var(--font-size-2xl);
+  line-height: var(--line-height-tight);
+  font-weight: 700;
+}
+
+@media (min-width: 768px) {
+  .h2 {
+    font-size: var(--font-size-4xl);
+  }
+}
+
+@media (min-width: 1024px) {
+  .h2 {
+    font-size: var(--font-size-5xl);
+  }
+}
+
+.h3 {
+  font-size: var(--font-size-xl);
+  line-height: var(--line-height-tight);
+  font-weight: 600;
+}
+
+@media (min-width: 768px) {
+  .h3 {
+    font-size: var(--font-size-3xl);
+  }
+}
+
+.h4 {
+  font-size: var(--font-size-lg);
+  line-height: var(--line-height-normal);
+  font-weight: 600;
+}
+
+@media (min-width: 768px) {
+  .h4 {
+    font-size: var(--font-size-xl);
+  }
+}
+
+/* ============================================
+   SPACING UTILITIES
+   ============================================ */
+
+.p-4 { padding: var(--space-4); }
+.p-6 { padding: var(--space-6); }
+.p-8 { padding: var(--space-8); }
+
+.px-4 { padding-left: var(--space-4); padding-right: var(--space-4); }
+.px-6 { padding-left: var(--space-6); padding-right: var(--space-6); }
+
+.py-4 { padding-top: var(--space-4); padding-bottom: var(--space-4); }
+.py-6 { padding-top: var(--space-6); padding-bottom: var(--space-6); }
+
+.m-4 { margin: var(--space-4); }
+.m-6 { margin: var(--space-6); }
+
+.mb-4 { margin-bottom: var(--space-4); }
+.mb-6 { margin-bottom: var(--space-6); }
+.mb-8 { margin-bottom: var(--space-8); }
+
+.mt-4 { margin-top: var(--space-4); }
+.mt-6 { margin-top: var(--space-6); }
+
+.gap-4 { gap: var(--space-4); }
+.gap-6 { gap: var(--space-6); }
+.gap-8 { gap: var(--space-8); }
+
+/* ============================================
+   FLEXBOX UTILITIES
+   ============================================ */
+
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.flex-row {
+  flex-direction: row;
+}
+
+@media (min-width: 768px) {
+  .flex-row-tablet {
+    flex-direction: row;
+  }
+}
+
+@media (min-width: 1024px) {
+  .flex-row-desktop {
+    flex-direction: row;
+  }
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.items-start {
+  align-items: flex-start;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+/* ============================================
+   WIDTH/HEIGHT UTILITIES
+   ============================================ */
+
+.w-full {
+  width: 100%;
+}
+
+.w-auto {
+  width: auto;
+}
+
+.max-w-full {
+  max-width: 100%;
+}
+
+.max-w-lg {
+  max-width: 480px;
+}
+
+.max-w-xl {
+  max-width: 640px;
+}
+
+.max-w-2xl {
+  max-width: 768px;
+}
+
+.max-w-3xl {
+  max-width: 900px;
+}
+
+.max-w-4xl {
+  max-width: 1024px;
+}
+
+.h-auto {
+  height: auto;
+}
+
+/* ============================================
+   BORDER RADIUS UTILITIES
+   ============================================ */
+
+.rounded-sm {
+  border-radius: var(--radius-sm);
+}
+
+.rounded-md {
+  border-radius: var(--radius-md);
+}
+
+.rounded-lg {
+  border-radius: var(--radius-lg);
+}
+
+.rounded-xl {
+  border-radius: var(--radius-xl);
+}
+
+.rounded-full {
+  border-radius: var(--radius-full);
+}
+
+/* ============================================
+   RESPONSIVE LAYOUT COMPONENTS
+   ============================================ */
+
+/* Stack component - vertical on mobile, horizontal on desktop */
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+@media (min-width: 768px) {
+  .stack-tablet {
+    flex-direction: row;
+    gap: var(--space-6);
+  }
+}
+
+@media (min-width: 1024px) {
+  .stack-desktop {
+    flex-direction: row;
+    gap: var(--space-8);
+  }
+}
+
+/* Sidebar layout */
+.sidebar-layout {
+  display: grid;
+  grid-template-columns: var(--sidebar-width-mobile) 1fr;
+  gap: var(--space-4);
+}
+
+@media (min-width: 768px) {
+  .sidebar-layout {
+    grid-template-columns: var(--sidebar-width-tablet) 1fr;
+    gap: var(--space-6);
+  }
+}
+
+@media (min-width: 1024px) {
+  .sidebar-layout {
+    grid-template-columns: var(--sidebar-width-desktop) 1fr;
+    gap: var(--space-8);
+  }
+}
+
+/* Two column layout that stacks on mobile */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+}
+
+@media (min-width: 768px) {
+  .two-col {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-6);
+  }
+}
+
+@media (min-width: 1024px) {
+  .two-col {
+    gap: var(--space-8);
+  }
+}
+
+/* ============================================
+   RESPONSIVE IMAGE UTILITIES
+   ============================================ */
+
+.img-responsive {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.img-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.img-contain {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* ============================================
+   OVERFLOW UTILITIES
+   ============================================ */
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.overflow-auto {
+  overflow: auto;
+}
+
+.overflow-x-auto {
+  overflow-x: auto;
+}
+
+.overflow-y-auto {
+  overflow-y: auto;
+}
+
+/* ============================================
+   RESPONSIVE FONT SIZE SCALE
+   ============================================ */
+
+/* Scale body font on tablet */
+@media (min-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+}
+
+/* Scale body font on desktop */
+@media (min-width: 1024px) {
+  body {
+    font-size: 16px;
+  }
+}
+
+/* ============================================
+   UTILITY CLASSES FOR COMMON PATTERNS
+   ============================================ */
+
+/* Aspect ratio utilities */
+.aspect-square {
+  aspect-ratio: 1 / 1;
+}
+
+.aspect-video {
+  aspect-ratio: 16 / 9;
+}
+
+.aspect-4-3 {
+  aspect-ratio: 4 / 3;
+}
+
+/* Visibility on specific breakpoints */
+.mobile-only {
+  display: block;
+}
+
+.tablet-only {
+  display: none;
+}
+
+.desktop-only {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .mobile-only {
+    display: none;
+  }
+
+  .tablet-only {
+    display: block;
+  }
+}
+
+@media (min-width: 1024px) {
+  .tablet-only {
+    display: none;
+  }
+
+  .desktop-only {
+    display: block;
+  }
+}
+
+/* Center content utility */
+.center-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Safe area utilities for notch support */
+.safe-area-top {
+  padding-top: max(var(--space-4), env(safe-area-inset-top));
+}
+
+.safe-area-bottom {
+  padding-bottom: max(var(--space-4), env(safe-area-inset-bottom));
+}
+
+.safe-area-left {
+  padding-left: max(var(--space-4), env(safe-area-inset-left));
+}
+
+.safe-area-right {
+  padding-right: max(var(--space-4), env(safe-area-inset-right));
+}
+
+/* Responsive margin utilities */
+@media (max-width: 767px) {
+  .mr-mobile-4 { margin-right: var(--space-4); }
+  .mr-mobile-6 { margin-right: var(--space-6); }
+  .ml-mobile-4 { margin-left: var(--space-4); }
+  .ml-mobile-6 { margin-left: var(--space-6); }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .mr-tablet-4 { margin-right: var(--space-4); }
+  .mr-tablet-6 { margin-right: var(--space-6); }
+}
+
+@media (min-width: 1024px) {
+  .mr-desktop-8 { margin-right: var(--space-8); }
+  .mr-desktop-10 { margin-right: var(--space-10); }
+}
