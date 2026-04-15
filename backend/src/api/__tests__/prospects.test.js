@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
 import request from 'supertest';
 import express from 'express';
-import propsepctRoutes from '../prospects.routes.js';
+import prospectsRoutes from '../prospects.routes.js';
 
 // Mock dependencies
 vi.mock('../../db/client.js');
@@ -27,7 +27,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/api/prospects', propsepctRoutes);
+app.use('/api/prospects', prospectsRoutes);
 
 // Error handler middleware
 app.use((err, req, res, next) => {
@@ -56,6 +56,7 @@ describe('Prospect Routes', () => {
       select: vi.fn().mockReturnThis(),
       eq: vi.fn().mockReturnThis(),
       ne: vi.fn().mockReturnThis(),
+      is: vi.fn().mockReturnThis(),
       or: vi.fn().mockReturnThis(),
       filter: vi.fn().mockReturnThis(),
       order: vi.fn().mockReturnThis(),
@@ -106,7 +107,7 @@ describe('Prospect Routes', () => {
       mockSupabase.from.mockReturnValueOnce(mockSupabase);
       mockSupabase.select.mockReturnValueOnce(mockSupabase);
       mockSupabase.eq.mockReturnValueOnce(mockSupabase);
-      mockSupabase.ne.mockReturnValueOnce(mockSupabase);
+      mockSupabase.is.mockReturnValueOnce(mockSupabase);
       mockSupabase.order.mockReturnValueOnce(mockSupabase);
       mockSupabase.range.mockResolvedValueOnce({
         data: mockProspects,
@@ -134,8 +135,8 @@ describe('Prospect Routes', () => {
       mockSupabase.from.mockReturnValueOnce(mockSupabase);
       mockSupabase.select.mockReturnValueOnce(mockSupabase);
       mockSupabase.eq.mockReturnValueOnce(mockSupabase);
+      mockSupabase.is.mockReturnValueOnce(mockSupabase);
       mockSupabase.eq.mockReturnValueOnce(mockSupabase); // status filter
-      mockSupabase.ne.mockReturnValueOnce(mockSupabase);
       mockSupabase.order.mockReturnValueOnce(mockSupabase);
       mockSupabase.range.mockResolvedValueOnce({
         data: mockProspects,
@@ -169,8 +170,8 @@ describe('Prospect Routes', () => {
       mockSupabase.from.mockReturnValueOnce(mockSupabase);
       mockSupabase.select.mockReturnValueOnce(mockSupabase);
       mockSupabase.eq.mockReturnValueOnce(mockSupabase);
+      mockSupabase.is.mockReturnValueOnce(mockSupabase);
       mockSupabase.or.mockReturnValueOnce(mockSupabase); // search filter
-      mockSupabase.ne.mockReturnValueOnce(mockSupabase);
       mockSupabase.order.mockReturnValueOnce(mockSupabase);
       mockSupabase.range.mockResolvedValueOnce({
         data: mockProspects,
@@ -193,7 +194,7 @@ describe('Prospect Routes', () => {
       mockSupabase.from.mockReturnValueOnce(mockSupabase);
       mockSupabase.select.mockReturnValueOnce(mockSupabase);
       mockSupabase.eq.mockReturnValueOnce(mockSupabase);
-      mockSupabase.ne.mockReturnValueOnce(mockSupabase);
+      mockSupabase.is.mockReturnValueOnce(mockSupabase);
       mockSupabase.order.mockReturnValueOnce(mockSupabase);
       mockSupabase.range.mockResolvedValueOnce({
         data: mockProspects,
@@ -214,7 +215,7 @@ describe('Prospect Routes', () => {
       mockSupabase.from.mockReturnValueOnce(mockSupabase);
       mockSupabase.select.mockReturnValueOnce(mockSupabase);
       mockSupabase.eq.mockReturnValueOnce(mockSupabase);
-      mockSupabase.ne.mockReturnValueOnce(mockSupabase);
+      mockSupabase.is.mockReturnValueOnce(mockSupabase);
       mockSupabase.order.mockReturnValueOnce(mockSupabase);
       mockSupabase.range.mockResolvedValueOnce({
         data: mockProspects,
@@ -236,7 +237,7 @@ describe('Prospect Routes', () => {
       mockSupabase.from.mockReturnValueOnce(mockSupabase);
       mockSupabase.select.mockReturnValueOnce(mockSupabase);
       mockSupabase.eq.mockReturnValueOnce(mockSupabase);
-      mockSupabase.ne.mockReturnValueOnce(mockSupabase);
+      mockSupabase.is.mockReturnValueOnce(mockSupabase);
       mockSupabase.order.mockReturnValueOnce(mockSupabase);
       mockSupabase.range.mockResolvedValueOnce({
         data: [],
@@ -400,6 +401,7 @@ describe('Prospect Routes', () => {
       mockSupabase.select.mockReturnValueOnce(mockSupabase);
       mockSupabase.eq.mockReturnValueOnce(mockSupabase);
       mockSupabase.eq.mockReturnValueOnce(mockSupabase);
+      mockSupabase.is.mockReturnValueOnce(mockSupabase);
       mockSupabase.single.mockResolvedValueOnce({
         data: mockProspect,
         error: null
@@ -420,6 +422,7 @@ describe('Prospect Routes', () => {
       mockSupabase.select.mockReturnValueOnce(mockSupabase);
       mockSupabase.eq.mockReturnValueOnce(mockSupabase);
       mockSupabase.eq.mockReturnValueOnce(mockSupabase);
+      mockSupabase.is.mockReturnValueOnce(mockSupabase);
       mockSupabase.single.mockResolvedValueOnce({
         data: null,
         error: { code: 'PGRST116' }
@@ -628,7 +631,7 @@ describe('Prospect Routes', () => {
       mockSupabase.eq.mockReturnValueOnce(mockSupabase);
       mockSupabase.select.mockReturnValueOnce(mockSupabase);
       mockSupabase.single.mockResolvedValueOnce({
-        data: { ...mockProspect, status: 'deleted' },
+        data: { ...mockProspect, deleted_at: '2026-04-16T00:00:00Z' },
         error: null
       });
 

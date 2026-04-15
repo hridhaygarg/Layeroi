@@ -203,7 +203,7 @@ router.get(
         .from('prospects')
         .select('*', { count: 'exact' })
         .eq('org_id', orgId)
-        .ne('status', 'deleted'); // Exclude soft-deleted
+        .is('deleted_at', null); // Exclude soft-deleted
 
       // Apply status filter
       if (status) {
@@ -363,6 +363,7 @@ router.get(
         .select('*')
         .eq('org_id', orgId)
         .eq('id', id)
+        .is('deleted_at', null)
         .single();
 
       if (error && error.code !== 'PGRST116') {
@@ -546,11 +547,11 @@ router.delete(
         throw new AppError('Prospect not found', 404, 'NOT_FOUND');
       }
 
-      // Soft delete (set status to deleted)
+      // Soft delete (set deleted_at timestamp)
       const { data: deletedProspect, error: deleteError } = await supabase
         .from('prospects')
         .update({
-          status: 'deleted'
+          deleted_at: new Date().toISOString()
         })
         .eq('org_id', orgId)
         .eq('id', id)
@@ -583,5 +584,5 @@ router.delete(
   })
 );
 
-export const propsepctRoutes = router;
+export const prospectsRoutes = router;
 export default router;
