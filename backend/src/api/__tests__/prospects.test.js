@@ -93,13 +93,10 @@ describe('Prospect Routes', () => {
           id: 'prospect-1',
           org_id: 'org-123',
           email: 'john@example.com',
-          first_name: 'John',
-          last_name: 'Doe',
+          name: 'John Doe',
           company: 'Acme Corp',
           title: 'CEO',
-          status: 'prospect',
-          tags: [],
-          custom_fields: {},
+          status: 'new',
           created_at: '2026-04-16T00:00:00Z',
           updated_at: '2026-04-16T00:00:00Z'
         }
@@ -154,19 +151,16 @@ describe('Prospect Routes', () => {
       expect(response.body.prospects).toHaveLength(0);
     });
 
-    it('should search by email, firstName, lastName, company', async () => {
+    it('should search by email, name, company', async () => {
       const mockProspects = [
         {
           id: 'prospect-1',
           org_id: 'org-123',
           email: 'john@acme.com',
-          first_name: 'John',
-          last_name: 'Smith',
+          name: 'John Smith',
           company: 'Acme Corp',
           title: 'CTO',
-          status: 'prospect',
-          tags: [],
-          custom_fields: {},
+          status: 'new',
           created_at: '2026-04-16T00:00:00Z',
           updated_at: '2026-04-16T00:00:00Z'
         }
@@ -192,27 +186,6 @@ describe('Prospect Routes', () => {
       expect(response.body.prospects).toHaveLength(1);
     });
 
-    it('should filter by tags', async () => {
-      const mockProspects = [];
-
-      mockSupabase.from.mockReturnValueOnce(mockSupabase);
-      mockSupabase.select.mockReturnValueOnce(mockSupabase);
-      mockSupabase.eq.mockReturnValueOnce(mockSupabase);
-      mockSupabase.filter.mockReturnValueOnce(mockSupabase); // tags filter
-      mockSupabase.ne.mockReturnValueOnce(mockSupabase);
-      mockSupabase.order.mockReturnValueOnce(mockSupabase);
-      mockSupabase.range.mockResolvedValueOnce({
-        data: mockProspects,
-        error: null,
-        count: 0
-      });
-
-      const response = await request(app)
-        .get('/api/prospects?tags=vip,hot')
-        .set('Authorization', authHeader);
-
-      expect(response.status).toBe(200);
-    });
 
     it('should support custom sorting', async () => {
       const mockProspects = [];
@@ -292,25 +265,19 @@ describe('Prospect Routes', () => {
     it('should create a new prospect with valid data', async () => {
       const prospectData = {
         email: 'jane@example.com',
-        firstName: 'Jane',
-        lastName: 'Smith',
+        name: 'Jane Smith',
         company: 'Tech Corp',
-        title: 'VP Sales',
-        tags: ['vip', 'hot'],
-        customFields: { department: 'Sales' }
+        title: 'VP Sales'
       };
 
       const mockCreatedProspect = {
         id: 'prospect-uuid-123',
         org_id: 'org-123',
         email: prospectData.email,
-        first_name: prospectData.firstName,
-        last_name: prospectData.lastName,
+        name: prospectData.name,
         company: prospectData.company,
         title: prospectData.title,
-        status: 'prospect',
-        tags: prospectData.tags,
-        custom_fields: prospectData.customFields,
+        status: 'new',
         created_at: '2026-04-16T00:00:00Z',
         updated_at: '2026-04-16T00:00:00Z'
       };
@@ -340,8 +307,8 @@ describe('Prospect Routes', () => {
       expect(response.status).toBe(201);
       expect(response.body).toHaveProperty('prospect');
       expect(response.body.prospect.email).toBe(prospectData.email);
-      expect(response.body.prospect.status).toBe('prospect');
-      expect(response.body.prospect.first_name).toBe(prospectData.firstName);
+      expect(response.body.prospect.status).toBe('new');
+      expect(response.body.prospect.name).toBe(prospectData.name);
     });
 
     it('should return 400 if email is missing', async () => {
@@ -360,25 +327,9 @@ describe('Prospect Routes', () => {
       expect(response.body.error.code).toBe('INVALID_INPUT');
     });
 
-    it('should return 400 if firstName is missing', async () => {
+    it('should return 400 if name is missing', async () => {
       const prospectData = {
         email: 'jane@example.com',
-        lastName: 'Smith',
-        company: 'Tech Corp'
-      };
-
-      const response = await request(app)
-        .post('/api/prospects')
-        .set('Authorization', authHeader)
-        .send(prospectData);
-
-      expect(response.status).toBe(400);
-    });
-
-    it('should return 400 if lastName is missing', async () => {
-      const prospectData = {
-        email: 'jane@example.com',
-        firstName: 'Jane',
         company: 'Tech Corp'
       };
 
@@ -408,8 +359,7 @@ describe('Prospect Routes', () => {
     it('should return 409 if email already exists in organization', async () => {
       const prospectData = {
         email: 'existing@example.com',
-        firstName: 'Jane',
-        lastName: 'Smith'
+        name: 'Jane Smith'
       };
 
       mockSupabase.from.mockReturnValueOnce(mockSupabase);
@@ -438,13 +388,10 @@ describe('Prospect Routes', () => {
         id: 'prospect-123',
         org_id: 'org-123',
         email: 'john@example.com',
-        first_name: 'John',
-        last_name: 'Doe',
+        name: 'John Doe',
         company: 'Acme Corp',
         title: 'CEO',
-        status: 'prospect',
-        tags: [],
-        custom_fields: {},
+        status: 'new',
         created_at: '2026-04-16T00:00:00Z',
         updated_at: '2026-04-16T00:00:00Z'
       };
@@ -500,13 +447,10 @@ describe('Prospect Routes', () => {
         id: 'prospect-123',
         org_id: 'org-123',
         email: 'john@example.com',
-        first_name: 'John',
-        last_name: 'Doe',
+        name: 'John Doe',
         company: 'Acme Corp',
         title: 'CEO',
-        status: 'prospect',
-        tags: [],
-        custom_fields: {},
+        status: 'new',
         created_at: '2026-04-16T00:00:00Z',
         updated_at: '2026-04-16T00:00:00Z'
       };
@@ -556,13 +500,10 @@ describe('Prospect Routes', () => {
         id: 'prospect-123',
         org_id: 'org-123',
         email: 'john@example.com',
-        first_name: 'John',
-        last_name: 'Doe',
+        name: 'John Doe',
         company: 'Acme Corp',
         title: 'CEO',
-        status: 'prospect',
-        tags: [],
-        custom_fields: {}
+        status: 'new'
       };
 
       const mockUpdatedProspect = {
@@ -626,11 +567,10 @@ describe('Prospect Routes', () => {
         id: 'prospect-123',
         org_id: 'org-123',
         email: 'john@example.com',
-        first_name: 'John',
-        last_name: 'Doe',
+        name: 'John Doe',
         company: 'Acme Corp',
         title: 'CEO',
-        status: 'prospect'
+        status: 'new'
       };
 
       mockSupabase.from.mockReturnValueOnce(mockSupabase);
@@ -669,9 +609,8 @@ describe('Prospect Routes', () => {
         id: 'prospect-123',
         org_id: 'org-123',
         email: 'john@example.com',
-        first_name: 'John',
-        last_name: 'Doe',
-        status: 'prospect'
+        name: 'John Doe',
+        status: 'new'
       };
 
       mockSupabase.from.mockReturnValueOnce(mockSupabase);
@@ -726,19 +665,15 @@ describe('Prospect Routes', () => {
         prospects: [
           {
             email: 'prospect1@example.com',
-            firstName: 'John',
-            lastName: 'Doe',
+            name: 'John Doe',
             company: 'Company A',
-            title: 'CEO',
-            tags: ['vip']
+            title: 'CEO'
           },
           {
             email: 'prospect2@example.com',
-            firstName: 'Jane',
-            lastName: 'Smith',
+            name: 'Jane Smith',
             company: 'Company B',
-            title: 'CTO',
-            tags: []
+            title: 'CTO'
           }
         ]
       };
@@ -789,13 +724,11 @@ describe('Prospect Routes', () => {
         prospects: [
           {
             email: 'duplicate@example.com',
-            firstName: 'John',
-            lastName: 'Doe'
+            name: 'John Doe'
           },
           {
             email: 'duplicate@example.com',
-            firstName: 'Jane',
-            lastName: 'Doe'
+            name: 'Jane Doe'
           }
         ]
       };
@@ -823,8 +756,7 @@ describe('Prospect Routes', () => {
         prospects: [
           {
             email: 'invalid-email',
-            firstName: 'John',
-            lastName: 'Doe'
+            name: 'John Doe'
           }
         ]
       };
@@ -841,9 +773,8 @@ describe('Prospect Routes', () => {
       const importData = {
         prospects: [
           {
-            email: 'test@example.com',
-            firstName: 'John'
-            // missing lastName
+            email: 'test@example.com'
+            // missing name
           }
         ]
       };

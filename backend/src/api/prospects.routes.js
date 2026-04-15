@@ -18,7 +18,7 @@ function isValidEmail(email) {
 /**
  * POST /api/prospects/bulk-import - Bulk import prospects from CSV
  * NOTE: Must be defined BEFORE /:id route to avoid route conflicts
- * Input: { prospects: [{ email, firstName, lastName, company, title, tags }] }
+ * Input: { prospects: [{ email, name, company, title, industry, location }] }
  * Validates all before creating any (all-or-nothing)
  */
 router.post(
@@ -44,11 +44,11 @@ router.post(
       const prospect = prospectsList[i];
 
       // Validate required fields
-      if (!prospect.email || !prospect.firstName || !prospect.lastName) {
+      if (!prospect.email || !prospect.name) {
         errors.push({
           index: i,
           email: prospect.email || 'unknown',
-          error: 'Email, firstName, and lastName are required'
+          error: 'Email and name are required'
         });
         continue;
       }
@@ -114,13 +114,12 @@ router.post(
         .map(p => ({
           org_id: orgId,
           email: p.email.toLowerCase(),
-          first_name: p.firstName,
-          last_name: p.lastName,
+          name: p.name,
           company: p.company || null,
           title: p.title || null,
-          status: 'prospect',
-          tags: p.tags || [],
-          custom_fields: {}
+          industry: p.industry || null,
+          location: p.location || null,
+          status: 'new'
         }));
 
       let createdCount = 0;
@@ -171,8 +170,7 @@ router.post(
  * - page (default: 1)
  * - limit (default: 20, max: 100)
  * - status (filter by status)
- * - search (search by email, firstName, lastName, company)
- * - tags (filter by tags - comma-separated)
+ * - search (search by email, name, company)
  * - sortBy (default: created_at)
  * - sortOrder (asc/desc, default: desc)
  */
@@ -215,14 +213,8 @@ router.get(
       // Apply search filter (case-insensitive across multiple fields)
       if (search && search.trim()) {
         query = query.or(
-          `email.ilike.%${search}%,first_name.ilike.%${search}%,last_name.ilike.%${search}%,company.ilike.%${search}%`
+          `email.ilike.%${search}%,name.ilike.%${search}%,company.ilike.%${search}%`
         );
-      }
-
-      // Apply tags filter (array contains)
-      if (tags && tags.length > 0) {
-        const tagArray = Array.isArray(tags) ? tags : tags.split(',');
-        query = query.filter('tags', 'cs', `{${tagArray.join(',')}}`);
       }
 
       // Apply sorting
@@ -266,17 +258,17 @@ router.get(
 
 /**
  * POST /api/prospects - Create new prospect
- * Input: { email, firstName, lastName, company, title, tags, customFields }
+ * Input: { email, name, company, title, industry, location, phone, website }
  */
 router.post(
   '/',
   asyncHandler(async (req, res) => {
-    const { email, firstName, lastName, company, title, tags = [], customFields = {} } = req.body;
+    const { email, name, company, title, industry, location, phone, website } = req.body;
     const orgId = req.user.org_id;
 
     // Validate required fields
-    if (!email || !firstName || !lastName) {
-      throw new AppError('Email, firstName, and lastName are required', 400, 'INVALID_INPUT');
+    if (!email || !name) {
+      throw new AppError('Email and name are required', 400, 'INVALID_INPUT');
     }
 
     // Validate email format
@@ -315,13 +307,14 @@ router.post(
           {
             org_id: orgId,
             email: email.toLowerCase(),
-            first_name: firstName,
-            last_name: lastName,
+            name,
             company: company || null,
             title: title || null,
-            status: 'prospect',
-            tags: tags || [],
-            custom_fields: customFields || {}
+            industry: industry || null,
+            location: location || null,
+            phone: phone || null,
+            website: website || null,
+            status: 'new'
           }
         ])
         .select()
@@ -400,13 +393,13 @@ router.get(
 
 /**
  * PATCH /api/prospects/:id - Update prospect
- * Input: { email, firstName, lastName, company, title, status, tags, customFields }
+ * Input: { email, name, company, title, industry, location, phone, website, status }
  */
 router.patch(
   '/:id',
   asyncHandler(async (req, res) => {
     const { id } = req.params;
-    const { email, firstName, lastName, company, title, status, tags, customFields } = req.body;
+    const { email, name, company, title, industry, location, phone, website, status } = req.body;
     const orgId = req.user.org_id;
 
     const supabase = getSupabaseClient();
@@ -466,13 +459,14 @@ router.patch(
       // Build update object with only provided fields
       const updateData = {};
       if (email !== undefined) updateData.email = email.toLowerCase();
-      if (firstName !== undefined) updateData.first_name = firstName;
-      if (lastName !== undefined) updateData.last_name = lastName;
+      if (name !== undefined) updateData.name = name;
       if (company !== undefined) updateData.company = company;
       if (title !== undefined) updateData.title = title;
+      if (industry !== undefined) updateData.industry = industry;
+      if (location !== undefined) updateData.location = location;
+      if (phone !== undefined) updateData.phone = phone;
+      if (website !== undefined) updateData.website = website;
       if (status !== undefined) updateData.status = status;
-      if (tags !== undefined) updateData.tags = tags;
-      if (customFields !== undefined) updateData.custom_fields = customFields;
 
       // Log status change
       if (status && status !== existingProspect.status) {
