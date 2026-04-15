@@ -3,7 +3,7 @@ import { getSupabaseClient } from '../db/client.js';
 import { logger } from '../utils/logger.js';
 import { asyncHandler, AppError } from '../middleware/errorHandler.js';
 import { hashPassword, verifyPassword } from '../auth/password.js';
-import { generateTokens, verifyToken } from '../auth/jwt.js';
+import { generateTokens, verifyToken, generateMFAToken } from '../auth/jwt.js';
 import { handleOAuthCallback } from '../auth/oauth.js';
 import { isValidEmail } from '../utils/validators.js';
 
@@ -67,94 +67,97 @@ router.post(
       throw new AppError('Email already exists', 409, 'DUPLICATE_EMAIL');
     }
 
-    // Hash password
-    const passwordHash = await hashPassword(password);
-
-    // Create user
-    const { data: newUser, error: userError } = await supabase
-      .from('users')
-      .insert([
-        {
-          email,
+    try {
+      // Step 1: Create user
+      const passwordHash = await hashPassword(password);
+      const { data: newUser, error: userError } = await supabase
+        .from('users')
+        .insert([{
+          email: email.toLowerCase(),
           password_hash: passwordHash,
           first_name: firstName,
-          last_name: lastName
-        }
-      ])
-      .select()
-      .single();
+          last_name: lastName,
+          status: 'active'
+        }])
+        .select()
+        .single();
 
-    if (userError || !newUser) {
-      logger.error('User creation failed', {
-        email,
-        error: userError?.message
-      });
-      throw new AppError('Failed to create user', 500);
-    }
+      if (userError) {
+        logger.error('User creation failed', { email, error: userError });
+        throw new AppError('Failed to create user', 500, 'DB_ERROR', { original: userError });
+      }
 
-    // Create default organization
-    const { data: org, error: orgError } = await supabase
-      .from('organizations')
-      .insert([
-        {
-          name: `${firstName}'s Workspace`,
-          created_by: newUser.id
-        }
-      ])
-      .select()
-      .single();
+      // Step 2: Create organization
+      const orgName = `${firstName} ${lastName}'s Workspace`.trim();
+      const { data: org, error: orgError } = await supabase
+        .from('organizations')
+        .insert([{
+          name: orgName,
+          owner_id: newUser.id,
+          status: 'active'
+        }])
+        .select()
+        .single();
 
-    if (orgError || !org) {
-      logger.error('Organization creation failed', {
-        userId: newUser.id,
-        error: orgError?.message
-      });
-      throw new AppError('Failed to create organization', 500);
-    }
+      if (orgError || !org) {
+        logger.error('Organization creation failed after user created', { userId: newUser.id, error: orgError });
+        // Cleanup: delete user
+        await supabase.from('users').delete().eq('id', newUser.id);
+        throw new AppError('Failed to create organization', 500, 'DB_ERROR', { original: orgError });
+      }
 
-    // Add user to organization as owner
-    const { error: memberError } = await supabase
-      .from('team_members')
-      .insert([
-        {
-          org_id: org.id,
+      // Step 3: Add user as organization owner
+      const { error: tmError } = await supabase
+        .from('team_members')
+        .insert([{
           user_id: newUser.id,
+          organization_id: org.id,
           role: 'owner'
-        }
-      ]);
+        }])
+        .select()
+        .single();
 
-    if (memberError) {
-      logger.error('Team member creation failed', {
-        userId: newUser.id,
-        orgId: org.id,
-        error: memberError?.message
-      });
-      throw new AppError('Failed to add user to organization', 500);
-    }
+      if (tmError) {
+        logger.error('Team member creation failed after org created', { userId: newUser.id, orgId: org.id, error: tmError });
+        // Cleanup: delete org and user
+        await supabase.from('organizations').delete().eq('id', org.id);
+        await supabase.from('users').delete().eq('id', newUser.id);
+        throw new AppError('Failed to set up organization access', 500, 'DB_ERROR', { original: tmError });
+      }
 
-    // Update user with org_id
-    const userWithOrg = { ...newUser, org_id: org.id };
-
-    // Generate tokens
-    const tokens = generateTokens(userWithOrg);
-
-    logger.info('User registered successfully', {
-      email,
-      userId: newUser.id,
-      orgId: org.id
-    });
-
-    res.status(201).json({
-      user: {
+      // All steps succeeded, generate tokens
+      const tokens = generateTokens({
         id: newUser.id,
         email: newUser.email,
-        firstName: newUser.first_name,
-        lastName: newUser.last_name
-      },
-      accessToken: tokens.accessToken,
-      refreshToken: tokens.refreshToken,
-      expiresIn: tokens.expiresIn
-    });
+        org_id: org.id
+      });
+
+      logger.info('User registered successfully', {
+        userId: newUser.id,
+        email: newUser.email,
+        orgId: org.id
+      });
+
+      res.status(201).json({
+        user: {
+          id: newUser.id,
+          email: newUser.email,
+          firstName: newUser.first_name,
+          lastName: newUser.last_name,
+          organization: {
+            id: org.id,
+            name: org.name
+          }
+        },
+        accessToken: tokens.accessToken,
+        refreshToken: tokens.refreshToken,
+        expiresIn: tokens.expiresIn
+      });
+    } catch (err) {
+      if (err instanceof AppError) throw err;
+      logger.error('Unexpected error during registration', { error: err });
+      throw new AppError('Registration failed', 500, 'INTERNAL_ERROR');
+    }
   })
 );
 
@@ -193,7 +196,7 @@ router.post(
 
     // Check if MFA is enabled
     if (user.mfa_enabled) {
-      const mfaToken = generateTokens(user).accessToken;
+      const mfaToken = generateMFAToken(user);
       logger.info('MFA required for login', { email });
       return res.status(200).json({
         mfaRequired: true,
@@ -261,6 +264,10 @@ router.post(
       });
       throw new AppError('Logout failed', 500);
     }
+
+    // NOTE: Access tokens persist until expiry (15m default) since they are self-contained JWTs.
+    // To immediately invalidate access tokens on logout, implement a token blacklist (Redis/Memcached)
+    // that checks if a token has been blacklisted before accepting it in protected endpoints.
 
     logger.info('User logged out successfully', {
       userId: decoded.sub
@@ -335,57 +342,53 @@ router.post(
     const { provider } = req.params;
     const { code } = req.body;
 
-    // Validate provider
-    const validProviders = ['google', 'github', 'microsoft'];
-    if (!validProviders.includes(provider)) {
-      throw new AppError('Invalid OAuth provider', 400, 'INVALID_PROVIDER');
-    }
-
-    if (!code) {
+    // Validate input
+    if (!code || typeof code !== 'string') {
       throw new AppError('Authorization code is required', 400, 'INVALID_INPUT');
     }
 
-    // Mock OAuth callback - in production, exchange code for token and get profile
-    // This would call Google/GitHub/Microsoft API
-    let profile;
+    const validProviders = ['google', 'github', 'microsoft'];
+    if (!validProviders.includes(provider)) {
+      throw new AppError(`Invalid provider: ${provider}`, 400, 'INVALID_INPUT');
+    }
 
     try {
-      // TODO: Implement actual OAuth token exchange
-      // For now, use mock profile
-      profile = {
-        sub: `${provider}-${Math.random().toString(36).substr(2, 9)}`,
-        email: `user+${provider}@example.com`,
-        given_name: 'OAuth',
-        family_name: 'User',
-        picture: 'https://example.com/avatar.jpg'
-      };
+      // TODO: Implement real OAuth token exchange for each provider:
+      //
+      // For Google:
+      //   1. Exchange code for access token via Google token endpoint
+      //   2. Fetch user profile from Google API
+      //   3. Extract email, name, profile picture
+      //
+      // For GitHub:
+      //   1. Exchange code for access token via GitHub token endpoint
+      //   2. Fetch user profile from GitHub API (/user)
+      //   3. Extract email, name, avatar_url
+      //
+      // For Microsoft:
+      //   1. Exchange code for access token via Azure token endpoint
+      //   2. Fetch user profile from Microsoft Graph API (/me)
+      //   3. Extract email, displayName, mailNickname
+      //
+      // Then call handleOAuthCallback(provider, profile) with normalized profile:
+      // {
+      //   id: provider_user_id,
+      //   email: user_email,
+      //   name: full_name,
+      //   picture: profile_picture_url,
+      //   provider: provider_name
+      // }
 
-      // Use the handleOAuthCallback from oauth.js
-      const { user, tokens } = await handleOAuthCallback(provider, profile);
-
-      logger.info('OAuth authentication successful', {
-        provider,
-        email: user.email,
-        userId: user.id
-      });
-
-      res.status(200).json({
-        user: {
-          id: user.id,
-          email: user.email,
-          firstName: user.first_name,
-          lastName: user.last_name
-        },
-        accessToken: tokens.accessToken,
-        refreshToken: tokens.refreshToken,
-        expiresIn: tokens.expiresIn
-      });
+      logger.warn('OAuth provider integration not yet implemented', { provider });
+      throw new AppError(
+        `OAuth integration for ${provider} is not yet implemented`,
+        501,
+        'NOT_IMPLEMENTED'
+      );
     } catch (err) {
-      logger.error('OAuth callback failed', {
-        provider,
-        error: err.message
-      });
-      throw new AppError('Authentication failed', 401, 'AUTH_FAILED');
+      if (err instanceof AppError) throw err;
+      logger.error('OAuth callback failed', { provider, error: err });
+      throw new AppError('OAuth authentication failed', 401, 'OAUTH_ERROR');
     }
   })
 );

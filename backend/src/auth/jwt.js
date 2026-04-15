@@ -67,6 +67,23 @@ export function generateTokens(user) {
   };
 }
 
+/**
+ * Generate MFA token with limited claims and shorter expiry
+ * @param {Object} user - User object with id, email
+ * @returns {string} Signed MFA token
+ */
+export function generateMFAToken(user) {
+  return signToken(
+    {
+      sub: user.id,
+      email: user.email,
+      type: 'mfa',
+      purpose: 'mfa_verification'
+    },
+    '5m' // Shorter expiry for MFA
+  );
+}
+
 // Legacy exports for backward compatibility
 export const signJWT = signToken;
 export const verifyJWT = verifyToken;

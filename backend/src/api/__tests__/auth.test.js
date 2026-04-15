@@ -665,7 +665,16 @@ describe('Auth Routes', () => {
         .send(oauthData);
 
       expect(response.status).toBe(400);
-      expect(response.body.error.code).toBe('INVALID_PROVIDER');
+      expect(response.body.error.code).toBe('INVALID_INPUT');
+    });
+
+    it('should return 501 for OAuth not yet implemented', async () => {
+      const res = await request(app)
+        .post('/auth/oauth/google')
+        .send({ code: 'auth-code-123' });
+
+      expect(res.status).toBe(501);
+      expect(res.body.error.code).toBe('NOT_IMPLEMENTED');
     });
 
     it('should return 401 if OAuth callback fails', async () => {

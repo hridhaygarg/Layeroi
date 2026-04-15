@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { signToken, verifyToken, generateTokens } from '../jwt.js';
+import { signToken, verifyToken, generateTokens, generateMFAToken } from '../jwt.js';
 
 describe('JWT Auth', () => {
   it('should sign and verify token', () => {
@@ -63,5 +63,19 @@ describe('JWT Auth', () => {
     await new Promise(resolve => setTimeout(resolve, 10));
 
     expect(() => verifyToken(token)).toThrow();
+  });
+
+  it('should generate MFA token with limited claims and 5m expiry', () => {
+    const user = { id: 'user123', email: 'test@example.com' };
+    const mfaToken = generateMFAToken(user);
+
+    const decoded = verifyToken(mfaToken);
+    expect(decoded.type).toBe('mfa');
+    expect(decoded.purpose).toBe('mfa_verification');
+    expect(decoded.email).toBe('test@example.com');
+    // Verify expiry is ~5 minutes (allow 1 second variance)
+    const expiryTime = decoded.exp * 1000;
+    const issuedTime = decoded.iat * 1000;
+    expect(expiryTime - issuedTime).toBeGreaterThan(299000); // ~5 mins
   });
 });
