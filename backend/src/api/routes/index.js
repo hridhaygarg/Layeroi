@@ -9,3 +9,4 @@ export { default as authRoutes } from './auth.js';
 export { default as outreachRoutes } from './outreach.js';
 export { default as prospectsRoutes } from './prospects.js';
 export { default as analyticsRoutes } from './analytics.js';
+export { default as integrationsRoutes } from './integrations.js';
