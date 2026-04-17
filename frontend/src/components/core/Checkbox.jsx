@@ -16,6 +16,12 @@ export const Checkbox = React.forwardRef(
   ) => {
     const checkboxId = id || `checkbox-${Math.random().toString(36).substr(2, 9)}`;
 
+    const handleChange = (e) => {
+      if (!disabled && onChange) {
+        onChange(e);
+      }
+    };
+
     return (
       <div className="flex items-center gap-2">
         <input
@@ -23,7 +29,7 @@ export const Checkbox = React.forwardRef(
           id={checkboxId}
           type="checkbox"
           checked={checked}
-          onChange={onChange}
+          onChange={handleChange}
           disabled={disabled}
           className="sr-only"
           aria-label={label}

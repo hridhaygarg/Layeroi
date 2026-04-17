@@ -15,22 +15,22 @@ jest.mock('../components/Toast', () => ({
   }),
 }));
 
-jest.mock('../components/AnimatedSection', () => {
-  return function MockAnimatedSection({ children }) {
+jest.mock('../components/AnimatedSection', () => ({
+  AnimatedSection: function MockAnimatedSection({ children }) {
     return <div data-testid="animated-section">{children}</div>;
-  };
-});
+  },
+}));
 
-jest.mock('../components/EmptyState', () => {
-  return function MockEmptyState({ title, description }) {
+jest.mock('../components/EmptyState', () => ({
+  default: function MockEmptyState({ title, description }) {
     return (
       <div data-testid="empty-state">
         <div>{title}</div>
         <div>{description}</div>
       </div>
     );
-  };
-});
+  },
+}));
 
 describe('ProspectsPage Screen', () => {
   test('renders prospects table with data', () => {
