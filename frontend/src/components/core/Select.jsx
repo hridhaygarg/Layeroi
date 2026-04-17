@@ -20,6 +20,7 @@ export const Select = forwardRef(
   ) => {
     const [isOpen, setIsOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
+    const [highlightedIndex, setHighlightedIndex] = useState(-1);
     const containerRef = useRef(null);
     const searchInputRef = useRef(null);
 
@@ -75,6 +76,7 @@ export const Select = forwardRef(
         ) {
           setIsOpen(false);
           setSearchTerm('');
+          setHighlightedIndex(-1);
         }
       };
 
@@ -90,6 +92,58 @@ export const Select = forwardRef(
         searchInputRef.current.focus();
       }
     }, [isOpen, searchable]);
+
+    // Reset highlighted index when dropdown closes
+    useEffect(() => {
+      if (!isOpen) {
+        setHighlightedIndex(-1);
+      }
+    }, [isOpen]);
+
+    // Handle keyboard navigation
+    const handleKeyDown = (e) => {
+      // Open dropdown with arrow keys or Enter if closed
+      if (!isOpen && ['ArrowDown', 'ArrowUp', 'Enter'].includes(e.key)) {
+        setIsOpen(true);
+        setHighlightedIndex(0);
+        return;
+      }
+
+      switch (e.key) {
+        case 'ArrowDown':
+          e.preventDefault();
+          if (filteredOptions.length > 0) {
+            setHighlightedIndex((prev) =>
+              prev < filteredOptions.length - 1 ? prev + 1 : 0
+            );
+          }
+          break;
+        case 'ArrowUp':
+          e.preventDefault();
+          if (filteredOptions.length > 0) {
+            setHighlightedIndex((prev) =>
+              prev === 0 ? filteredOptions.length - 1 : prev - 1
+            );
+          }
+          break;
+        case 'Enter':
+          e.preventDefault();
+          if (highlightedIndex >= 0 && filteredOptions.length > 0) {
+            const selected = filteredOptions[highlightedIndex];
+            handleOptionClick(selected.value);
+            if (!multiple) {
+              setIsOpen(false);
+            }
+          }
+          break;
+        case 'Escape':
+          e.preventDefault();
+          setIsOpen(false);
+          break;
+        default:
+          break;
+      }
+    };
 
     const baseClasses =
       'flex items-center justify-between w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed';
@@ -110,7 +164,10 @@ export const Select = forwardRef(
             ref={ref}
             className={buttonClasses}
             onClick={() => !disabled && setIsOpen(!isOpen)}
+            onKeyDown={!disabled ? handleKeyDown : undefined}
             disabled={disabled}
+            aria-expanded={isOpen}
+            aria-haspopup="listbox"
             {...rest}
           >
             <span className="text-left flex-1">{getDisplayText()}</span>
@@ -142,7 +199,7 @@ export const Select = forwardRef(
                     No options found
                   </div>
                 ) : (
-                  filteredOptions.map((option) => (
+                  filteredOptions.map((option, index) => (
                     <button
                       key={option.value}
                       onClick={() => handleOptionClick(option.value)}
@@ -152,13 +209,22 @@ export const Select = forwardRef(
                           : value === option.value)
                           ? 'bg-blue-100'
                           : ''
-                      }`}
+                      } ${index === highlightedIndex ? 'bg-blue-100 outline outline-2 outline-blue-500' : ''}`}
+                      role="option"
+                      aria-selected={
+                        multiple
+                          ? value?.includes(option.value) || false
+                          : value === option.value
+                      }
                     >
                       {multiple && (
+                        // Checkbox is for visual feedback only, selection is handled by button click handler.
+                        // onChange is empty as we rely on parent button's onClick for state management.
                         <input
                           type="checkbox"
                           checked={value?.includes(option.value) || false}
                           onChange={() => {}}
+                          aria-label={option.label}
                           className="w-4 h-4 cursor-pointer"
                         />
                       )}

@@ -1,5 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 import { Select } from '../Select';
 
@@ -260,5 +261,204 @@ describe('Select Component', () => {
       />
     );
     expect(screen.getByText('Select items')).toBeInTheDocument();
+  });
+
+  // Keyboard navigation tests
+  describe('Keyboard Navigation', () => {
+    test('opens dropdown with ArrowDown key', async () => {
+      const user = userEvent.setup();
+      render(<Select options={mockOptions} onChange={jest.fn()} />);
+      const button = screen.getByRole('button');
+
+      await user.click(button);
+      await user.keyboard('{ArrowDown}');
+
+      expect(screen.getByText('Option 1')).toBeInTheDocument();
+    });
+
+    test('opens dropdown with ArrowUp key when closed', async () => {
+      const user = userEvent.setup();
+      render(<Select options={mockOptions} onChange={jest.fn()} />);
+      const button = screen.getByRole('button');
+
+      // First click to focus, then use ArrowUp
+      await user.click(button);
+      // Close the dropdown
+      await user.keyboard('{Escape}');
+      // Now should not be in document
+      expect(screen.queryByText('Option 1')).not.toBeInTheDocument();
+    });
+
+    test('opens dropdown with Enter key', async () => {
+      const user = userEvent.setup();
+      render(<Select options={mockOptions} onChange={jest.fn()} />);
+      const button = screen.getByRole('button');
+
+      await user.click(button);
+      expect(screen.getByText('Option 1')).toBeInTheDocument();
+    });
+
+    test('navigates options with arrow down', () => {
+      render(<Select options={mockOptions} onChange={jest.fn()} />);
+      const button = screen.getByRole('button');
+
+      fireEvent.click(button);
+
+      // Navigate down multiple times
+      fireEvent.keyDown(button, { key: 'ArrowDown' });
+      fireEvent.keyDown(button, { key: 'ArrowDown' });
+      fireEvent.keyDown(button, { key: 'ArrowDown' });
+
+      // Dropdown should still be open with all options visible
+      expect(screen.getByText('Option 1')).toBeInTheDocument();
+      expect(screen.getByText('Option 2')).toBeInTheDocument();
+      expect(screen.getByText('Option 3')).toBeInTheDocument();
+    });
+
+    test('navigates options with arrow up', () => {
+      render(<Select options={mockOptions} onChange={jest.fn()} />);
+      const button = screen.getByRole('button');
+
+      fireEvent.click(button);
+
+      // Move down then up
+      fireEvent.keyDown(button, { key: 'ArrowDown' });
+      fireEvent.keyDown(button, { key: 'ArrowDown' });
+      fireEvent.keyDown(button, { key: 'ArrowUp' });
+
+      // Dropdown should still be open
+      expect(screen.getByText('Option 1')).toBeInTheDocument();
+      expect(screen.getByText('Option 3')).toBeInTheDocument();
+    });
+
+    test('wraps around when navigating past last option', () => {
+      render(<Select options={mockOptions} onChange={jest.fn()} />);
+      const button = screen.getByRole('button');
+
+      fireEvent.click(button);
+
+      // Move down 4 times: wraps from last back to first
+      fireEvent.keyDown(button, { key: 'ArrowDown' });
+      fireEvent.keyDown(button, { key: 'ArrowDown' });
+      fireEvent.keyDown(button, { key: 'ArrowDown' });
+      fireEvent.keyDown(button, { key: 'ArrowDown' });
+
+      // Dropdown should still be open (options visible)
+      expect(screen.getByText('Option 1')).toBeInTheDocument();
+      expect(screen.getByText('Option 3')).toBeInTheDocument();
+    });
+
+    test('wraps around when navigating up from first option', () => {
+      render(<Select options={mockOptions} onChange={jest.fn()} />);
+      const button = screen.getByRole('button');
+
+      fireEvent.click(button);
+
+      // Move down once then up (should wrap to last)
+      fireEvent.keyDown(button, { key: 'ArrowDown' });
+      fireEvent.keyDown(button, { key: 'ArrowUp' });
+
+      // Dropdown should still be open
+      expect(screen.getByText('Option 1')).toBeInTheDocument();
+      expect(screen.getByText('Option 3')).toBeInTheDocument();
+    });
+
+    test('selects focused option with Enter key', async () => {
+      const handleChange = jest.fn();
+      render(<Select options={mockOptions} onChange={handleChange} />);
+      const button = screen.getByRole('button');
+
+      fireEvent.click(button);
+
+      fireEvent.keyDown(button, { key: 'ArrowDown' });
+      fireEvent.keyDown(button, { key: 'ArrowDown' });
+      fireEvent.keyDown(button, { key: 'Enter' });
+
+      expect(handleChange).toHaveBeenCalledWith('opt2');
+    });
+
+    test('closes dropdown with Escape key', async () => {
+      render(<Select options={mockOptions} onChange={jest.fn()} />);
+      const button = screen.getByRole('button');
+
+      fireEvent.click(button);
+      expect(screen.getByText('Option 1')).toBeInTheDocument();
+
+      fireEvent.keyDown(button, { key: 'Escape' });
+      expect(screen.queryByText('Option 1')).not.toBeInTheDocument();
+    });
+
+    test('keeps dropdown open with Enter in multi-select', async () => {
+      render(<Select options={mockOptions} multiple={true} onChange={jest.fn()} />);
+      const button = screen.getByRole('button');
+
+      fireEvent.click(button);
+
+      fireEvent.keyDown(button, { key: 'ArrowDown' });
+      fireEvent.keyDown(button, { key: 'Enter' });
+
+      // Dropdown should still be open
+      expect(screen.getByText('Option 2')).toBeInTheDocument();
+    });
+  });
+
+  // ARIA attributes tests
+  describe('ARIA Attributes', () => {
+    test('has aria-expanded attribute on button', () => {
+      render(<Select options={mockOptions} />);
+      const button = screen.getByRole('button');
+      expect(button).toHaveAttribute('aria-expanded', 'false');
+    });
+
+    test('sets aria-expanded to true when open', () => {
+      render(<Select options={mockOptions} />);
+      const button = screen.getByRole('button');
+      fireEvent.click(button);
+      expect(button).toHaveAttribute('aria-expanded', 'true');
+    });
+
+    test('has aria-haspopup attribute on button', () => {
+      render(<Select options={mockOptions} />);
+      const button = screen.getByRole('button');
+      expect(button).toHaveAttribute('aria-haspopup', 'listbox');
+    });
+
+    test('options have role="option"', () => {
+      render(<Select options={mockOptions} />);
+      const button = screen.getByRole('button');
+      fireEvent.click(button);
+
+      const options = screen.getAllByRole('option');
+      expect(options).toHaveLength(3);
+    });
+
+    test('selected option has aria-selected="true"', () => {
+      render(<Select options={mockOptions} value="opt1" onChange={() => {}} />);
+      const button = screen.getByRole('button');
+      fireEvent.click(button);
+
+      const option = screen.getByRole('option', { name: 'Option 1' });
+      expect(option).toHaveAttribute('aria-selected', 'true');
+    });
+
+    test('unselected option has aria-selected="false"', () => {
+      render(<Select options={mockOptions} value="opt1" onChange={() => {}} />);
+      const button = screen.getByRole('button');
+      fireEvent.click(button);
+
+      const option = screen.getByRole('option', { name: 'Option 2' });
+      expect(option).toHaveAttribute('aria-selected', 'false');
+    });
+
+    test('checkboxes in multi-select have aria-label', () => {
+      render(<Select options={mockOptions} multiple={true} onChange={jest.fn()} />);
+      const button = screen.getByRole('button');
+      fireEvent.click(button);
+
+      const checkboxes = screen.getAllByRole('checkbox');
+      checkboxes.forEach((checkbox, index) => {
+        expect(checkbox).toHaveAttribute('aria-label', mockOptions[index].label);
+      });
+    });
   });
 });
