@@ -1,0 +1,165 @@
+/*
+ * Mobile-First Table Responsive Design
+ * Converts tables to card layout on mobile
+ */
+
+/* Desktop table styling (default) */
+@media (min-width: 1024px) {
+  .responsive-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .responsive-table thead {
+    background-color: #f9fafb;
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+  }
+
+  .responsive-table th {
+    padding: 16px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 14px;
+    color: #6b7280;
+    white-space: nowrap;
+  }
+
+  .responsive-table tbody tr {
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+    transition: background-color 150ms ease;
+  }
+
+  .responsive-table tbody tr:hover {
+    background-color: #fafaf9;
+  }
+
+  .responsive-table td {
+    padding: 16px;
+    font-size: 14px;
+    color: #111827;
+  }
+
+  .responsive-table thead {
+    display: table-header-group;
+  }
+
+  .responsive-table tbody {
+    display: table-row-group;
+  }
+}
+
+/* Mobile card layout (< 1024px) */
+@media (max-width: 1023px) {
+  .responsive-table,
+  .responsive-table thead,
+  .responsive-table tbody,
+  .responsive-table th,
+  .responsive-table td,
+  .responsive-table tr {
+    display: block;
+    width: 100%;
+  }
+
+  .responsive-table {
+    border: none;
+  }
+
+  .responsive-table thead {
+    display: none;
+  }
+
+  .responsive-table tbody {
+    display: grid;
+    gap: 16px;
+  }
+
+  .responsive-table tr {
+    background-color: #ffffff;
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: 8px;
+    padding: 16px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .responsive-table td {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 12px;
+    align-items: start;
+    padding: 0;
+    border: none;
+    text-align: left;
+  }
+
+  .responsive-table td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    font-size: 12px;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* Full width badges and buttons in mobile cards */
+  .responsive-table .badge,
+  .responsive-table .action-button {
+    width: 100%;
+  }
+
+  /* Scrollable table wrapper for tablets */
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .responsive-table {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+  }
+}
+
+/* Touch-friendly sizing for mobile */
+@media (max-width: 767px) {
+  .responsive-table tr {
+    padding: 12px;
+  }
+
+  .responsive-table td {
+    grid-template-columns: 100px 1fr;
+  }
+
+  /* Ensure buttons/links are 44px minimum touch target */
+  .responsive-table button,
+  .responsive-table a,
+  .responsive-table [role="button"] {
+    min-height: 44px;
+    padding: 12px;
+    font-size: 14px;
+  }
+}
+
+/* Scrollable container for wide content on tablets */
+.table-scroll-container {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 8px;
+}
+
+.table-scroll-container::-webkit-scrollbar {
+  height: 4px;
+}
+
+.table-scroll-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.table-scroll-container::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.15);
+  border-radius: 2px;
+}
+
+.table-scroll-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(0,0,0,0.25);
+}

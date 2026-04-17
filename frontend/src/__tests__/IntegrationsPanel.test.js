@@ -1,0 +1,248 @@
+import React from 'react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import IntegrationsPanel from '../screens/IntegrationsPanel';
+
+// Mock the hooks
+jest.mock('../hooks/usePageTitle', () => ({
+  usePageTitle: jest.fn(),
+}));
+
+jest.mock('../components/Toast', () => ({
+  useToast: () => ({
+    success: jest.fn(),
+    error: jest.fn(),
+  }),
+}));
+
+jest.mock('../components/AnimatedSection', () => {
+  return function MockAnimatedSection({ children }) {
+    return <div data-testid="animated-section">{children}</div>;
+  };
+});
+
+jest.mock('../components/EmptyState', () => {
+  return function MockEmptyState({ title, description }) {
+    return (
+      <div data-testid="empty-state">
+        <div>{title}</div>
+        <div>{description}</div>
+      </div>
+    );
+  };
+});
+
+describe('IntegrationsPanel Screen', () => {
+  test('renders all 8 integrations', () => {
+    render(<IntegrationsPanel />);
+    expect(screen.getByTestId('integrations-grid')).toBeInTheDocument();
+    expect(screen.getByText('Slack')).toBeInTheDocument();
+    expect(screen.getByText('Discord')).toBeInTheDocument();
+    expect(screen.getByText('Zapier')).toBeInTheDocument();
+    expect(screen.getByText('Google Sheets')).toBeInTheDocument();
+    expect(screen.getByText('HubSpot')).toBeInTheDocument();
+    expect(screen.getByText('Salesforce')).toBeInTheDocument();
+    expect(screen.getByText('Outreach')).toBeInTheDocument();
+    expect(screen.getByText('Lemlist')).toBeInTheDocument();
+  });
+
+  test('displays correct initial status for all integrations', () => {
+    render(<IntegrationsPanel />);
+    const statusBadges = screen.getAllByText('Not Connected');
+    expect(statusBadges.length).toBeGreaterThan(0);
+  });
+
+  test('shows correct integration card for Slack', () => {
+    render(<IntegrationsPanel />);
+    const slackCard = screen.getByTestId('integration-card-slack');
+    expect(slackCard).toBeInTheDocument();
+    expect(slackCard).toHaveTextContent('Slack');
+    expect(slackCard).toHaveTextContent('Not Connected');
+  });
+
+  test('renders connect button for disconnected integration', () => {
+    render(<IntegrationsPanel />);
+    const connectBtn = screen.getByTestId('connect-btn-slack');
+    expect(connectBtn).toBeInTheDocument();
+    expect(connectBtn).toHaveTextContent('Connect');
+  });
+
+  test('handles connection flow', async () => {
+    render(<IntegrationsPanel />);
+    const connectBtn = screen.getByTestId('connect-btn-slack');
+    fireEvent.click(connectBtn);
+
+    await waitFor(() => {
+      expect(screen.getByTestId('logs-btn-slack')).toBeInTheDocument();
+    });
+  });
+
+  test('opens sync log drawer on view logs click', async () => {
+    render(<IntegrationsPanel />);
+
+    // First connect integration
+    const connectBtn = screen.getByTestId('connect-btn-slack');
+    fireEvent.click(connectBtn);
+
+    // Wait for connection to complete
+    await waitFor(() => {
+      expect(screen.getByTestId('logs-btn-slack')).toBeInTheDocument();
+    });
+
+    // Click view logs
+    const logsBtn = screen.getByTestId('logs-btn-slack');
+    fireEvent.click(logsBtn);
+
+    await waitFor(() => {
+      expect(screen.getByTestId('sync-log-drawer')).toBeInTheDocument();
+    });
+  });
+
+  test('closes drawer when close button is clicked', async () => {
+    render(<IntegrationsPanel />);
+
+    // Connect and open drawer
+    const connectBtn = screen.getByTestId('connect-btn-slack');
+    fireEvent.click(connectBtn);
+
+    await waitFor(() => {
+      expect(screen.getByTestId('logs-btn-slack')).toBeInTheDocument();
+    });
+
+    const logsBtn = screen.getByTestId('logs-btn-slack');
+    fireEvent.click(logsBtn);
+
+    await waitFor(() => {
+      expect(screen.getByTestId('sync-log-drawer')).toBeInTheDocument();
+    });
+
+    // Close drawer
+    const closeBtn = screen.getByTestId('close-drawer-btn');
+    fireEvent.click(closeBtn);
+
+    await waitFor(() => {
+      expect(screen.queryByTestId('sync-log-drawer')).not.toBeInTheDocument();
+    });
+  });
+
+  test('closes drawer when overlay is clicked', async () => {
+    render(<IntegrationsPanel />);
+
+    // Connect and open drawer
+    const connectBtn = screen.getByTestId('connect-btn-slack');
+    fireEvent.click(connectBtn);
+
+    await waitFor(() => {
+      expect(screen.getByTestId('logs-btn-slack')).toBeInTheDocument();
+    });
+
+    const logsBtn = screen.getByTestId('logs-btn-slack');
+    fireEvent.click(logsBtn);
+
+    await waitFor(() => {
+      expect(screen.getByTestId('drawer-overlay')).toBeInTheDocument();
+    });
+
+    // Click overlay
+    const overlay = screen.getByTestId('drawer-overlay');
+    fireEvent.click(overlay);
+
+    await waitFor(() => {
+      expect(screen.queryByTestId('drawer-overlay')).not.toBeInTheDocument();
+    });
+  });
+
+  test('displays sync logs in drawer', async () => {
+    render(<IntegrationsPanel />);
+
+    // Connect integration
+    const connectBtn = screen.getByTestId('connect-btn-slack');
+    fireEvent.click(connectBtn);
+
+    await waitFor(() => {
+      expect(screen.getByTestId('logs-btn-slack')).toBeInTheDocument();
+    });
+
+    // Open logs drawer
+    const logsBtn = screen.getByTestId('logs-btn-slack');
+    fireEvent.click(logsBtn);
+
+    await waitFor(() => {
+      expect(screen.getByTestId('sync-log-drawer')).toBeInTheDocument();
+      expect(screen.getByText('Slack Sync Logs')).toBeInTheDocument();
+    });
+
+    // Check for log entries
+    const logEntries = screen.queryAllByTestId(/^log-entry-/);
+    expect(logEntries.length).toBeGreaterThan(0);
+  });
+
+  test('updates connection count in header', async () => {
+    render(<IntegrationsPanel />);
+
+    // Should initially show 0 of 8
+    expect(screen.getByText(/0 of 8 integrations connected/)).toBeInTheDocument();
+
+    // Connect one integration
+    const connectBtn = screen.getByTestId('connect-btn-slack');
+    fireEvent.click(connectBtn);
+
+    // Wait and verify count updates
+    await waitFor(() => {
+      expect(screen.getByText(/1 of 8 integrations connected/)).toBeInTheDocument();
+    });
+  });
+
+  test('shows sync status after connection', async () => {
+    render(<IntegrationsPanel />);
+
+    const connectBtn = screen.getByTestId('connect-btn-slack');
+    fireEvent.click(connectBtn);
+
+    await waitFor(() => {
+      const statusBadges = screen.queryAllByText('Synced');
+      expect(statusBadges.length).toBeGreaterThan(0);
+    });
+  });
+
+  test('renders all integration cards with correct data-testid', () => {
+    render(<IntegrationsPanel />);
+    const integrationIds = [
+      'slack',
+      'discord',
+      'zapier',
+      'google_sheets',
+      'hubspot',
+      'salesforce',
+      'outreach',
+      'lemlist',
+    ];
+
+    integrationIds.forEach((id) => {
+      expect(screen.getByTestId(`integration-card-${id}`)).toBeInTheDocument();
+    });
+  });
+
+  test('integration cards are responsive grid', () => {
+    const { container } = render(<IntegrationsPanel />);
+    const grid = screen.getByTestId('integrations-grid');
+    const style = window.getComputedStyle(grid);
+    expect(grid).toHaveStyle('display: grid');
+  });
+
+  test('handles multiple integrations connection', async () => {
+    render(<IntegrationsPanel />);
+
+    // Connect multiple integrations
+    const slackBtn = screen.getByTestId('connect-btn-slack');
+    const discordBtn = screen.getByTestId('connect-btn-discord');
+
+    fireEvent.click(slackBtn);
+    fireEvent.click(discordBtn);
+
+    await waitFor(() => {
+      expect(screen.getByTestId('logs-btn-slack')).toBeInTheDocument();
+      expect(screen.getByTestId('logs-btn-discord')).toBeInTheDocument();
+    });
+  });
+});
