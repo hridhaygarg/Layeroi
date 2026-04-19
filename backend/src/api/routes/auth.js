@@ -74,10 +74,14 @@ router.post('/auth/signup', async (req, res) => {
     // Update org created_by now that user exists
     await supabase.from('organisations').update({ created_by: user.id }).eq('id', org.id);
 
-    // Create org membership
-    await supabase.from('organisation_members').insert({
-      user_id: user.id, org_id: org.id, role: 'owner',
-    }).catch(() => {});
+    // Create org membership (table may not exist)
+    try {
+      await supabase.from('organisation_members').insert({
+        user_id: user.id, org_id: org.id, role: 'owner',
+      });
+    } catch (e) {
+      // Ignore — table might not exist yet
+    }
 
     const apiKey = `sk-${crypto.randomBytes(16).toString('hex')}`;
     const token = signJWT({ userId: user.id, orgId: org.id, email: cleanEmail });
