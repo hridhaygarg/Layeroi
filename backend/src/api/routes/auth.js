@@ -42,39 +42,42 @@ router.post('/auth/signup', async (req, res) => {
       passwordHash = await bcrypt.hash(password, 12);
     }
 
-    // Create org
+    // Create user first (org needs user UUID for created_by)
+    const userId = crypto.randomUUID();
     const slug = company.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').substring(0, 50) + '-' + crypto.randomBytes(4).toString('hex');
+
+    // Create org with user's UUID as created_by
     const { data: org, error: orgError } = await supabase
       .from('organisations')
-      .insert({ name: company, slug, created_by: cleanEmail, plan: 'free', plan_agent_limit: 2, plan_history_days: 14 })
+      .insert({ name: company, slug, created_by: userId, plan: 'free', plan_agent_limit: 2, plan_history_days: 14 })
       .select()
       .single();
 
     if (orgError) {
-      logger.error('Org creation failed', orgError);
+      logger.error('Org creation failed', { error: orgError.message, details: orgError });
       return res.status(500).json({ success: false, error: { message: 'Could not create organisation' } });
     }
 
-    // Create user
+    // Create user linked to org
     const { data: user, error: userError } = await supabase
       .from('users')
-      .insert({ email: cleanEmail, name, org_id: org.id, password_hash: passwordHash })
+      .insert({ id: userId, email: cleanEmail, name, org_id: org.id, password_hash: passwordHash })
       .select()
       .single();
 
     if (userError) {
       logger.error('User creation failed', userError);
-      // Clean up org
       await supabase.from('organisations').delete().eq('id', org.id);
       return res.status(500).json({ success: false, error: { message: 'Could not create user account' } });
     }
 
+    // Update org created_by now that user exists
+    await supabase.from('organisations').update({ created_by: user.id }).eq('id', org.id);
+
     // Create org membership
     await supabase.from('organisation_members').insert({
-      user_id: user.id,
-      org_id: org.id,
-      role: 'owner',
-    }).catch(() => {}); // table may not exist yet
+      user_id: user.id, org_id: org.id, role: 'owner',
+    }).catch(() => {});
 
     const apiKey = `sk-${crypto.randomBytes(16).toString('hex')}`;
     const token = signJWT({ userId: user.id, orgId: org.id, email: cleanEmail });
