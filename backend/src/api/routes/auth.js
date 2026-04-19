@@ -43,9 +43,10 @@ router.post('/auth/signup', async (req, res) => {
     }
 
     // Create org
+    const slug = company.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').substring(0, 50) + '-' + crypto.randomBytes(4).toString('hex');
     const { data: org, error: orgError } = await supabase
       .from('organisations')
-      .insert({ name: company, plan: 'free', plan_agent_limit: 2, plan_history_days: 14 })
+      .insert({ name: company, slug, created_by: cleanEmail, plan: 'free', plan_agent_limit: 2, plan_history_days: 14 })
       .select()
       .single();
 
