@@ -177,7 +177,34 @@ export default function App() {
 function DarkDashboard({ currentScreen, setCurrentScreen, screenNames, isMobile }) {
   const [sidebarOpen, setSidebarOpen] = useState(!isMobile);
   const [upgradeOpen, setUpgradeOpen] = useState(false);
-  const org = JSON.parse(localStorage.getItem('layeroi_org') || 'null');
+  const [org, setOrg] = useState(() => JSON.parse(localStorage.getItem('layeroi_org') || 'null'));
+
+  // Handle ?payment=success return from Dodo checkout
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('payment') === 'success') {
+      const plan = params.get('plan') || 'starter';
+      // Update org in localStorage immediately for sidebar refresh
+      const updatedOrg = { ...(org || {}), plan, plan_agent_limit: plan === 'enterprise' ? -1 : plan === 'business' ? 30 : 5 };
+      localStorage.setItem('layeroi_org', JSON.stringify(updatedOrg));
+      setOrg(updatedOrg);
+      // Clean URL
+      window.history.replaceState({}, '', '/dashboard');
+      // Also refetch from server to get accurate data
+      const token = localStorage.getItem('layeroi_token');
+      if (token) {
+        fetch('https://api.layeroi.com/payments/status', { headers: { 'Authorization': `Bearer ${token}` } })
+          .then(r => r.json())
+          .then(data => {
+            if (data.success && data.data) {
+              const serverOrg = { ...(org || {}), ...data.data };
+              localStorage.setItem('layeroi_org', JSON.stringify(serverOrg));
+              setOrg(serverOrg);
+            }
+          }).catch(() => {});
+      }
+    }
+  }, []);
 
   const screens = {
     overview: lazy(() => import('./screens/Overview')),
@@ -221,7 +248,11 @@ function DarkDashboard({ currentScreen, setCurrentScreen, screenNames, isMobile 
         </main>
       </div>
 
-      <UpgradeModal isOpen={upgradeOpen} onClose={() => setUpgradeOpen(false)} currentPlan={org?.plan || 'free'} />
+      <UpgradeModal isOpen={upgradeOpen} onClose={() => {
+        setUpgradeOpen(false);
+        // Refresh org after modal close in case plan changed
+        setOrg(JSON.parse(localStorage.getItem('layeroi_org') || 'null'));
+      }} currentPlan={org?.plan || 'free'} />
     </div>
   );
 

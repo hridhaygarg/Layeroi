@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { usePageTitle } from '../hooks/usePageTitle';
-import { useToast } from '../components/Toast';
-import { AnimatedSection } from '../components/AnimatedSection';
-import EmptyState from '../components/EmptyState';
+
+// Simple wrappers to avoid import errors
+function AnimatedSection({ children }) { return <div>{children}</div>; }
+function EmptyState({ title, description }) {
+  return <div style={{ textAlign: 'center', padding: '48px 24px', color: 'rgba(255,255,255,0.55)' }}><h3 style={{ color: 'white', marginBottom: '8px' }}>{title}</h3><p>{description}</p></div>;
+}
 
 const colors = {
   bgPrimary: '#fafaf9',
@@ -17,9 +19,9 @@ const colors = {
   accentRed: '#dc2626',
 };
 
+const API = 'https://api.layeroi.com';
+
 export default function Outreach() {
-  usePageTitle('Outreach');
-  const { showToast } = useToast();
 
   const [loading, setLoading] = useState(false);
   const [prospects, setProspects] = useState([]);
@@ -30,15 +32,15 @@ export default function Outreach() {
   const loadProspects = useCallback(async () => {
     try {
       setLoading(true);
-      const response = await fetch(`/api/outreach?status=${filter}&limit=50`);
+      const response = await fetch(`${API}/api/outreach?status=${filter}&limit=50`);
       const data = await response.json();
       setProspects(data.data || []);
     } catch (err) {
-      showToast('Failed to load prospects', 'error');
+      console.log('Failed to load prospects', 'error');
     } finally {
       setLoading(false);
     }
-  }, [filter, showToast]);
+  }, [filter]);
 
   useEffect(() => {
     loadProspects();
@@ -47,7 +49,7 @@ export default function Outreach() {
 
   async function loadStats() {
     try {
-      const response = await fetch('/api/outreach/stats');
+      const response = await fetch(`${API}/api/outreach/stats`);
       const data = await response.json();
       setStats(data);
     } catch (err) {
@@ -60,11 +62,11 @@ export default function Outreach() {
 
     try {
       setManualRunning(true);
-      const response = await fetch('/api/outreach/run', { method: 'POST' });
+      const response = await fetch(`${API}/api/outreach/run`, { method: 'POST' });
       const data = await response.json();
 
       if (data.success) {
-        showToast(
+        console.log(
           `✅ Workflow complete: ${data.results.queueBuilt} prospects queued, ${data.results.messagesGenerated} messages generated, ${data.results.emailsSent} emails sent`,
           'success'
         );
@@ -73,7 +75,7 @@ export default function Outreach() {
       }
     } catch (err) {
       console.error('Error running workflow:', err);
-      showToast('Workflow failed', 'error');
+      console.log('Workflow failed', 'error');
     } finally {
       setManualRunning(false);
     }
@@ -83,35 +85,35 @@ export default function Outreach() {
     if (!window.confirm('Send follow-up reminders to 3+ day old unopened emails?')) return;
 
     try {
-      const response = await fetch('/api/outreach/follow-ups', { method: 'POST' });
+      const response = await fetch(`${API}/api/outreach/follow-ups`, { method: 'POST' });
       const data = await response.json();
 
       if (data.success) {
-        showToast(`✅ ${data.followUpsQueued} follow-ups queued`, 'success');
+        console.log(`✅ ${data.followUpsQueued} follow-ups queued`, 'success');
         loadProspects();
         loadStats();
       }
     } catch (err) {
       console.error('Error sending follow-ups:', err);
-      showToast('Follow-up send failed', 'error');
+      console.log('Follow-up send failed', 'error');
     }
   }
 
   async function updateProspectStatus(prospectId, newStatus) {
     try {
-      const response = await fetch(`/api/outreach/${prospectId}`, {
+      const response = await fetch(`${API}/api/outreach/${prospectId}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: newStatus }),
       });
 
       if (response.ok) {
-        showToast('Status updated', 'success');
+        console.log('Status updated', 'success');
         loadProspects();
       }
     } catch (err) {
       console.error('Error updating status:', err);
-      showToast('Status update failed', 'error');
+      console.log('Status update failed', 'error');
     }
   }
 

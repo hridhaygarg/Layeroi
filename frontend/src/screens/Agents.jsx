@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Plus } from 'lucide-react';
 import { authService } from '../services/authService';
 import { apiService } from '../services/apiService';
+import { Icon } from './components/Icon';
 
 const colors = {
   bgSurface: '#ffffff',
@@ -18,6 +18,9 @@ export default function Agents() {
   const [agents, setAgents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [newAgent, setNewAgent] = useState({ name: '', provider: 'openai' });
+  const [creating, setCreating] = useState(false);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 640);
@@ -77,9 +80,9 @@ export default function Agents() {
     <div>
       <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', justifyContent: 'space-between', alignItems: isMobile ? 'flex-start' : 'center', marginBottom: '32px', gap: isMobile ? '16px' : '0' }}>
         <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: isMobile ? '24px' : '32px', fontWeight: '700', color: colors.textPrimary }}>Agents</h2>
-        <button style={{
-          background: colors.accentGreen,
-          color: '#ffffff',
+        <button onClick={() => setShowAddModal(true)} style={{
+          background: '#22c55e',
+          color: '#050505',
           border: 'none',
           padding: '10px 16px',
           borderRadius: '6px',
@@ -87,16 +90,12 @@ export default function Agents() {
           display: 'flex',
           alignItems: 'center',
           gap: '8px',
-          fontFamily: 'Inter, sans-serif',
           fontSize: '14px',
           fontWeight: '600',
           transition: 'all 200ms',
           whiteSpace: 'nowrap',
-        }}
-        onMouseDown={(e) => (e.target.style.transform = 'scale(0.98)')}
-        onMouseUp={(e) => (e.target.style.transform = 'scale(1)')}
-        >
-          <Plus size={18} /> Add Agent
+        }}>
+          <Icon name='plus' size={16} /> Add Agent
         </button>
       </div>
 
@@ -192,6 +191,70 @@ export default function Agents() {
               </div>
             </div>
           ))}
+        </div>
+      )}
+      {/* Add Agent Modal */}
+      {showAddModal && (
+        <div onClick={e => e.target === e.currentTarget && setShowAddModal(false)} style={{
+          position: 'fixed', inset: 0, zIndex: 9999,
+          background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(6px)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px',
+        }}>
+          <div style={{
+            background: '#151515', border: '1px solid rgba(255,255,255,0.09)',
+            borderRadius: '14px', width: '100%', maxWidth: '440px', padding: '32px',
+          }}>
+            <h3 style={{ fontFamily: 'Instrument Serif, serif', fontStyle: 'italic', fontSize: '24px', color: 'white', margin: '0 0 20px' }}>Add Agent</h3>
+            <div style={{ marginBottom: '16px' }}>
+              <label style={{ display: 'block', fontSize: '13px', color: 'rgba(255,255,255,0.55)', marginBottom: '6px', fontWeight: 500 }}>Agent Name</label>
+              <input name="name" value={newAgent.name} onChange={e => setNewAgent({ ...newAgent, name: e.target.value })} placeholder="e.g. sales-outreach-agent"
+                style={{ width: '100%', padding: '10px 14px', background: '#0f0f0f', border: '1px solid rgba(255,255,255,0.09)', borderRadius: '8px', color: 'white', fontSize: '14px', boxSizing: 'border-box' }}
+              />
+            </div>
+            <div style={{ marginBottom: '24px' }}>
+              <label style={{ display: 'block', fontSize: '13px', color: 'rgba(255,255,255,0.55)', marginBottom: '6px', fontWeight: 500 }}>Provider</label>
+              <select value={newAgent.provider} onChange={e => setNewAgent({ ...newAgent, provider: e.target.value })}
+                style={{ width: '100%', padding: '10px 14px', background: '#0f0f0f', border: '1px solid rgba(255,255,255,0.09)', borderRadius: '8px', color: 'white', fontSize: '14px', boxSizing: 'border-box' }}>
+                <option value="openai">OpenAI</option>
+                <option value="anthropic">Anthropic</option>
+                <option value="google">Google Gemini</option>
+                <option value="azure">Azure OpenAI</option>
+              </select>
+            </div>
+            <div style={{ display: 'flex', gap: '12px' }}>
+              <button onClick={() => setShowAddModal(false)} style={{
+                flex: 1, padding: '10px', borderRadius: '8px',
+                border: '1px solid rgba(255,255,255,0.14)', color: 'white', fontSize: '14px', fontWeight: 600,
+              }}>Cancel</button>
+              <button disabled={creating || !newAgent.name.trim()} onClick={async () => {
+                setCreating(true);
+                try {
+                  let orgId;
+                  try { const t = localStorage.getItem('layeroi_token'); if (t) orgId = JSON.parse(atob(t.split('.')[1])).orgId; } catch(e) {}
+                  await fetch('https://api.layeroi.com/api/agents', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('layeroi_token')}` },
+                    body: JSON.stringify({ name: newAgent.name.trim(), provider: newAgent.provider, orgId }),
+                  });
+                  setShowAddModal(false);
+                  setNewAgent({ name: '', provider: 'openai' });
+                  // Refetch agents
+                  const res = await apiService.getAgents(orgId);
+                  setAgents(res?.agents || res?.data || []);
+                } catch (err) {
+                  setError('Failed to create agent');
+                } finally {
+                  setCreating(false);
+                }
+              }} style={{
+                flex: 1, padding: '10px', borderRadius: '8px',
+                background: '#22c55e', color: '#050505', fontSize: '14px', fontWeight: 600,
+                opacity: creating || !newAgent.name.trim() ? 0.5 : 1,
+              }}>
+                {creating ? 'Creating...' : 'Create Agent'}
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>

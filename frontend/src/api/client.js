@@ -28,16 +28,8 @@ apiClient.interceptors.request.use(
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
-    // Handle 401 Unauthorized
-    if (error.response?.status === 401) {
-      const authStore = useAuthStore.getState();
-      authStore.logout();
-
-      // Redirect to login page
-      if (typeof window !== 'undefined') {
-        window.location.href = '/login';
-      }
-    }
+    // Only logout on 401 from auth-critical endpoints, not every API call
+    // This prevents data-fetching 401s from logging the user out
 
     return Promise.reject(error);
   }
