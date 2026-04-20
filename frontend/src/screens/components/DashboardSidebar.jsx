@@ -120,18 +120,30 @@ export function DashboardSidebar({ active, onNavigate, onUpgrade, onClose }) {
           <div style={{ fontSize: '12.5px', color: 'var(--white-55)', marginBottom: plan === 'enterprise' ? 0 : '12px', lineHeight: 1.5 }}>
             {limit === -1 ? 'Unlimited agents' : `${limit} agents included`}
           </div>
-          {plan !== 'enterprise' && (
+          {plan === 'free' && (
             <button onClick={onUpgrade} style={{
               width: '100%', padding: '8px 12px',
               background: '#22c55e', color: '#050505',
               borderRadius: '6px', fontSize: '12.5px', fontWeight: 600,
               border: 'none', cursor: 'pointer',
-              transition: 'transform 140ms ease, background 140ms linear',
-            }}
-            onMouseEnter={e => { e.currentTarget.style.background = '#4ade80'; e.currentTarget.style.transform = 'translateY(-1px)'; }}
-            onMouseLeave={e => { e.currentTarget.style.background = '#22c55e'; e.currentTarget.style.transform = 'translateY(0)'; }}>
-              {plan === 'free' ? 'Upgrade plan' : 'Upgrade'} →
-            </button>
+            }}>Upgrade plan →</button>
+          )}
+          {plan === 'starter' && (
+            <button onClick={onUpgrade} style={{
+              width: '100%', padding: '8px 12px',
+              background: '#22c55e', color: '#050505',
+              borderRadius: '6px', fontSize: '12.5px', fontWeight: 600,
+              border: 'none', cursor: 'pointer',
+            }}>Upgrade to Business →</button>
+          )}
+          {plan === 'business' && (
+            <button onClick={onUpgrade} style={{
+              width: '100%', padding: '8px 12px',
+              background: 'transparent', color: 'rgba(255,255,255,0.75)',
+              border: '1px solid rgba(255,255,255,0.09)',
+              borderRadius: '6px', fontSize: '12.5px', fontWeight: 500,
+              cursor: 'pointer',
+            }}>Manage plan</button>
           )}
         </div>
       </div>

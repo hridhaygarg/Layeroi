@@ -90,7 +90,7 @@ export function UpgradeModal({ isOpen, onClose, currentPlan = 'free' }) {
               </ul>
               <button onClick={() => handleUpgrade(plan.id)} disabled={loading === plan.id || currentPlan === plan.id} style={{
                 width: '100%', padding: '12px',
-                background: currentPlan === plan.id ? 'rgba(255,255,255,0.06)' : plan.highlighted ? '#22c55e' : 'white',
+                background: currentPlan === plan.id ? 'rgba(255,255,255,0.06)' : plan.highlighted ? '#22c55e' : 'rgba(255,255,255,0.9)',
                 color: currentPlan === plan.id ? 'rgba(255,255,255,0.4)' : '#050505',
                 border: 'none', borderRadius: '8px', fontWeight: 600, fontSize: '14px',
                 cursor: currentPlan === plan.id ? 'default' : 'pointer',

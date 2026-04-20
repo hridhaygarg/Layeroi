@@ -7,16 +7,27 @@ function EmptyState({ title, description }) {
 }
 
 const colors = {
-  bgPrimary: '#fafaf9',
-  bgSurface: '#ffffff',
-  bgSubtle: '#f5f5f4',
-  textPrimary: '#111827',
-  textSecondary: '#6b7280',
-  borderDefault: 'rgba(0,0,0,0.08)',
-  accentGreen: '#16a34a',
-  accentBlue: '#0066cc',
-  accentYellow: '#d97706',
-  accentRed: '#dc2626',
+  bgPrimary: '#050505',
+  bgSurface: '#0f0f0f',
+  bgSubtle: '#151515',
+  bgProfit: 'rgba(34,197,94,0.08)',
+  bgLoss: 'rgba(239,68,68,0.08)',
+  bgWarning: 'rgba(245,158,11,0.08)',
+  borderDefault: 'rgba(255,255,255,0.09)',
+  borderStrong: 'rgba(255,255,255,0.14)',
+  textPrimary: '#ffffff',
+  textSecondary: 'rgba(255,255,255,0.55)',
+  textTertiary: 'rgba(255,255,255,0.38)',
+  accentGreen: '#22c55e',
+  accentGreenLight: 'rgba(34,197,94,0.08)',
+  accentGreenBorder: 'rgba(34,197,94,0.22)',
+  dangerRed: '#ef4444',
+  dangerLight: 'rgba(239,68,68,0.08)',
+  dangerBorder: 'rgba(239,68,68,0.22)',
+  warningAmber: '#f59e0b',
+  warningLight: 'rgba(245,158,11,0.08)',
+  shadowSm: '0 0 0 1px rgba(255,255,255,0.06)',
+  shadowMd: '0 0 0 1px rgba(255,255,255,0.06), 0 6px 20px rgba(0,0,0,0.3)',
 };
 
 const API = 'https://api.layeroi.com';
