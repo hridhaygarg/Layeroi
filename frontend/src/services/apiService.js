@@ -16,9 +16,11 @@ class APIService {
    */
   async request(endpoint, options = {}) {
     const url = `${this.baseURL}${endpoint}`;
+    // Get token from localStorage directly (authService singleton may be stale)
+    const token = localStorage.getItem('layeroi_token');
     const headers = {
       'Content-Type': 'application/json',
-      ...authService.getAuthHeader(),
+      ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
       ...options.headers,
     };
 
@@ -28,11 +30,8 @@ class APIService {
         headers,
       });
 
-      // Handle 401 - unauthorized
-      if (response.status === 401) {
-        authService.logout();
-        throw new Error('Unauthorized - please login again');
-      }
+      // Do NOT auto-logout on 401 — let the caller handle auth errors
+      // Auto-logout was causing white-screens when token was stale
 
       if (!response.ok) {
         const error = await response.json().catch(() => ({ error: response.statusText }));

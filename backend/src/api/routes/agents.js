@@ -113,4 +113,57 @@ router.get('/api/admin/overview', async (req, res) => {
   }
 });
 
+// GET /api/admin/members
+router.get('/api/admin/members', async (req, res) => {
+  try {
+    const orgId = req.query.orgId;
+    if (!orgId) return res.status(400).json({ success: false, error: 'orgId required' });
+
+    const { data: users } = await supabase
+      .from('users')
+      .select('id, email, name, created_at')
+      .eq('org_id', orgId);
+
+    res.json({
+      success: true,
+      data: (users || []).map(u => ({
+        user_id: u.id,
+        email: u.email,
+        name: u.name,
+        role: 'owner',
+        joined_at: u.created_at,
+      })),
+    });
+  } catch (err) {
+    logger.error('Admin members error', err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// GET /api/admin/settings
+router.get('/api/admin/settings', async (req, res) => {
+  try {
+    const orgId = req.query.orgId;
+    if (!orgId) return res.status(400).json({ success: false, error: 'orgId required' });
+
+    const { data: org } = await supabase
+      .from('organisations')
+      .select('id, name, plan, plan_agent_limit, billing_email, created_at, dodo_subscription_id')
+      .eq('id', orgId)
+      .single();
+
+    res.json({
+      success: true,
+      data: {
+        organisation: org || {},
+        api_keys: [],
+        webhooks: [],
+      },
+    });
+  } catch (err) {
+    logger.error('Admin settings error', err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
 export default router;
