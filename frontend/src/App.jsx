@@ -213,6 +213,28 @@ function DarkDashboard({ currentScreen, setCurrentScreen, screenNames, isMobile 
   const [upgradeOpen, setUpgradeOpen] = useState(false);
   const [org, setOrg] = useState(() => JSON.parse(localStorage.getItem('layeroi_org') || 'null'));
 
+  // Listen for TopBar menu navigation events
+  useEffect(() => {
+    const handler = (e) => setCurrentScreen(e.detail);
+    window.addEventListener('navigate-screen', handler);
+    return () => window.removeEventListener('navigate-screen', handler);
+  }, [setCurrentScreen]);
+
+  // Refresh org data on mount
+  useEffect(() => {
+    const token = localStorage.getItem('layeroi_token');
+    if (!token) return;
+    fetch('https://api.layeroi.com/payments/status', { headers: { 'Authorization': `Bearer ${token}` } })
+      .then(r => r.json())
+      .then(data => {
+        if (data.success && data.data) {
+          const fresh = { ...(org || {}), ...data.data };
+          localStorage.setItem('layeroi_org', JSON.stringify(fresh));
+          setOrg(fresh);
+        }
+      }).catch(() => {});
+  }, []);
+
   // Handle ?payment=success return from Dodo checkout
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);

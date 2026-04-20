@@ -222,70 +222,18 @@ export default function Admin() {
             }}>
               Invite Team Member
             </h2>
-            <form onSubmit={handleInviteMember} style={{
+            <div style={{
               background: colors.bgSurface,
               border: `1px solid ${colors.borderDefault}`,
               borderRadius: '8px',
               padding: '20px',
-              display: 'flex',
-              gap: '12px',
-              flexDirection: isMobile ? 'column' : 'row',
+              textAlign: 'center',
             }}>
-              <input
-                type="email"
-                placeholder="colleague@company.com"
-                value={inviteEmail}
-                onChange={(e) => setInviteEmail(e.target.value)}
-                style={{
-                  flex: 1,
-                  padding: '10px 12px',
-                  border: `1px solid ${colors.borderDefault}`,
-                  borderRadius: '6px',
-                  fontFamily: 'Inter, sans-serif',
-                  fontSize: '14px',
-                }}
-                disabled={inviting}
-              />
-              <select
-                value={inviteRole}
-                onChange={(e) => setInviteRole(e.target.value)}
-                style={{
-                  padding: '10px 12px',
-                  border: `1px solid ${colors.borderDefault}`,
-                  borderRadius: '6px',
-                  fontFamily: 'Inter, sans-serif',
-                  fontSize: '14px',
-                  background: colors.bgSurface,
-                  color: colors.textPrimary,
-                }}
-                disabled={inviting}
-              >
-                <option value="member">Member</option>
-                <option value="manager">Manager</option>
-                <option value="admin">Admin</option>
-              </select>
-              <button
-                type="submit"
-                disabled={inviting || !inviteEmail}
-                style={{
-                  padding: '10px 20px',
-                  background: colors.accentGreen,
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '6px',
-                  cursor: inviting || !inviteEmail ? 'not-allowed' : 'pointer',
-                  fontWeight: '600',
-                  opacity: inviting || !inviteEmail ? 0.6 : 1,
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  whiteSpace: 'nowrap',
-                }}
-              >
-                <Plus size={16} />
-                {inviting ? 'Inviting...' : 'Invite'}
-              </button>
-            </form>
+              <div className='mono' style={{ fontSize: '10px', color: colors.textTertiary, letterSpacing: '0.1em', marginBottom: '8px' }}>COMING SOON</div>
+              <p style={{ color: colors.textSecondary, fontSize: '14px', margin: 0 }}>
+                Team invitations are being built. For now, share your API key with team members directly.
+              </p>
+            </div>
           </div>
 
           <div>
