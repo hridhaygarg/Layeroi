@@ -185,7 +185,7 @@ export default function Report() {
           marginBottom: '32px',
           color: colors.textSecondary,
         }}>
-          Your AI agents spent <span style={{ color: colors.textPrimary, fontWeight: '600', fontFamily: 'IBM Plex Mono, monospace' }}>${reportData.totalSpend.toLocaleString()}</span> this month with <span style={{ color: colors.accentGreen, fontWeight: '600', fontFamily: 'IBM Plex Mono, monospace' }}>${reportData.valueGenerated.toLocaleString()}</span> in estimated value generated. Overall ROI multiple: <span style={{ color: colors.accentGreen, fontWeight: '600', fontFamily: 'IBM Plex Mono, monospace' }}>{reportData.roiMultiple.toFixed(2)}×</span>. {reportData.problematicAgent && 'One agent requires immediate attention.'}
+          Your AI agents spent <span style={{ color: colors.textPrimary, fontWeight: '600', fontFamily: 'IBM Plex Mono, monospace' }}>${(reportData?.totalSpend ?? 0).toLocaleString()}</span> this month with <span style={{ color: colors.accentGreen, fontWeight: '600', fontFamily: 'IBM Plex Mono, monospace' }}>${(reportData?.valueGenerated ?? 0).toLocaleString()}</span> in estimated value generated. Overall ROI multiple: <span style={{ color: colors.accentGreen, fontWeight: '600', fontFamily: 'IBM Plex Mono, monospace' }}>{(reportData?.roiMultiple ?? 0).toFixed(2)}×</span>. {reportData.problematicAgent && 'One agent requires immediate attention.'}
         </p>
 
         {reportData.problematicAgent && (
@@ -210,7 +210,7 @@ export default function Report() {
               color: colors.dangerRed,
               lineHeight: '1.6',
             }}>
-              <strong>Review the {reportData.problematicAgent.name} agent</strong> — It has spent <span style={{ fontFamily: 'IBM Plex Mono, monospace' }}>${reportData.problematicAgent.cost.toLocaleString()}</span> with <span style={{ fontFamily: 'IBM Plex Mono, monospace' }}>{reportData.problematicAgent.roi.toFixed(1)}× ROI</span>. Estimated monthly savings if optimized: <span style={{ fontFamily: 'IBM Plex Mono, monospace' }}>${reportData.estimatedSavings.toLocaleString()}</span>.
+              <strong>Review the {reportData.problematicAgent.name} agent</strong> — It has spent <span style={{ fontFamily: 'IBM Plex Mono, monospace' }}>${(reportData?.problematicAgent?.cost ?? 0).toLocaleString()}</span> with <span style={{ fontFamily: 'IBM Plex Mono, monospace' }}>{(reportData?.problematicAgent?.roi ?? 0).toFixed(1)}× ROI</span>. Estimated monthly savings if optimized: <span style={{ fontFamily: 'IBM Plex Mono, monospace' }}>${(reportData?.estimatedSavings ?? 0).toLocaleString()}</span>.
             </p>
           </div>
         )}

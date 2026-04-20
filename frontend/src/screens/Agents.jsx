@@ -157,7 +157,7 @@ export default function Agents() {
                     color: colors.textPrimary,
                     fontFamily: 'IBM Plex Mono, monospace',
                   }}>
-                    ${agent.cost.toLocaleString()}
+                    ${(agent.cost ?? 0).toLocaleString()}
                   </span>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -168,7 +168,7 @@ export default function Agents() {
                     color: colors.textPrimary,
                     fontFamily: 'IBM Plex Mono, monospace',
                   }}>
-                    {agent.tasks}
+                    {agent.tasks ?? 0}
                   </span>
                 </div>
                 <div style={{
@@ -182,10 +182,10 @@ export default function Agents() {
                   <span style={{
                     fontSize: '16px',
                     fontWeight: '600',
-                    color: agent.roi > 1 ? colors.accentGreen : colors.dangerRed,
+                    color: (agent.roi ?? 0) > 1 ? colors.accentGreen : colors.dangerRed,
                     fontFamily: 'IBM Plex Mono, monospace',
                   }}>
-                    {agent.roi.toFixed(1)}×
+                    {agent.roi != null ? agent.roi.toFixed(1) : '—'}×
                   </span>
                 </div>
               </div>

@@ -152,7 +152,7 @@ export default function Overview() {
             color: colors.dangerRed,
             marginBottom: '8px',
           }}>
-            ${metrics.totalSpend.toLocaleString()}
+            ${(metrics?.totalSpend ?? 0).toLocaleString()}
           </div>
           <div style={{
             fontSize: '12px',
@@ -188,7 +188,7 @@ export default function Overview() {
             color: colors.accentGreen,
             marginBottom: '8px',
           }}>
-            ${metrics.valueGenerated.toLocaleString()}
+            ${(metrics?.valueGenerated ?? 0).toLocaleString()}
           </div>
           <div style={{
             fontSize: '12px',

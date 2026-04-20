@@ -211,7 +211,7 @@ export default function Budget() {
             color: colors.textPrimary,
             fontFamily: 'IBM Plex Mono, monospace',
           }}>
-            ${spent.toLocaleString()}
+            ${(spent ?? 0).toLocaleString()}
           </span>
         </div>
 
@@ -234,7 +234,7 @@ export default function Budget() {
             color: colors.accentGreen,
             fontFamily: 'IBM Plex Mono, monospace',
           }}>
-            ${(monthlyBudget - spent).toLocaleString()}
+            ${((monthlyBudget ?? 0) - (spent ?? 0)).toLocaleString()}
           </span>
         </div>
 
@@ -247,7 +247,7 @@ export default function Budget() {
           color: colors.textSecondary,
           fontFamily: 'IBM Plex Mono, monospace',
         }}>
-          {percent.toFixed(0)}% of budget used
+          {(percent ?? 0).toFixed(0)}% of budget used
         </div>
       </div>
     </div>

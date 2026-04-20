@@ -473,7 +473,7 @@ export default function Outreach() {
                               color: colors.accentGreen,
                             }}
                           >
-                            {(prospect.icp_score * 100).toFixed(0)}%
+                            {((prospect?.icp_score ?? 0) * 100).toFixed(0)}%
                           </div>
                         </td>
                         <td style={{ padding: '16px' }}>
@@ -499,19 +499,19 @@ export default function Outreach() {
                         </td>
                         <td style={{ padding: '16px', textAlign: 'center' }}>
                           {prospect.email_sent_at && (
-                            <span title={`Sent: ${new Date(prospect.email_sent_at).toLocaleDateString()}`}>
+                            <span title={`Sent: ${prospect?.email_sent_at ? new Date(prospect.email_sent_at).toLocaleDateString() : "—"}`}>
                               📧
                             </span>
                           )}
                           {prospect.email_opened_at && (
-                            <span title={`Opened: ${new Date(prospect.email_opened_at).toLocaleDateString()}`}>
+                            <span title={`Opened: ${prospect?.email_opened_at ? new Date(prospect.email_opened_at).toLocaleDateString() : "—"}`}>
                               {' '}
                               👁️
                             </span>
                           )}
                           {prospect.response_received_at && (
                             <span
-                              title={`Replied: ${new Date(prospect.response_received_at).toLocaleDateString()}`}
+                              title={`Replied: ${prospect?.response_received_at ? new Date(prospect.response_received_at).toLocaleDateString() : "—"}`}
                             >
                               {' '}
                               💬
