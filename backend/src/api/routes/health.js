@@ -66,6 +66,23 @@ router.get('/health/llm', async (req, res) => {
   }
 });
 
+router.get('/health/routes', (req, res) => {
+  const routes = [];
+  req.app._router.stack.forEach(mw => {
+    if (mw.route) {
+      routes.push(`${Object.keys(mw.route.methods)[0].toUpperCase()} ${mw.route.path}`);
+    } else if (mw.name === 'router' && mw.handle && mw.handle.stack) {
+      const prefix = mw.regexp ? mw.regexp.source.replace(/^\^\\\//, '/').replace(/\\\/\?\(\?=\\\/\|\$\)/, '').replace(/\\\//g, '/') : '';
+      mw.handle.stack.forEach(h => {
+        if (h.route) {
+          routes.push(`${Object.keys(h.route.methods)[0].toUpperCase()} ${prefix}${h.route.path}`);
+        }
+      });
+    }
+  });
+  res.json({ success: true, count: routes.length, routes: routes.sort() });
+});
+
 router.get('/health/payments', (req, res) => {
   res.json({
     success: true,

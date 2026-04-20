@@ -1,10 +1,7 @@
 import axios from 'axios';
 import { useAuthStore } from '../stores/authStore';
 
-const baseURL = process.env.REACT_APP_API_URL;
-if (!baseURL) {
-  throw new Error('REACT_APP_API_URL environment variable is required');
-}
+const baseURL = process.env.REACT_APP_API_URL || 'https://api.layeroi.com';
 
 export const apiClient = axios.create({
   baseURL,
