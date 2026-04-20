@@ -1,234 +1,152 @@
 import { useState, useEffect } from 'react';
-import { authService } from '../services/authService';
-import { apiService } from '../services/apiService';
+import { Icon } from './components/Icon';
 
-const colors = {
-  bgPrimary: '#050505',
-  bgSurface: '#0f0f0f',
-  bgSubtle: '#151515',
-  bgProfit: 'rgba(34,197,94,0.08)',
-  bgLoss: 'rgba(239,68,68,0.08)',
-  bgWarning: 'rgba(245,158,11,0.08)',
-  borderDefault: 'rgba(255,255,255,0.09)',
-  borderStrong: 'rgba(255,255,255,0.14)',
-  textPrimary: '#ffffff',
-  textSecondary: 'rgba(255,255,255,0.55)',
-  textTertiary: 'rgba(255,255,255,0.38)',
-  accentGreen: '#22c55e',
-  accentGreenLight: 'rgba(34,197,94,0.08)',
-  accentGreenBorder: 'rgba(34,197,94,0.22)',
-  dangerRed: '#ef4444',
-  dangerLight: 'rgba(239,68,68,0.08)',
-  dangerBorder: 'rgba(239,68,68,0.22)',
-  warningAmber: '#f59e0b',
-  warningLight: 'rgba(245,158,11,0.08)',
-  shadowSm: '0 0 0 1px rgba(255,255,255,0.06)',
-  shadowMd: '0 0 0 1px rgba(255,255,255,0.06), 0 6px 20px rgba(0,0,0,0.3)',
-};
+const API_BASE = 'https://api.layeroi.com';
 
 export default function Report() {
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 640);
-  const [reportData, setReportData] = useState({
-    totalSpend: 0,
-    valueGenerated: 0,
-    roiMultiple: 0,
-    problematicAgent: null,
-    estimatedSavings: 0,
-  });
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [data, setData] = useState(null);
+  const [emailing, setEmailing] = useState(false);
+  const [emailSent, setEmailSent] = useState(false);
+  const [downloading, setDownloading] = useState(false);
+
+  const org = JSON.parse(localStorage.getItem('layeroi_org') || 'null');
+  const user = JSON.parse(localStorage.getItem('layeroi_user') || 'null');
+  const token = localStorage.getItem('layeroi_token');
 
   useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 640);
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    let orgId = org?.id;
+    if (!orgId) { try { orgId = JSON.parse(atob(token.split('.')[1])).orgId; } catch(e) {} }
+    if (!orgId) { setLoading(false); return; }
+    fetch(`${API_BASE}/api/reports/latest?orgId=${orgId}`, { headers: { Authorization: `Bearer ${token}` } })
+      .then(r => r.json())
+      .then(res => { setData(res.data); setLoading(false); })
+      .catch(() => setLoading(false));
   }, []);
 
-  useEffect(() => {
-    const fetchReport = async () => {
-      try {
-        setLoading(true);
-        let orgId = authService.org?.id;
-        if (!orgId) { try { const t = localStorage.getItem("layeroi_token"); if (t) { orgId = JSON.parse(atob(t.split(".")[1])).orgId; } } catch(e) {} }
+  const getOrgId = () => {
+    let id = org?.id;
+    if (!id) { try { id = JSON.parse(atob(token.split('.')[1])).orgId; } catch(e) {} }
+    return id;
+  };
 
-        if (!orgId) {
-          setError('Organization not found');
-          setLoading(false);
-          return;
-        }
+  const handleDownload = async () => {
+    setDownloading(true);
+    try {
+      const res = await fetch(`${API_BASE}/api/reports/pdf?orgId=${getOrgId()}`, { headers: { Authorization: `Bearer ${token}` } });
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url;
+      a.download = `layeroi-report-${data?.period?.label?.replace(' ', '-') || 'current'}.pdf`;
+      a.click(); URL.revokeObjectURL(url);
+    } finally { setDownloading(false); }
+  };
 
-        // Fetch dashboard stats and cost breakdown for report
-        const [statsResponse, breakdownResponse] = await Promise.all([
-          apiService.getDashboardStats(orgId),
-          apiService.getCostsBreakdown(orgId, 'agent'),
-        ]);
+  const handleEmail = async () => {
+    setEmailing(true);
+    try {
+      const res = await fetch(`${API_BASE}/api/reports/email`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ orgId: getOrgId(), email: user?.email }),
+      });
+      if (res.ok) { setEmailSent(true); setTimeout(() => setEmailSent(false), 4000); }
+    } finally { setEmailing(false); }
+  };
 
-        if (statsResponse) {
-          const problematicAgent = breakdownResponse?.agents?.find(a => a.roi < 1);
-          setReportData({
-            totalSpend: statsResponse.totalSpend || 0,
-            valueGenerated: statsResponse.valueGenerated || 0,
-            roiMultiple: statsResponse.roiMultiple || 0,
-            problematicAgent: problematicAgent || null,
-            estimatedSavings: problematicAgent ? (problematicAgent.cost * 2.5) : 0,
-          });
-        }
-
-        setError('');
-      } catch (err) {
-        setError(err.message || 'Failed to load report');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchReport();
-  }, []);
-  if (loading) {
-    return (
-      <div style={{ textAlign: 'center', padding: '40px', color: colors.textSecondary }}>
-        <div style={{ fontSize: '16px' }}>Generating report...</div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div style={{ background: '#fee2e2', border: `1px solid ${colors.dangerRed}`, color: colors.dangerRed, padding: '16px', borderRadius: '8px' }}>
-        <div style={{ fontSize: '16px', fontWeight: '600', marginBottom: '8px' }}>Error loading report</div>
-        <div style={{ fontSize: '14px' }}>{error}</div>
-      </div>
-    );
-  }
+  const fmt = {
+    currency: (n) => n != null ? `$${Number(n).toLocaleString(undefined, { maximumFractionDigits: 0 })}` : '$0',
+    multiple: (n) => n != null ? `${Number(n).toFixed(1)}×` : '—',
+  };
 
   return (
-    <div>
-      <div style={{
-        display: 'flex',
-        flexDirection: isMobile ? 'column' : 'row',
-        justifyContent: 'space-between',
-        alignItems: isMobile ? 'flex-start' : 'center',
-        marginBottom: '32px',
-        gap: isMobile ? '16px' : '0',
-      }}>
-        <h2 style={{
-          fontFamily: 'Playfair Display, serif',
-          fontSize: isMobile ? '24px' : '32px',
-          fontWeight: '700',
-          color: colors.textPrimary,
-        }}>
-          Reports
-        </h2>
-        <div style={{ display: 'flex', gap: '12px' }}>
-          <button style={{
-            background: colors.accentGreen,
-            color: '#ffffff',
-            border: 'none',
-            padding: '10px 18px',
-            borderRadius: '6px',
-            cursor: 'pointer',
-            fontFamily: 'Inter, sans-serif',
-            fontSize: '13px',
-            fontWeight: '600',
-            transition: 'all 200ms',
-          }}
-          onMouseDown={(e) => (e.target.style.transform = 'scale(0.98)')}
-          onMouseUp={(e) => (e.target.style.transform = 'scale(1)')}
-          >
-            Send Now
+    <>
+      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '32px', flexWrap: 'wrap', gap: '16px' }}>
+        <div>
+          <h1 className='serif' style={{ fontSize: '40px', lineHeight: 1.1, color: 'var(--white, white)', margin: 0 }}>Reports</h1>
+          <p style={{ color: 'var(--white-55, rgba(255,255,255,0.55))', fontSize: '14px', marginTop: '6px' }}>
+            Board-ready P&L for your AI agents. {data?.period?.label || 'Current month'}.
+          </p>
+        </div>
+        <div style={{ display: 'flex', gap: '10px' }}>
+          <button onClick={handleEmail} disabled={emailing || !data?.has_data}
+            style={{ padding: '10px 16px', background: 'transparent', color: 'rgba(255,255,255,0.75)', border: '1px solid rgba(255,255,255,0.09)', borderRadius: '8px', fontSize: '13px', fontWeight: 500, cursor: data?.has_data ? 'pointer' : 'not-allowed', opacity: data?.has_data ? 1 : 0.5 }}>
+            {emailSent ? '✓ Sent' : emailing ? 'Sending…' : 'Email report'}
           </button>
-          <button style={{
-            background: 'transparent',
-            color: colors.accentGreen,
-            border: `1.5px solid ${colors.accentGreen}`,
-            padding: '10px 18px',
-            borderRadius: '6px',
-            cursor: 'pointer',
-            fontFamily: 'Inter, sans-serif',
-            fontSize: '13px',
-            fontWeight: '600',
-            transition: 'all 200ms',
-          }}
-          onMouseDown={(e) => (e.target.style.transform = 'scale(0.98)')}
-          onMouseUp={(e) => (e.target.style.transform = 'scale(1)')}
-          >
-            Schedule
+          <button onClick={handleDownload} disabled={downloading || !data?.has_data}
+            style={{ padding: '10px 16px', background: '#22c55e', color: '#050505', border: 'none', borderRadius: '8px', fontSize: '13px', fontWeight: 600, cursor: data?.has_data ? 'pointer' : 'not-allowed', opacity: data?.has_data ? 1 : 0.5 }}>
+            {downloading ? 'Generating…' : 'Download PDF'}
           </button>
         </div>
-      </div>
+      </header>
 
-      <div style={{
-        background: colors.bgSurface,
-        color: colors.textPrimary,
-        borderRadius: '8px',
-        border: `1px solid ${colors.borderDefault}`,
-        padding: '48px',
-        maxWidth: '900px',
-        boxShadow: colors.shadowSm,
-      }}>
-        <h1 style={{
-          fontFamily: 'Playfair Display, serif',
-          fontSize: '32px',
-          fontWeight: '700',
-          marginBottom: '12px',
-          color: colors.textPrimary,
-        }}>
-          layeroi Weekly Report
-        </h1>
-        <p style={{
-          color: colors.textSecondary,
-          marginBottom: '32px',
-          fontSize: '14px',
-        }}>
-          Month of {new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
-        </p>
-
-        <h2 style={{
-          fontFamily: 'Playfair Display, serif',
-          fontSize: '20px',
-          fontWeight: '600',
-          marginTop: '32px',
-          marginBottom: '16px',
-          color: colors.textPrimary,
-        }}>
-          Executive Summary
-        </h2>
-        <p style={{
-          fontSize: '15px',
-          lineHeight: '1.7',
-          marginBottom: '32px',
-          color: colors.textSecondary,
-        }}>
-          Your AI agents spent <span style={{ color: colors.textPrimary, fontWeight: '600', fontFamily: 'IBM Plex Mono, monospace' }}>${(reportData?.totalSpend ?? 0).toLocaleString()}</span> this month with <span style={{ color: colors.accentGreen, fontWeight: '600', fontFamily: 'IBM Plex Mono, monospace' }}>${(reportData?.valueGenerated ?? 0).toLocaleString()}</span> in estimated value generated. Overall ROI multiple: <span style={{ color: colors.accentGreen, fontWeight: '600', fontFamily: 'IBM Plex Mono, monospace' }}>{(reportData?.roiMultiple ?? 0).toFixed(2)}×</span>. {reportData.problematicAgent && 'One agent requires immediate attention.'}
-        </p>
-
-        {reportData.problematicAgent && (
-          <div style={{
-            background: '#fef2f2',
-            border: `1px solid ${colors.dangerRed}`,
-            borderRadius: '8px',
-            padding: '20px',
-            marginTop: '24px',
-          }}>
-            <h3 style={{
-              fontFamily: 'Playfair Display, serif',
-              fontSize: '16px',
-              fontWeight: '600',
-              marginBottom: '8px',
-              color: colors.dangerRed,
-            }}>
-              ⚠️ Top Recommendation
-            </h3>
-            <p style={{
-              fontSize: '14px',
-              color: colors.dangerRed,
-              lineHeight: '1.6',
-            }}>
-              <strong>Review the {reportData.problematicAgent.name} agent</strong> — It has spent <span style={{ fontFamily: 'IBM Plex Mono, monospace' }}>${(reportData?.problematicAgent?.cost ?? 0).toLocaleString()}</span> with <span style={{ fontFamily: 'IBM Plex Mono, monospace' }}>{(reportData?.problematicAgent?.roi ?? 0).toFixed(1)}× ROI</span>. Estimated monthly savings if optimized: <span style={{ fontFamily: 'IBM Plex Mono, monospace' }}>${(reportData?.estimatedSavings ?? 0).toLocaleString()}</span>.
-            </p>
+      {loading ? (
+        <div style={{ height: '200px', background: '#0f0f0f', borderRadius: '14px', border: '1px solid rgba(255,255,255,0.06)' }} />
+      ) : !data?.has_data ? (
+        <section style={{ background: '#0f0f0f', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '14px', padding: '60px 40px', textAlign: 'center' }}>
+          <div style={{ display: 'inline-flex', width: '52px', height: '52px', borderRadius: '14px', background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.22)', alignItems: 'center', justifyContent: 'center', marginBottom: '20px', color: '#22c55e' }}>
+            <Icon name='reports' size={22} />
           </div>
-        )}
-      </div>
+          <h2 className='serif' style={{ fontSize: '26px', color: 'white', margin: '0 0 10px' }}>Your first report is coming</h2>
+          <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: '14.5px', lineHeight: 1.6, margin: '0 auto', maxWidth: '480px' }}>
+            Reports generate automatically once your agents start logging cost and value data. Connect your first agent from the Overview page.
+          </p>
+        </section>
+      ) : (
+        <>
+          <section style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', marginBottom: '32px' }}>
+            <KPICard label='TOTAL SPEND' value={fmt.currency(data.kpis.total_spend)} sublabel='this month' />
+            <KPICard label='VALUE GENERATED' value={fmt.currency(data.kpis.total_value)} sublabel='estimated' tone='positive' />
+            <KPICard label='NET ROI' value={fmt.multiple(data.kpis.net_roi)} sublabel='profit ratio' highlight />
+          </section>
+
+          <section style={{ background: '#0f0f0f', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '14px', overflow: 'hidden' }}>
+            <div style={{ padding: '20px 24px', borderBottom: '1px solid rgba(255,255,255,0.06)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <h2 className='serif' style={{ fontSize: '22px', color: 'white', margin: 0 }}>Agent breakdown</h2>
+              <span className='mono' style={{ fontSize: '11px', color: 'rgba(255,255,255,0.55)', letterSpacing: '0.08em' }}>
+                {data.agents.length} AGENTS · {(data.kpis.tasks_count ?? 0).toLocaleString()} TASKS
+              </span>
+            </div>
+            <div>
+              <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 0.8fr 1fr', gap: '12px', padding: '10px 24px', borderBottom: '1px solid rgba(255,255,255,0.06)', background: '#0a0a0a' }}>
+                {['AGENT', 'PROVIDER', 'COST', 'VALUE', 'ROI', 'STATUS'].map(h => (
+                  <span key={h} className='mono' style={{ fontSize: '10px', color: 'rgba(255,255,255,0.38)', letterSpacing: '0.12em' }}>{h}</span>
+                ))}
+              </div>
+              {data.agents.map((a, i) => (
+                <div key={a.id} style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 0.8fr 1fr', gap: '12px', padding: '14px 24px', borderBottom: i === data.agents.length - 1 ? 'none' : '1px solid rgba(255,255,255,0.06)', alignItems: 'center' }}>
+                  <span className='mono' style={{ fontSize: '13px', color: 'rgba(255,255,255,0.95)' }}>{a.name}</span>
+                  <span className='mono' style={{ fontSize: '12px', color: 'rgba(255,255,255,0.55)' }}>{a.provider}</span>
+                  <span className='mono' style={{ fontSize: '13px', color: 'rgba(255,255,255,0.75)' }}>{fmt.currency(a.cost)}</span>
+                  <span className='mono' style={{ fontSize: '13px', color: 'rgba(255,255,255,0.75)' }}>{fmt.currency(a.value)}</span>
+                  <span className='mono' style={{ fontSize: '13px', fontWeight: 700, color: roiColor(a.roi) }}>{fmt.multiple(a.roi)}</span>
+                  <span className='mono' style={{ fontSize: '10px', color: roiColor(a.roi), letterSpacing: '0.08em' }}>{(a.status || 'no_data').toUpperCase()}</span>
+                </div>
+              ))}
+            </div>
+          </section>
+        </>
+      )}
+    </>
+  );
+}
+
+function KPICard({ label, value, sublabel, tone, highlight }) {
+  const color = tone === 'positive' || highlight ? '#22c55e' : 'white';
+  const bg = highlight ? 'linear-gradient(180deg, rgba(34,197,94,0.04) 0%, #0f0f0f 100%)' : '#0f0f0f';
+  const border = highlight ? 'rgba(34,197,94,0.22)' : 'rgba(255,255,255,0.06)';
+  return (
+    <div style={{ background: bg, border: `1px solid ${border}`, borderRadius: '14px', padding: '20px' }}>
+      <div className='mono' style={{ fontSize: '10px', color: 'rgba(255,255,255,0.38)', letterSpacing: '0.12em', marginBottom: '12px' }}>{label}</div>
+      <div className='mono' style={{ fontSize: '30px', fontWeight: 700, color, letterSpacing: '-0.03em', lineHeight: 1 }}>{value}</div>
+      <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.55)', marginTop: '8px' }}>{sublabel}</div>
     </div>
   );
+}
+
+function roiColor(roi) {
+  if (roi == null) return 'rgba(255,255,255,0.38)';
+  if (roi >= 3) return '#22c55e';
+  if (roi >= 1) return '#f59e0b';
+  return '#ef4444';
 }

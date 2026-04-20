@@ -26,6 +26,7 @@
     "node-cron": "^4.2.1",
     "node-fetch": "^3.3.2",
     "openai": "^4.28.0",
+    "pdfkit": "^0.18.0",
     "pg": "^8.20.0",
     "resend": "^3.0.0",
     "standardwebhooks": "^1.0.0"

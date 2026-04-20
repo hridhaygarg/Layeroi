@@ -29,6 +29,7 @@ import forecastRoutes from './api/routes/forecasts.js';
 import webhookRoutes from './api/routes/webhooks.js';
 import paymentsRoutes from './api/routes/payments.js';
 import workspaceRoutes from './api/routes/workspace.js';
+import reportsRoutes from './api/routes/reports.js';
 
 dotenv.config();
 
@@ -84,6 +85,7 @@ app.use(forecastRoutes);
 app.use(webhookRoutes);
 app.use('/payments', paymentsRoutes);
 app.use(workspaceRoutes);
+app.use(reportsRoutes);
 
 // Metrics endpoint
 app.get('/api/metrics/weekly', async (req, res) => {
