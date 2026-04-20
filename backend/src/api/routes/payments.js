@@ -3,9 +3,6 @@ import { supabase } from '../../config/database.js';
 import { logger } from '../../utils/logger.js';
 import {
   createCheckoutSession,
-  verifyWebhookSignature,
-  upgradeOrgPlan,
-  downgradeOrg,
   markCancelAtPeriodEnd,
   PLANS,
 } from '../../services/paymentService.js';
@@ -90,31 +87,49 @@ router.get('/status', async (req, res) => {
   }
 });
 
-// POST /payments/webhook — NO auth, raw body
+// POST /payments/webhook — NO auth, raw body, Svix-compatible signature verification
 router.post('/webhook', async (req, res) => {
-  const signature = req.headers['webhook-signature'] || req.headers['x-webhook-signature'] || req.headers['x-dodo-signature'];
-  const rawBodyString = Buffer.isBuffer(req.body) ? req.body.toString('utf8') : (typeof req.body === 'string' ? req.body : JSON.stringify(req.body));
-
-  if (!signature) {
-    logger.warn('Webhook without signature');
-    return res.status(400).json({ error: 'Missing signature' });
+  const secret = process.env.DODO_WEBHOOK_SECRET;
+  if (!secret) {
+    logger.error('DODO_WEBHOOK_SECRET not configured');
+    return res.status(500).json({ error: 'Server misconfigured' });
   }
 
-  if (!verifyWebhookSignature(rawBodyString, signature)) {
-    logger.warn('Invalid webhook signature');
-    return res.status(401).json({ error: 'Invalid signature' });
-  }
+  const rawBody = Buffer.isBuffer(req.body) ? req.body.toString('utf8') : (typeof req.body === 'string' ? req.body : JSON.stringify(req.body));
+  const webhookId = req.headers['webhook-id'];
+  const webhookSignature = req.headers['webhook-signature'];
+  const webhookTimestamp = req.headers['webhook-timestamp'];
+
+  // Log headers for debugging (remove after confirmed working)
+  logger.info('Webhook received', {
+    hasId: !!webhookId,
+    hasSig: !!webhookSignature,
+    hasTs: !!webhookTimestamp,
+    bodyLength: rawBody.length,
+  });
 
   let event;
-  try { event = JSON.parse(rawBodyString); } catch { return res.status(400).json({ error: 'Invalid JSON' }); }
+  try {
+    // Use standardwebhooks for Svix-compatible verification
+    const { Webhook } = await import('standardwebhooks');
+    const wh = new Webhook(secret);
+    const headers = {
+      'webhook-id': webhookId || '',
+      'webhook-signature': webhookSignature || '',
+      'webhook-timestamp': webhookTimestamp || '',
+    };
+    event = wh.verify(rawBody, headers);
+  } catch (err) {
+    logger.warn('Webhook verification failed', { error: err.message });
+    return res.status(401).json({ error: 'Invalid signature', detail: err.message });
+  }
 
-  const eventId = event.id || event.event_id || `${event.type}_${Date.now()}`;
+  const eventId = event.id || webhookId || `${event.type}_${Date.now()}`;
   const eventType = event.type || event.event_type;
 
-  // Idempotency check
+  // Log to webhook_events for idempotency
   const { data: existing } = await supabase.from('webhook_events').select('id, processed').eq('event_id', eventId).maybeSingle();
   if (existing?.processed) {
-    logger.info('Webhook already processed', { eventId });
     return res.json({ received: true, duplicate: true });
   }
 
@@ -125,9 +140,71 @@ router.post('/webhook', async (req, res) => {
   logger.info('Processing webhook', { eventId, eventType });
 
   try {
-    await processWebhookEvent(event);
+    // Extract data from Dodo's payload
+    const payload = event.data || event;
+    const metadata = payload.metadata || {};
+    const orgId = metadata.org_id || metadata.orgId;
+    const subscriptionId = payload.subscription_id || payload.id;
+    const customerId = payload.customer_id;
+    const productId = payload.product_id || metadata.product_id;
+
+    if (!orgId) {
+      logger.warn('Webhook missing org_id in metadata', { eventType, eventId });
+      await supabase.from('webhook_events').update({ processed: true, error_message: 'No org_id in metadata' }).eq('event_id', eventId);
+      return res.json({ received: true, warning: 'no org_id' });
+    }
+
+    switch (eventType) {
+      case 'payment.succeeded':
+      case 'subscription.active':
+      case 'subscription.created':
+      case 'subscription.renewed': {
+        // Determine plan from product_id
+        let plan = metadata.plan || 'starter';
+        let agentLimit = 5;
+        if (productId === process.env.DODO_PRODUCT_ENTERPRISE) { plan = 'enterprise'; agentLimit = -1; }
+        else if (productId === process.env.DODO_PRODUCT_BUSINESS) { plan = 'business'; agentLimit = 30; }
+        else if (productId === process.env.DODO_PRODUCT_STARTER) { plan = 'starter'; agentLimit = 5; }
+
+        await supabase.from('organisations').update({
+          plan, plan_agent_limit: agentLimit,
+          dodo_subscription_id: subscriptionId,
+          dodo_customer_id: customerId,
+          subscription_status: 'active',
+          updated_at: new Date().toISOString(),
+        }).eq('id', orgId);
+
+        logger.info('Org upgraded via webhook', { orgId, plan, subscriptionId });
+        break;
+      }
+
+      case 'subscription.cancelled':
+      case 'subscription.expired':
+      case 'subscription.failed': {
+        await supabase.from('organisations').update({
+          plan: 'free', plan_agent_limit: 2,
+          subscription_status: eventType.replace('subscription.', ''),
+          updated_at: new Date().toISOString(),
+        }).eq('id', orgId);
+        logger.info('Org downgraded via webhook', { orgId, eventType });
+        break;
+      }
+
+      case 'subscription.on_hold':
+      case 'subscription.paused': {
+        await supabase.from('organisations').update({
+          subscription_status: 'on_hold',
+          updated_at: new Date().toISOString(),
+        }).eq('id', orgId);
+        break;
+      }
+
+      default:
+        logger.info('Unhandled webhook type', { eventType });
+    }
+
     await supabase.from('webhook_events').update({ processed: true, processed_at: new Date().toISOString() }).eq('event_id', eventId);
-    res.json({ received: true });
+    res.json({ received: true, type: eventType });
   } catch (error) {
     logger.error('Webhook processing failed', { eventId, eventType, error: error.message });
     await supabase.from('webhook_events').update({ error_message: error.message }).eq('event_id', eventId);
