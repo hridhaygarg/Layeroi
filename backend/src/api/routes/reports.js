@@ -15,7 +15,7 @@ async function buildReportData(orgId) {
     .from('agents').select('id, name, provider').eq('org_id', orgId);
 
   const { data: logs } = await supabase
-    .from('api_logs').select('agent_id, agent_name, cost, value, created_at')
+    .from('api_logs').select('agent_id, agent_name, cost_usd, value, created_at')
     .eq('org_id', orgId).gte('created_at', monthStart.toISOString());
 
   const perAgent = {};
@@ -24,7 +24,7 @@ async function buildReportData(orgId) {
   (logs || []).forEach(l => {
     const key = l.agent_id || l.agent_name;
     if (!perAgent[key]) perAgent[key] = { id: key, name: l.agent_name || 'Unknown', provider: 'unknown', cost: 0, value: 0, tasks: 0 };
-    perAgent[key].cost += Number(l.cost || 0);
+    perAgent[key].cost += Number(l.cost_usd || 0);
     perAgent[key].value += Number(l.value || 0);
     perAgent[key].tasks += 1;
   });
