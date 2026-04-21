@@ -5,6 +5,26 @@ import { logger } from '../../utils/logger.js';
 
 const router = express.Router();
 
+async function fetchAllLogs(orgId, monthStart) {
+  const all = [];
+  const pageSize = 1000;
+  let from = 0;
+  while (true) {
+    const { data, error } = await supabase
+      .from('api_logs')
+      .select('agent_id, agent_name, cost_usd, value')
+      .eq('org_id', orgId)
+      .gte('created_at', monthStart.toISOString())
+      .range(from, from + pageSize - 1);
+    if (error) throw error;
+    if (!data || data.length === 0) break;
+    all.push(...data);
+    if (data.length < pageSize) break;
+    from += pageSize;
+  }
+  return all;
+}
+
 async function buildReportData(orgId) {
   const monthStart = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
 
@@ -14,14 +34,12 @@ async function buildReportData(orgId) {
   const { data: agents } = await supabase
     .from('agents').select('id, name, provider').eq('org_id', orgId);
 
-  const { data: logs } = await supabase
-    .from('api_logs').select('agent_id, agent_name, cost_usd, value, created_at')
-    .eq('org_id', orgId).gte('created_at', monthStart.toISOString());
+  const logs = await fetchAllLogs(orgId, monthStart);
 
   const perAgent = {};
   (agents || []).forEach(a => { perAgent[a.id] = { id: a.id, name: a.name, provider: a.provider, cost: 0, value: 0, tasks: 0 }; });
 
-  (logs || []).forEach(l => {
+  logs.forEach(l => {
     const key = l.agent_id || l.agent_name;
     if (!perAgent[key]) perAgent[key] = { id: key, name: l.agent_name || 'Unknown', provider: 'unknown', cost: 0, value: 0, tasks: 0 };
     perAgent[key].cost += Number(l.cost_usd || 0);
@@ -43,56 +61,99 @@ async function buildReportData(orgId) {
   return {
     org_name: org?.name || 'Organization',
     period: { start: monthStart.toISOString(), end: new Date().toISOString(), label: monthStart.toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) },
-    kpis: { total_spend: totalSpend, total_value: totalValue, net_roi: netRoi, wasteful_spend: wasteful, agents_count: agentRows.length, tasks_count: (logs || []).length },
+    kpis: { total_spend: totalSpend, total_value: totalValue, net_roi: netRoi, wasteful_spend: wasteful, agents_count: agentRows.length, tasks_count: logs.length },
     agents: agentRows.sort((a, b) => b.cost - a.cost),
     has_data: totalSpend > 0 || totalValue > 0,
   };
 }
 
-function renderReportPdf(doc, data) {
-  doc.fontSize(10).fillColor('#888').text('layeroi', 50, 50);
-  doc.fontSize(10).fillColor('#888').text(data.period.label.toUpperCase(), 400, 50, { align: 'right' });
-  doc.fontSize(26).fillColor('#050505').font('Times-Italic').text(data.org_name, 50, 100);
-  doc.fontSize(14).fillColor('#555').font('Helvetica').text('Monthly P&L — AI agent operations', 50, 135);
+function fmtCurrency(n) { return n != null ? '$' + Number(n).toLocaleString('en-US', { maximumFractionDigits: 0 }) : '$0'; }
 
-  const kpiY = 190;
+function roiColorPdf(roi) {
+  if (roi == null) return '#999';
+  if (roi >= 3) return '#16a34a';
+  if (roi >= 1) return '#d97706';
+  return '#dc2626';
+}
+
+function buildSummary(data) {
+  const { kpis, agents } = data;
+  if (!kpis.total_spend) return 'No AI agent activity recorded this period.';
+  const active = agents.filter(a => a.cost > 0).length;
+  const profitable = agents.filter(a => a.roi != null && a.roi >= 3).length;
+  const losing = agents.filter(a => a.roi != null && a.roi < 1).length;
+  const top = agents.reduce((best, a) => (a.value > (best?.value || 0) ? a : best), null);
+  return `Across ${active} active agents, layeroi tracked ${fmtCurrency(kpis.total_spend)} in AI spend against ${fmtCurrency(kpis.total_value)} in value — a ${kpis.net_roi.toFixed(2)}× return. ${profitable} agent${profitable === 1 ? '' : 's'} profitable${losing > 0 ? `, ${losing} losing money` : ''}.${top ? ` Top performer: ${top.name} at ${(top.roi||0).toFixed(1)}× ROI.` : ''}`;
+}
+
+function renderReportPdf(doc, data) {
+  const M = 56, W = 500;
+
+  // Masthead
+  doc.moveTo(M, M).lineTo(M + W, M).lineWidth(0.75).strokeColor('#050505').stroke();
+  doc.fontSize(11).fillColor('#050505').font('Helvetica-Bold').text('layer', M, M + 14, { continued: true });
+  doc.fillColor('#22c55e').text('oi', { continued: false });
+  doc.fontSize(9).fillColor('#666').font('Courier').text(data.period.label.toUpperCase() + '  ·  REPORT', M, M + 16, { width: W, align: 'right' });
+
+  // Title
+  let y = M + 56;
+  doc.fontSize(28).fillColor('#050505').font('Times-Italic').text('Monthly AI agent P&L', M, y);
+  y += 38;
+  doc.fontSize(10).fillColor('#666').font('Helvetica').text(`Prepared for ${data.org_name}  ·  ${data.period.label}`, M, y);
+  y += 32;
+
+  // Summary
+  doc.fontSize(10).fillColor('#2a2a2a').font('Helvetica').text(buildSummary(data), M, y, { width: W, lineGap: 4 });
+  y = doc.y + 28;
+
+  // KPI cards
+  const kpiW = (W - 24) / 3;
   [
-    { label: 'TOTAL SPEND', value: `$${data.kpis.total_spend.toFixed(0)}` },
-    { label: 'VALUE GENERATED', value: `$${data.kpis.total_value.toFixed(0)}` },
-    { label: 'NET ROI', value: data.kpis.net_roi != null ? `${data.kpis.net_roi.toFixed(1)}x` : '—' },
+    { label: 'TOTAL SPEND', value: fmtCurrency(data.kpis.total_spend) },
+    { label: 'VALUE GENERATED', value: fmtCurrency(data.kpis.total_value) },
+    { label: 'NET ROI', value: data.kpis.net_roi != null ? data.kpis.net_roi.toFixed(2) + '×' : '—' },
   ].forEach((k, i) => {
-    const x = 50 + i * 172;
-    doc.rect(x, kpiY, 160, 80).fillColor('#f5f5f5').fill();
-    doc.fontSize(8).fillColor('#888').font('Courier').text(k.label, x + 12, kpiY + 12);
-    doc.fontSize(22).fillColor('#050505').font('Courier-Bold').text(k.value, x + 12, kpiY + 32);
+    const x = M + i * (kpiW + 12);
+    doc.rect(x, y, kpiW, 80).fillColor(i === 2 ? '#f0fdf4' : '#fafafa').fill();
+    doc.rect(x, y, 3, 80).fillColor(i === 2 ? '#22c55e' : '#d4d4d4').fill();
+    doc.fontSize(8).fillColor('#888').font('Courier').text(k.label, x + 16, y + 14);
+    doc.fontSize(22).fillColor(i === 2 ? '#22c55e' : '#050505').font('Courier-Bold').text(k.value, x + 16, y + 36);
+  });
+  y += 112;
+
+  // Table
+  doc.fontSize(14).fillColor('#050505').font('Times-Italic').text('Agent breakdown', M, y);
+  y += 24;
+
+  const visibleAgents = data.agents.filter(a => a.cost > 0 || a.value > 0);
+  const hiddenCount = data.agents.length - visibleAgents.length;
+
+  doc.fontSize(8).fillColor('#888').font('Courier');
+  doc.text('AGENT', M, y); doc.text('COST', M + 220, y, { width: 70, align: 'right' });
+  doc.text('VALUE', M + 300, y, { width: 70, align: 'right' }); doc.text('ROI', M + 380, y, { width: 50, align: 'right' });
+  doc.text('STATUS', M + 440, y);
+  y += 14; doc.moveTo(M, y).lineTo(M + W, y).lineWidth(0.5).strokeColor('#e5e5e5').stroke(); y += 10;
+
+  visibleAgents.forEach((a, i) => {
+    if (i % 2 === 1) doc.rect(M, y - 4, W, 22).fillColor('#fafafa').fill();
+    doc.fontSize(10).fillColor('#050505').font('Helvetica').text(a.name.slice(0, 24), M, y);
+    doc.font('Courier').text(fmtCurrency(a.cost), M + 220, y, { width: 70, align: 'right' });
+    doc.fillColor('#22c55e').text(fmtCurrency(a.value), M + 300, y, { width: 70, align: 'right' });
+    doc.fillColor(roiColorPdf(a.roi)).font('Courier-Bold').text(a.roi != null ? a.roi.toFixed(1) + '×' : '—', M + 380, y, { width: 50, align: 'right' });
+    doc.fontSize(8).fillColor(roiColorPdf(a.roi)).font('Courier').text((a.status || '').replace('_', ' ').toUpperCase(), M + 440, y + 2);
+    y += 22;
   });
 
-  let y = 300;
-  doc.fontSize(14).fillColor('#050505').font('Times-Italic').text('Agent breakdown', 50, y);
-  y += 28;
-  doc.fontSize(8).fillColor('#888').font('Courier');
-  doc.text('AGENT', 50, y); doc.text('COST', 250, y, { width: 70, align: 'right' });
-  doc.text('VALUE', 330, y, { width: 70, align: 'right' }); doc.text('ROI', 410, y, { width: 50, align: 'right' });
-  doc.text('STATUS', 480, y);
-  y += 16; doc.moveTo(50, y).lineTo(562, y).strokeColor('#ddd').stroke(); y += 10;
-
-  if (data.agents.length === 0) {
-    doc.fontSize(10).fillColor('#888').font('Helvetica-Oblique').text('No agents connected yet.', 50, y + 20);
-  } else {
-    data.agents.forEach(a => {
-      doc.fontSize(10).fillColor('#050505').font('Helvetica').text(a.name.slice(0, 28), 50, y);
-      doc.font('Courier').text(`$${a.cost.toFixed(0)}`, 250, y, { width: 70, align: 'right' });
-      doc.text(`$${a.value.toFixed(0)}`, 330, y, { width: 70, align: 'right' });
-      doc.text(a.roi != null ? `${a.roi.toFixed(1)}x` : '—', 410, y, { width: 50, align: 'right' });
-      const sc = a.status === 'profitable' ? '#22c55e' : a.status === 'marginal' ? '#f59e0b' : a.status === 'losing' ? '#ef4444' : '#888';
-      doc.fontSize(8).fillColor(sc).text(a.status.toUpperCase(), 480, y + 2);
-      y += 22;
-    });
+  if (hiddenCount > 0) {
+    y += 8;
+    doc.fontSize(9).fillColor('#999').font('Helvetica-Oblique').text(`${hiddenCount} additional agent${hiddenCount === 1 ? '' : 's'} connected but not yet logging data.`, M, y);
   }
 
-  doc.fontSize(8).fillColor('#aaa').font('Courier').text(
-    `Generated by layeroi · ${new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`,
-    50, 720
+  // Footer
+  doc.moveTo(M, 740).lineTo(M + W, 740).lineWidth(0.5).strokeColor('#e5e5e5').stroke();
+  doc.fontSize(8).fillColor('#999').font('Courier').text(
+    'GENERATED ' + new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase() + '  ·  LAYEROI.COM',
+    M, 748, { width: W, align: 'center' }
   );
 }
 
@@ -115,10 +176,9 @@ router.get('/api/reports/pdf', async (req, res) => {
     const orgId = req.query.orgId;
     if (!orgId) return res.status(400).json({ error: 'orgId required' });
     const data = await buildReportData(orgId);
-
     const doc = new PDFDocument({ size: 'LETTER', margin: 50 });
     res.setHeader('Content-Type', 'application/pdf');
-    res.setHeader('Content-Disposition', `attachment; filename="layeroi-report.pdf"`);
+    res.setHeader('Content-Disposition', `attachment; filename="layeroi-report-${data.period.label.replace(' ', '-')}.pdf"`);
     doc.pipe(res);
     renderReportPdf(doc, data);
     doc.end();
@@ -133,7 +193,6 @@ router.post('/api/reports/email', async (req, res) => {
   try {
     const { orgId, email } = req.body;
     if (!orgId || !email) return res.status(400).json({ error: 'orgId and email required' });
-
     const data = await buildReportData(orgId);
     const chunks = [];
     const doc = new PDFDocument({ size: 'LETTER', margin: 50 });
@@ -146,20 +205,18 @@ router.post('/api/reports/email', async (req, res) => {
 
     const { Resend } = await import('resend');
     const resend = new Resend(process.env.RESEND_API_KEY);
-
     await resend.emails.send({
       from: 'layeroi <hello@layeroi.com>',
       to: email,
       subject: `Your ${data.period.label} AI agent P&L report`,
       html: `<div style="font-family:Inter,sans-serif;max-width:560px;margin:0 auto;padding:32px;">
         <div style="margin-bottom:24px;font-weight:600;">layer<span style="color:#22c55e;">oi</span></div>
-        <h1 style="font-family:Georgia,serif;font-style:italic;font-size:28px;margin:0 0 12px;">${data.period.label} Report</h1>
-        <p>Total spend: <strong>$${data.kpis.total_spend.toFixed(0)}</strong> · Value: <strong>$${data.kpis.total_value.toFixed(0)}</strong> · ROI: <strong>${data.kpis.net_roi != null ? data.kpis.net_roi.toFixed(1) + 'x' : '—'}</strong></p>
-        <p>Full breakdown in the attached PDF.</p>
+        <h1 style="font-family:Georgia,serif;font-style:italic;font-size:24px;margin:0 0 12px;">${data.period.label} Report</h1>
+        <p style="color:#444;line-height:1.6;">${buildSummary(data)}</p>
+        <p style="color:#444;">Full breakdown in the attached PDF.</p>
       </div>`,
       attachments: [{ filename: `layeroi-report-${data.period.label.replace(' ', '-')}.pdf`, content: pdfBuffer }],
     });
-
     res.json({ success: true, data: { sent_to: email } });
   } catch (err) {
     logger.error('Reports email error', err);
