@@ -83,7 +83,7 @@ function buildSummary(data) {
   const profitable = agents.filter(a => a.roi != null && a.roi >= 3).length;
   const losing = agents.filter(a => a.roi != null && a.roi < 1).length;
   const top = agents.reduce((best, a) => (a.value > (best?.value || 0) ? a : best), null);
-  return `Across ${active} active agents, layeroi tracked ${fmtCurrency(kpis.total_spend)} in AI spend against ${fmtCurrency(kpis.total_value)} in value — a ${kpis.net_roi.toFixed(2)}× return. ${profitable} agent${profitable === 1 ? '' : 's'} profitable${losing > 0 ? `, ${losing} losing money` : ''}.${top ? ` Top performer: ${top.name} at ${(top.roi||0).toFixed(1)}× ROI.` : ''}`;
+  return `Across ${active} active agents, layeroi tracked ${fmtCurrency(kpis.total_spend)} in AI spend against ${fmtCurrency(kpis.total_value)} in value — a ${kpis.net_roi.toFixed(1)}× return. ${profitable} agent${profitable === 1 ? '' : 's'} profitable${losing > 0 ? `, ${losing} losing money` : ''}.${top ? ` Top performer: ${top.name} at ${(top.roi||0).toFixed(1)}× ROI.` : ''}`;
 }
 
 function renderReportPdf(doc, data) {
@@ -111,7 +111,7 @@ function renderReportPdf(doc, data) {
   [
     { label: 'TOTAL SPEND', value: fmtCurrency(data.kpis.total_spend) },
     { label: 'VALUE GENERATED', value: fmtCurrency(data.kpis.total_value) },
-    { label: 'NET ROI', value: data.kpis.net_roi != null ? data.kpis.net_roi.toFixed(2) + '×' : '—' },
+    { label: 'NET ROI', value: data.kpis.net_roi != null ? data.kpis.net_roi.toFixed(1) + '×' : '—' },
   ].forEach((k, i) => {
     const x = M + i * (kpiW + 12);
     doc.rect(x, y, kpiW, 80).fillColor(i === 2 ? '#f0fdf4' : '#fafafa').fill();
@@ -129,15 +129,16 @@ function renderReportPdf(doc, data) {
   const hiddenCount = data.agents.length - visibleAgents.length;
 
   doc.fontSize(8).fillColor('#888').font('Courier');
-  doc.text('AGENT', M, y); doc.text('COST', M + 220, y, { width: 70, align: 'right' });
+  doc.text('AGENT', M, y); doc.text('PROVIDER', M + 135, y); doc.text('COST', M + 220, y, { width: 70, align: 'right' });
   doc.text('VALUE', M + 300, y, { width: 70, align: 'right' }); doc.text('ROI', M + 380, y, { width: 50, align: 'right' });
   doc.text('STATUS', M + 440, y);
   y += 14; doc.moveTo(M, y).lineTo(M + W, y).lineWidth(0.5).strokeColor('#e5e5e5').stroke(); y += 10;
 
   visibleAgents.forEach((a, i) => {
     if (i % 2 === 1) doc.rect(M, y - 4, W, 22).fillColor('#fafafa').fill();
-    doc.fontSize(10).fillColor('#050505').font('Helvetica').text(a.name.slice(0, 24), M, y);
-    doc.font('Courier').text(fmtCurrency(a.cost), M + 220, y, { width: 70, align: 'right' });
+    doc.fontSize(10).fillColor('#050505').font('Helvetica').text(a.name.slice(0, 20), M, y);
+    doc.fontSize(9).fillColor('#666').font('Helvetica').text(a.provider || '—', M + 135, y);
+    doc.fontSize(10).fillColor('#050505').font('Courier').text(fmtCurrency(a.cost), M + 220, y, { width: 70, align: 'right' });
     doc.fillColor('#22c55e').text(fmtCurrency(a.value), M + 300, y, { width: 70, align: 'right' });
     doc.fillColor(roiColorPdf(a.roi)).font('Courier-Bold').text(a.roi != null ? a.roi.toFixed(1) + '×' : '—', M + 380, y, { width: 50, align: 'right' });
     doc.fontSize(8).fillColor(roiColorPdf(a.roi)).font('Courier').text((a.status || '').replace('_', ' ').toUpperCase(), M + 440, y + 2);

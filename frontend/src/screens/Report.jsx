@@ -94,6 +94,13 @@ export default function Report() {
         </section>
       ) : (
         <>
+          <section style={{ background: '#0f0f0f', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '14px', padding: '24px 28px', marginBottom: '20px' }}>
+            <div className='mono' style={{ fontSize: '10px', color: 'rgba(255,255,255,0.38)', letterSpacing: '0.12em', marginBottom: '10px' }}>EXECUTIVE SUMMARY</div>
+            <p style={{ fontSize: '15px', color: 'rgba(255,255,255,0.75)', lineHeight: 1.7, margin: 0 }}>
+              {buildSummary(data)}
+            </p>
+          </section>
+
           <section style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', marginBottom: '32px' }}>
             <KPICard label='TOTAL SPEND' value={fmt.currency(data.kpis.total_spend)} sublabel='this month' />
             <KPICard label='VALUE GENERATED' value={fmt.currency(data.kpis.total_value)} sublabel='estimated' tone='positive' />
@@ -142,6 +149,17 @@ function KPICard({ label, value, sublabel, tone, highlight }) {
       <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.55)', marginTop: '8px' }}>{sublabel}</div>
     </div>
   );
+}
+
+function buildSummary(data) {
+  const { kpis, agents } = data;
+  if (!kpis.total_spend) return 'No AI agent activity recorded this period.';
+  const fmtC = (n) => '$' + Number(n).toLocaleString(undefined, { maximumFractionDigits: 0 });
+  const active = agents.filter(a => a.cost > 0).length;
+  const profitable = agents.filter(a => a.roi != null && a.roi >= 3).length;
+  const losing = agents.filter(a => a.roi != null && a.roi < 1).length;
+  const top = agents.reduce((best, a) => (a.value > (best?.value || 0) ? a : best), null);
+  return `Across ${active} active agents, layeroi tracked ${fmtC(kpis.total_spend)} in AI spend against ${fmtC(kpis.total_value)} in value — a ${kpis.net_roi.toFixed(1)}× return. ${profitable} agent${profitable === 1 ? '' : 's'} profitable${losing > 0 ? `, ${losing} losing money` : ''}.${top ? ` Top performer: ${top.name} at ${(top.roi||0).toFixed(1)}× ROI.` : ''}`;
 }
 
 function roiColor(roi) {
