@@ -31,11 +31,11 @@ export async function run(source, { since }) {
 
   const apiKey = source.credentials.api_key;
 
-  // 30 days ago at midnight UTC
-  const maxSince = new Date();
-  maxSince.setUTCDate(maxSince.getUTCDate() - 30);
-  maxSince.setUTCHours(0, 0, 0, 0);
-  const sinceDate = since && since > maxSince ? since : maxSince;
+  // Always look back at least 30 days — billing data is aggregated, not a stream
+  const floor30d = new Date();
+  floor30d.setUTCDate(floor30d.getUTCDate() - 30);
+  floor30d.setUTCHours(0, 0, 0, 0);
+  const sinceDate = floor30d; // ignore `since` param — always pull full 30-day window
   const sinceUnix = Math.floor(sinceDate.getTime() / 1000);
 
   console.log('[openai-importer] sinceDate:', sinceDate.toISOString(), 'sinceUnix:', sinceUnix);

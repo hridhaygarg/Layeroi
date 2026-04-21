@@ -55,9 +55,9 @@ export async function syncSource(sourceId) {
       imported += batch.length;
     }
 
-    await supabase.from('billing_sources').update({
-      status: 'active', last_synced_at: new Date().toISOString(), last_error: null, updated_at: new Date().toISOString(),
-    }).eq('id', source.id);
+    const sourceUpdate = { status: 'active', last_error: null, updated_at: new Date().toISOString() };
+    if (imported > 0) sourceUpdate.last_synced_at = new Date().toISOString();
+    await supabase.from('billing_sources').update(sourceUpdate).eq('id', source.id);
 
     await supabase.from('source_sync_runs').update({
       status: 'success', finished_at: new Date().toISOString(), rows_imported: imported,
