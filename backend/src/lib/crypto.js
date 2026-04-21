@@ -1,15 +1,11 @@
 import crypto from 'crypto';
 
 const KEY_HEX = process.env.CREDENTIAL_ENCRYPTION_KEY || '';
-let KEY;
-try {
-  KEY = Buffer.from(KEY_HEX, 'hex');
-  if (KEY.length !== 32 && KEY_HEX.length > 0) {
-    console.warn('CREDENTIAL_ENCRYPTION_KEY must be 64 hex chars (32 bytes). Encryption disabled.');
-    KEY = null;
-  }
-} catch {
-  KEY = null;
+let KEY = null;
+if (KEY_HEX.length === 64) {
+  try { KEY = Buffer.from(KEY_HEX, 'hex'); } catch { KEY = null; }
+} else if (KEY_HEX.length > 0) {
+  console.warn('CREDENTIAL_ENCRYPTION_KEY must be 64 hex chars. Using base64 fallback.');
 }
 
 export function encryptCredential(plaintext) {
