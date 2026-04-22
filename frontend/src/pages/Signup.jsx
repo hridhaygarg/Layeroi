@@ -247,32 +247,23 @@ export default function Signup() {
           {step === 'complete' && (
             <div style={{ textAlign: 'center' }}>
               <div style={{ width: '64px', height: '64px', background: colors.accentGreenLight, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px', fontSize: '32px' }}>✓</div>
-              <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: '32px', fontWeight: '700', color: colors.textPrimary, marginBottom: '12px' }}>Ready to track costs!</h2>
-              <p style={{ color: colors.textSecondary, marginBottom: '32px', fontSize: '16px' }}>Your API key is ready. Update one line of code in your agent.</p>
+              <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: '32px', fontWeight: '700', color: colors.textPrimary, marginBottom: '12px' }}>Your workspace is ready.</h2>
+              <p style={{ color: colors.textSecondary, marginBottom: '32px', fontSize: '16px' }}>Connect your first AI billing source to see real spend data, or explore the demo dashboard now.</p>
 
-              <div style={{ background: colors.bgSubtle, border: `1px solid ${colors.borderDefault}`, borderRadius: '8px', padding: '16px', marginBottom: '24px', position: 'relative' }}>
-                <div style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: '13px', color: colors.textPrimary, wordBreak: 'break-all', padding: '12px', background: colors.bgSurface, borderRadius: '4px', border: `1px solid ${colors.borderDefault}` }}>
-                  {apiKey}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '32px' }}>
+                <button onClick={() => { window.location.href = '/sources'; }} style={{ width: '100%', background: colors.accentGreen, color: colors.bgSurface, padding: '14px', borderRadius: '6px', border: 'none', fontFamily: 'Inter, sans-serif', fontSize: '16px', fontWeight: '600', cursor: 'pointer', transition: 'all 200ms' }} onMouseDown={(e) => (e.target.style.transform = 'scale(0.98)')} onMouseUp={(e) => (e.target.style.transform = 'scale(1)')}>Connect OpenAI billing →</button>
+                <button onClick={() => { window.location.href = '/dashboard'; }} style={{ width: '100%', background: 'transparent', color: colors.textSecondary, padding: '14px', borderRadius: '6px', border: `1px solid ${colors.borderDefault}`, fontFamily: 'Inter, sans-serif', fontSize: '16px', fontWeight: '600', cursor: 'pointer', transition: 'all 200ms' }} onMouseDown={(e) => (e.target.style.transform = 'scale(0.98)')} onMouseUp={(e) => (e.target.style.transform = 'scale(1)')}>Explore demo dashboard</button>
+              </div>
+
+              <details style={{ background: colors.bgSubtle, border: `1px solid ${colors.borderDefault}`, borderRadius: '8px', padding: '16px', textAlign: 'left' }}>
+                <summary style={{ fontSize: '14px', color: colors.textSecondary, cursor: 'pointer', fontWeight: '500' }}>Have a developer? View API integration</summary>
+                <div style={{ marginTop: '12px' }}>
+                  <p style={{ fontSize: '13px', color: colors.textTertiary, marginBottom: '8px' }}>For programmatic agent tagging, share these credentials with your team:</p>
+                  <code style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: '12px', color: colors.textSecondary, backgroundColor: 'rgba(0,0,0,0.02)', padding: '8px', borderRadius: '4px', display: 'block', wordBreak: 'break-all' }}>
+                    API key: {apiKey}
+                  </code>
                 </div>
-                <button
-                  onClick={copyToClipboard}
-                  style={{ position: 'absolute', top: '16px', right: '16px', background: colors.accentGreen, color: colors.bgSurface, border: 'none', padding: '8px 12px', borderRadius: '4px', fontSize: '12px', fontWeight: '600', fontFamily: 'Inter, sans-serif', cursor: 'pointer', transition: 'all 200ms' }}
-                  onMouseDown={(e) => (e.target.style.transform = 'scale(0.95)')}
-                  onMouseUp={(e) => (e.target.style.transform = 'scale(1)')}
-                >
-                  Copy
-                </button>
-              </div>
-
-              <div style={{ background: colors.bgProfit, border: `1px solid ${colors.accentGreenBorder}`, borderRadius: '8px', padding: '16px', marginBottom: '32px', textAlign: 'left' }}>
-                <div style={{ fontSize: '14px', color: colors.textPrimary, fontWeight: '600', marginBottom: '12px' }}>Next: Connect your first agent</div>
-                <code style={{ fontFamily: 'IBM Plex Mono, monospace', fontSize: '12px', color: colors.textSecondary, backgroundColor: 'rgba(0,0,0,0.02)', padding: '8px', borderRadius: '4px', display: 'block', whiteSpace: 'pre-wrap' }}>
-{`baseURL: 'https://api.layeroi.com'
-apiKey: '${apiKey}'`}
-                </code>
-              </div>
-
-              <button onClick={() => { window.location.href = '/dashboard'; }} style={{ width: '100%', display: 'inline-block', background: colors.accentGreen, color: colors.bgSurface, padding: '12px', borderRadius: '6px', border: 'none', fontFamily: 'Inter, sans-serif', fontSize: '16px', fontWeight: '600', cursor: 'pointer', transition: 'all 200ms', textAlign: 'center', textDecoration: 'none' }} onMouseDown={(e) => (e.target.style.transform = 'scale(0.98)')} onMouseUp={(e) => (e.target.style.transform = 'scale(1)')}>Go to dashboard →</button>
+              </details>
             </div>
           )}
         </div>

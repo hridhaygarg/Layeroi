@@ -5,6 +5,7 @@ import rateLimit from 'express-rate-limit';
 import { logger } from '../../utils/logger.js';
 import { signJWT } from '../../auth/jwt.js';
 import { supabase } from '../../config/database.js';
+import { seedDemoDataForOrg } from '../../lib/seed-demo-data.js';
 
 const router = express.Router();
 
@@ -46,10 +47,15 @@ router.post('/auth/signup', async (req, res) => {
     const userId = crypto.randomUUID();
     const slug = company.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').substring(0, 50) + '-' + crypto.randomBytes(4).toString('hex');
 
+    // FIX 7: Use company name from signup, fallback to email domain
+    const orgName = company?.trim() ||
+      cleanEmail.split('@')[1]?.split('.')[0]?.replace(/^./, c => c.toUpperCase()) ||
+      'My workspace';
+
     // Create org with user's UUID as created_by
     const { data: org, error: orgError } = await supabase
       .from('organisations')
-      .insert({ name: company, slug, created_by: userId, plan: 'free', plan_agent_limit: 2, plan_history_days: 14 })
+      .insert({ name: orgName, slug, created_by: userId, plan: 'free', plan_agent_limit: 2, plan_history_days: 14 })
       .select()
       .single();
 
@@ -88,12 +94,15 @@ router.post('/auth/signup', async (req, res) => {
 
     logger.info('New user signed up', { email: cleanEmail, orgId: org.id });
 
+    // FIX 1: Seed demo data for new org (fire-and-forget)
+    seedDemoDataForOrg(org.id).catch(err => logger.error('Demo seed failed', err));
+
     res.json({
       success: true,
       token,
       apiKey,
       user: { id: user.id, email: user.email, name: user.name, is_superadmin: user.is_superadmin || false },
-      organisation: { id: org.id, name: company },
+      organisation: { id: org.id, name: orgName, plan: 'free', plan_agent_limit: 2 },
       message: 'Account created successfully',
     });
   } catch (err) {
@@ -131,7 +140,7 @@ router.post('/auth/login', authLimiter, async (req, res) => {
     // Get org info
     const { data: org } = await supabase
       .from('organisations')
-      .select('id, name, plan')
+      .select('id, name, plan, plan_agent_limit')
       .eq('id', user.org_id)
       .single();
 

@@ -37,6 +37,8 @@ export default function Overview() {
   const [agents, setAgents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [hasSeedData, setHasSeedData] = useState(false);
+  const [budgetData, setBudgetData] = useState({ spent: 0, budget: 10000 });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -61,10 +63,12 @@ export default function Overview() {
           return;
         }
 
-        // Fetch dashboard stats and agents in parallel
-        const [statsResponse, agentsResponse] = await Promise.all([
+        // Fetch dashboard stats, agents, and budget in parallel
+        const [statsResponse, agentsResponse, costResponse, settingsResponse] = await Promise.all([
           apiService.getDashboardStats(orgId),
           apiService.getAgents(orgId),
+          apiService.getCostsSummary(orgId, '30d').catch(() => null),
+          apiService.getOrgSettings(orgId).catch(() => null),
         ]);
 
         if (statsResponse) {
@@ -76,11 +80,24 @@ export default function Overview() {
           });
         }
 
+        let agentsList = [];
         if (agentsResponse && Array.isArray(agentsResponse)) {
-          setAgents(agentsResponse);
+          agentsList = agentsResponse;
         } else if (agentsResponse && agentsResponse.agents) {
-          setAgents(agentsResponse.agents);
+          agentsList = agentsResponse.agents;
         }
+        setAgents(agentsList);
+
+        // Check if any agents are seed data
+        if (agentsList.some(a => a.seed === true)) {
+          setHasSeedData(true);
+        }
+
+        // Budget data
+        setBudgetData({
+          spent: costResponse?.totalSpend || statsResponse?.totalSpend || 0,
+          budget: settingsResponse?.monthlyBudget || 10000,
+        });
 
         setError('');
       } catch (err) {
@@ -125,8 +142,33 @@ export default function Overview() {
     );
   }
 
+  const budgetPercent = budgetData.budget > 0 ? (budgetData.spent / budgetData.budget) * 100 : 0;
+
   return (
     <div>
+      {/* FIX 1: Demo data banner */}
+      {hasSeedData && (
+        <div style={{
+          background: 'rgba(34, 197, 94, 0.08)',
+          border: '1px solid rgba(34, 197, 94, 0.3)',
+          borderRadius: '10px',
+          padding: '14px 18px',
+          marginBottom: '20px',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          fontSize: '13px',
+        }}>
+          <div>
+            <strong style={{ color: '#22c55e' }}>Demo data active</strong>
+            <span style={{ color: 'var(--white-75, rgba(255,255,255,0.75))', marginLeft: '10px' }}>
+              Connect your first source to see your real numbers. Demo data clears automatically once real data flows in.
+            </span>
+          </div>
+          <a href='/sources' onClick={(e) => { e.preventDefault(); window.dispatchEvent(new CustomEvent('navigate-screen', { detail: { screen: 'sources' } })); }} style={{ color: '#22c55e', fontWeight: 600, textDecoration: 'none', whiteSpace: 'nowrap' }}>Connect source →</a>
+        </div>
+      )}
+
       {/* Metric Cards */}
       <div style={{
         display: 'grid',
@@ -276,6 +318,29 @@ export default function Overview() {
           }}>
             being burned
           </div>
+        </div>
+      </div>
+
+      {/* FIX 6: Budget Status Widget */}
+      <div style={{
+        background: colors.bgSurface,
+        border: `1px solid ${colors.borderDefault}`,
+        borderRadius: '8px',
+        padding: '20px 24px',
+        marginBottom: '20px',
+        boxShadow: colors.shadowSm,
+      }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
+          <span style={{ fontSize: '10.5px', fontFamily: 'IBM Plex Mono, monospace', color: colors.textTertiary, textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 600 }}>BUDGET STATUS</span>
+          <a href='/budget' onClick={(e) => { e.preventDefault(); window.dispatchEvent(new CustomEvent('navigate-screen', { detail: { screen: 'budget' } })); }} style={{ color: colors.accentGreen, fontSize: '12px', fontWeight: 500, textDecoration: 'none' }}>Manage →</a>
+        </div>
+        <div style={{ height: '8px', background: colors.bgSubtle, borderRadius: '4px', overflow: 'hidden', marginBottom: '10px' }}>
+          <div style={{ height: '100%', width: `${Math.min(budgetPercent, 100)}%`, background: budgetPercent > 80 ? '#dc2626' : budgetPercent > 60 ? '#f59e0b' : '#22c55e', transition: 'width 300ms ease-out', borderRadius: '4px' }} />
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px' }}>
+          <span style={{ fontFamily: 'IBM Plex Mono, monospace', color: colors.textPrimary, fontWeight: 600 }}>${budgetData.spent.toLocaleString()}</span>
+          <span style={{ color: colors.textTertiary }}>of</span>
+          <span style={{ fontFamily: 'IBM Plex Mono, monospace', color: colors.textSecondary }}>${budgetData.budget.toLocaleString()}</span>
         </div>
       </div>
 

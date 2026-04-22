@@ -242,9 +242,9 @@ export default function Admin() {
               padding: '20px',
               textAlign: 'center',
             }}>
-              <div className='mono' style={{ fontSize: '10px', color: colors.textTertiary, letterSpacing: '0.1em', marginBottom: '8px' }}>COMING SOON</div>
+              <div className='mono' style={{ fontSize: '10px', color: colors.accentGreen, letterSpacing: '0.1em', marginBottom: '8px' }}>COMING MAY 2026</div>
               <p style={{ color: colors.textSecondary, fontSize: '14px', margin: 0 }}>
-                Team invitations are being built. For now, share your API key with team members directly.
+                Team management arrives in May 2026. To add teammates today, email <a href="mailto:hello@layeroi.com" style={{ color: colors.accentGreen, textDecoration: 'none' }}>hello@layeroi.com</a> with the names and emails of the people you'd like to invite — we'll provision them within 24 hours.
               </p>
             </div>
           </div>
@@ -257,7 +257,7 @@ export default function Admin() {
               color: colors.textPrimary,
               marginBottom: '16px',
             }}>
-              Team Members ({members.length})
+              Team Members
             </h2>
             {members.length === 0 ? (
               <div style={{
@@ -268,7 +268,7 @@ export default function Admin() {
                 textAlign: 'center',
                 color: colors.textSecondary,
               }}>
-                No team members yet
+                We'll list your team here once you've added members.
               </div>
             ) : (
               <div style={{ overflowX: 'auto' }}>
@@ -461,16 +461,32 @@ export default function Admin() {
           </h2>
           {integrations.length === 0 ? (
             <div style={{
-              background: colors.bgSurface,
-              border: `1px solid ${colors.borderDefault}`,
-              borderRadius: '8px',
-              padding: '32px',
-              textAlign: 'center',
-              color: colors.textSecondary,
+              display: 'grid',
+              gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, 1fr)',
+              gap: '16px',
             }}>
-              <Zap size={32} style={{ margin: '0 auto 12px', opacity: 0.5 }} />
-              <p>No integrations connected yet</p>
-              <p style={{ fontSize: '13px', marginTop: '8px' }}>Connect third-party platforms to automate your AI agent deployments</p>
+              {[
+                { name: 'Slack Alerts', desc: 'Get notified in Slack when agents exceed budget or ROI drops below threshold.', icon: '#' },
+                { name: 'Datadog Export', desc: 'Push agent cost metrics to Datadog dashboards for unified observability.', icon: 'D' },
+                { name: 'Webhook Receiver', desc: 'Send real-time cost events to any endpoint — Zapier, n8n, custom backends.', icon: 'W' },
+                { name: 'Zapier', desc: 'Connect layeroi to 5,000+ apps. Trigger workflows on cost anomalies or budget alerts.', icon: 'Z' },
+              ].map(item => (
+                <div key={item.name} style={{
+                  background: colors.bgSurface,
+                  border: `1px solid ${colors.borderDefault}`,
+                  borderRadius: '10px',
+                  padding: '20px',
+                  position: 'relative',
+                }}>
+                  <div style={{ position: 'absolute', top: '12px', right: '12px', background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.22)', borderRadius: '6px', padding: '3px 8px', fontSize: '10px', fontFamily: 'IBM Plex Mono, monospace', color: colors.accentGreen, letterSpacing: '0.06em' }}>Q2 2026</div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '10px' }}>
+                    <div style={{ width: '36px', height: '36px', background: colors.bgSubtle, borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '700', fontSize: '16px', color: colors.textSecondary }}>{item.icon}</div>
+                    <div style={{ fontWeight: '600', fontSize: '15px', color: colors.textPrimary }}>{item.name}</div>
+                  </div>
+                  <p style={{ fontSize: '13px', color: colors.textSecondary, lineHeight: 1.5, margin: '0 0 14px' }}>{item.desc}</p>
+                  <button style={{ background: 'transparent', border: `1px solid ${colors.borderDefault}`, color: colors.textSecondary, padding: '6px 14px', borderRadius: '6px', fontSize: '12px', fontWeight: '500', cursor: 'pointer' }}>Notify me</button>
+                </div>
+              ))}
             </div>
           ) : (
             <div style={{

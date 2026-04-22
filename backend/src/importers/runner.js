@@ -75,7 +75,12 @@ export async function syncSource(sourceId) {
     console.log('[runner] total imported:', imported);
 
     const sourceUpdate = { status: 'active', last_error: null, updated_at: new Date().toISOString() };
-    if (imported > 0) sourceUpdate.last_synced_at = new Date().toISOString();
+    if (imported > 0) {
+      sourceUpdate.last_synced_at = new Date().toISOString();
+      // FIX 1: First successful real import — wipe demo seed data
+      await supabase.from('api_logs').delete().eq('org_id', source.org_id).eq('seed', true);
+      await supabase.from('agents').delete().eq('org_id', source.org_id).eq('seed', true);
+    }
     await supabase.from('billing_sources').update(sourceUpdate).eq('id', source.id);
 
     await supabase.from('source_sync_runs').update({

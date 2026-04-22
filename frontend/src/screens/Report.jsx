@@ -59,8 +59,31 @@ export default function Report() {
     multiple: (n) => n != null ? `${Number(n).toFixed(1)}×` : '—',
   };
 
+  const hasSeedData = data?.agents?.some(a => a.seed === true);
+
   return (
     <>
+      {hasSeedData && (
+        <div style={{
+          background: 'rgba(34, 197, 94, 0.08)',
+          border: '1px solid rgba(34, 197, 94, 0.3)',
+          borderRadius: '10px',
+          padding: '14px 18px',
+          marginBottom: '20px',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          fontSize: '13px',
+        }}>
+          <div>
+            <strong style={{ color: '#22c55e' }}>Demo data active</strong>
+            <span style={{ color: 'rgba(255,255,255,0.75)', marginLeft: '10px' }}>
+              Connect your first source to see your real numbers. Demo data clears automatically once real data flows in.
+            </span>
+          </div>
+          <a href='/sources' onClick={(e) => { e.preventDefault(); window.dispatchEvent(new CustomEvent('navigate-screen', { detail: { screen: 'sources' } })); }} style={{ color: '#22c55e', fontWeight: 600, textDecoration: 'none', whiteSpace: 'nowrap' }}>Connect source →</a>
+        </div>
+      )}
       <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '32px', flexWrap: 'wrap', gap: '16px' }}>
         <div>
           <h1 className='serif' style={{ fontSize: '40px', lineHeight: 1.1, color: 'var(--white, white)', margin: 0 }}>Reports</h1>
