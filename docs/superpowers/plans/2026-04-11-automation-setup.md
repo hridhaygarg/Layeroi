@@ -1,8 +1,8 @@
-# Layer ROI Automation Setup Implementation Plan
+# Layeroi Automation Setup Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Build production-grade automation system with cron scheduling, comprehensive testing, weekly report emails, and health checks for the Layer ROI backend.
+**Goal:** Build production-grade automation system with cron scheduling, comprehensive testing, weekly report emails, and health checks for the Layeroi backend.
 
 **Architecture:** The automation system consists of four independent engines (SEO, Email/Cold Outreach, Free Tier Lifecycle, Intent Detection) triggered by scheduled cron jobs on a 6-hour, 12-hour, and daily basis. A weekly report system aggregates metrics and sends admin summaries. A comprehensive test suite validates all endpoints, the OpenAI proxy, signup flow, and system health. Health check endpoints monitor system status and database connectivity.
 
@@ -196,11 +196,11 @@ cd /Users/hridhaygarg/AgentCFO && git add backend/src/automations/cron.js && git
 sed -n '88p' /Users/hridhaygarg/AgentCFO/backend/src/automations/seoEngine.js
 ```
 
-Expected output: `execSync(`git push https://hridhaygarg:${process.env.GITHUB_TOKEN}@github.com/hridhaygarg/Layer ROI.git main`);`
+Expected output: `execSync(`git push https://hridhaygarg:${process.env.GITHUB_TOKEN}@github.com/hridhaygarg/Layeroi.git main`);`
 
 - [ ] **Step 2: Fix the git push URL**
 
-The URL contains "Layer ROI" which is invalid. Fix it:
+The URL contains "Layeroi" which is invalid. Fix it:
 
 ```javascript
 execSync(`git push https://hridhaygarg:${process.env.GITHUB_TOKEN}@github.com/hridhaygarg/AgentCFO.git main`);
@@ -210,7 +210,7 @@ Use the Edit tool to replace line 88 in `/Users/hridhaygarg/AgentCFO/backend/src
 
 Old:
 ```javascript
-  execSync(`git push https://hridhaygarg:${process.env.GITHUB_TOKEN}@github.com/hridhaygarg/Layer ROI.git main`);
+  execSync(`git push https://hridhaygarg:${process.env.GITHUB_TOKEN}@github.com/hridhaygarg/Layeroi.git main`);
 ```
 
 New:
@@ -224,7 +224,7 @@ New:
 sed -n '88p' /Users/hridhaygarg/AgentCFO/backend/src/automations/seoEngine.js
 ```
 
-Expected: Should show correct git URL with `AgentCFO` not `Layer ROI`
+Expected: Should show correct git URL with `AgentCFO` not `Layeroi`
 
 - [ ] **Step 4: Commit**
 
@@ -416,9 +416,9 @@ export async function sendWeeklyAdminReport() {
     await resend.emails.send({
       from: 'reports@layerROI.com',
       to: adminEmail,
-      subject: `📊 Layer ROI Weekly Report – ${new Date().toLocaleDateString()}`,
+      subject: `📊 Layeroi Weekly Report – ${new Date().toLocaleDateString()}`,
       html: `
-        <h1>Layer ROI Weekly Report</h1>
+        <h1>Layeroi Weekly Report</h1>
         <p>Week of ${sevenDaysAgo.toLocaleDateString()} – ${new Date().toLocaleDateString()}</p>
 
         <h2>📈 Key Metrics</h2>
@@ -448,7 +448,7 @@ export async function sendWeeklyAdminReport() {
           .join('') || '<p>No high-intent companies detected.</p>'}
 
         <hr />
-        <p><small>Generated automatically by Layer ROI automation system</small></p>
+        <p><small>Generated automatically by Layeroi automation system</small></p>
       `,
     });
 

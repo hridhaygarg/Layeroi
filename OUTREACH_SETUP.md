@@ -1,7 +1,7 @@
 # Outreach Engine Setup Guide
 
 ## Overview
-This document explains how to set up and test the automated prospect outreach system for Layer ROI.
+This document explains how to set up and test the automated prospect outreach system for Layeroi.
 
 ## Phase 3: Automated Outreach Engine ✅ Complete
 
@@ -246,7 +246,7 @@ To override the schedule, manually trigger:
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                    Layer ROI Outreach Engine                 │
+│                    Layeroi Outreach Engine                 │
 └─────────────────────────────────────────────────────────────┘
                                 │
                     ┌───────────┼───────────┐

@@ -1849,7 +1849,7 @@ jobs:
 - [ ] **Step 3: Write README**
 
 ```markdown
-# Layer ROI Frontend
+# Layeroi Frontend
 
 React 18 enterprise dashboard for AI-powered sales acceleration.
 
@@ -1966,7 +1966,7 @@ git commit -m "feat: complete PHASE 4 Frontend Component System (30 components, 
 
 ---
 
-Plan complete and saved to `docs/superpowers/plans/2026-04-17-layer-roi-phase-4-frontend.md`. Two execution options:
+Plan complete and saved to `docs/superpowers/plans/2026-04-17-layeroi-phase-4-frontend.md`. Two execution options:
 
 **1. Subagent-Driven (recommended)** - I dispatch a fresh subagent per task, review between tasks, fast iteration
 

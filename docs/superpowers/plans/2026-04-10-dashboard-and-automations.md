@@ -1,4 +1,4 @@
-# Layer ROI Dashboard Rebuild + Growth Automation Plan
+# Layeroi Dashboard Rebuild + Growth Automation Plan
 
 > **For agentic workers:** Use superpowers:subagent-driven-development or superpowers:executing-plans to implement task-by-task.
 
@@ -150,7 +150,7 @@ export default function TopBar({ isActive }) {
       padding: '0 24px',
       marginLeft: '64px',
     }}>
-      <h1 style={{ fontFamily: theme.fonts.serif, fontSize: '20px' }}>Layer ROI</h1>
+      <h1 style={{ fontFamily: theme.fonts.serif, fontSize: '20px' }}>Layeroi</h1>
       <span style={{ fontFamily: theme.fonts.mono, fontSize: '12px', color: theme.colors.text.secondary }}>
         {startOfWeek.toLocaleDateString()} — {endOfWeek.toLocaleDateString()}
       </span>
@@ -761,7 +761,7 @@ export default function Report() {
         padding: '40px',
         maxWidth: '800px',
       }}>
-        <h1 style={{ fontFamily: theme.fonts.serif, fontSize: '28px', marginBottom: '8px' }}>Layer ROI Weekly Report</h1>
+        <h1 style={{ fontFamily: theme.fonts.serif, fontSize: '28px', marginBottom: '8px' }}>Layeroi Weekly Report</h1>
         <p style={{ color: '#666', marginBottom: '24px' }}>Week of April 7-13, 2026</p>
 
         <h2 style={{ fontFamily: theme.fonts.serif, fontSize: '16px', marginTop: '20px', marginBottom: '12px' }}>Executive Summary</h2>
@@ -800,8 +800,8 @@ export default function Onboarding() {
 
       {[
         { step: 1, title: 'Name Your Agent', desc: 'Give your agent a human-readable name' },
-        { step: 2, title: 'Change One Line of Code', desc: 'Update your baseURL to point to Layer ROI' },
-        { step: 3, title: 'Make an API Call', desc: 'Your agent will now route through Layer ROI' },
+        { step: 2, title: 'Change One Line of Code', desc: 'Update your baseURL to point to Layeroi' },
+        { step: 3, title: 'Make an API Call', desc: 'Your agent will now route through Layeroi' },
         { step: 4, title: 'Watch the Dashboard', desc: 'Costs appear in real-time' },
       ].map(({ step, title, desc }) => (
         <div key={step} style={{

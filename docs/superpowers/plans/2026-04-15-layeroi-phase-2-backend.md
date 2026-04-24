@@ -1,4 +1,4 @@
-# Layer ROI PHASE 2: Backend Infrastructure - Implementation Plan
+# Layeroi PHASE 2: Backend Infrastructure - Implementation Plan
 
 > **For agentic workers:** Execute using superpowers:subagent-driven-development. Tasks 5-30 with two-stage review (spec compliance, code quality). This phase builds core backend services enabling all downstream work.
 

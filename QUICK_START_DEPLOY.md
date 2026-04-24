@@ -7,8 +7,8 @@ Go to → https://vercel.com/new
 
 ### Step 2: Import from GitHub
 1. Click "Import Git Repository"
-2. Type in search: `LayerROI`
-3. Click on: `hridhaygarg/LayerROI`
+2. Type in search: `Layeroi`
+3. Click on: `hridhaygarg/Layeroi`
 4. Click "Import"
 
 ### Step 3: Configure
@@ -63,21 +63,21 @@ chmod +x DEPLOY_FRONTEND.sh
 ### Optional: Custom Domain
 1. Go to Vercel Dashboard
 2. Project Settings → Domains
-3. Add: `app.layerroi.com` (or your domain)
+3. Add: `app.layeroi.com` (or your domain)
 4. Follow DNS instructions
 
 ### Optional: Environment Variables
 If backend API URL needs to be set:
 1. Vercel Dashboard → Settings → Environment Variables
-2. Add: `REACT_APP_API_URL=https://api.layerroi.com`
+2. Add: `REACT_APP_API_URL=https://api.layeroi.com`
 3. Redeploy
 
 ---
 
 ## Key Info
 
-- **Repository:** https://github.com/hridhaygarg/LayerROI
-- **Live App:** https://layerroi.vercel.app
+- **Repository:** https://github.com/hridhaygarg/Layeroi
+- **Live App:** https://layeroi.vercel.app
 - **Dashboard:** https://vercel.com/dashboard
 - **Status:** ✅ Production Ready
 

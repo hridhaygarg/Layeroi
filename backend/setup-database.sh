@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# Layer ROI Database Setup Script
+# Layeroi Database Setup Script
 # Executes Supabase migration with password prompt
 
 set -e
 
 echo ""
-echo "🚀 Layer ROI - Supabase Database Setup"
+echo "🚀 Layeroi - Supabase Database Setup"
 echo "════════════════════════════════════════"
 echo ""
 

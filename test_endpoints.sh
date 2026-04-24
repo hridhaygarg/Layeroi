@@ -1,13 +1,13 @@
 #!/bin/bash
 
-# Layer ROI v2.0 — Endpoint Test Suite
+# Layeroi v2.0 — Endpoint Test Suite
 # Usage: ./test_endpoints.sh https://api.layeroi.com
 
 API_URL=${1:-http://localhost:5000}
 TIMESTAMP=$(date +%s%N | cut -b1-13)
 TEST_EMAIL="test-$TIMESTAMP@layeroi.com"
 
-echo "🧪 Testing Layer ROI Endpoints"
+echo "🧪 Testing Layeroi Endpoints"
 echo "API URL: $API_URL"
 echo "================================\n"
 

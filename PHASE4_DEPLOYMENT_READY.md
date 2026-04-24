@@ -1,4 +1,4 @@
-# LayerROI PHASE 4 Frontend - Deployment Ready
+# Layeroi PHASE 4 Frontend - Deployment Ready
 
 ## Status: ✅ PRODUCTION READY
 
@@ -6,7 +6,7 @@
 - **Tests:** 524/524 passing (100% core functionality)
 - **Build:** Production bundle created successfully
 - **Bundle Size:** 98.1 kB gzipped (within performance targets)
-- **Branch:** `feature/layer-roi-phase-4-frontend`
+- **Branch:** `feature/layeroi-phase-4-frontend`
 
 ### What's Included
 
@@ -45,8 +45,8 @@ npx vercel
 
 #### Option 2: Docker
 ```bash
-docker build -t layerroi-frontend .
-docker run -p 3000:3000 layerroi-frontend
+docker build -t layeroi-frontend .
+docker run -p 3000:3000 layeroi-frontend
 ```
 
 #### Option 3: Static Hosting (S3, Cloudflare, etc.)

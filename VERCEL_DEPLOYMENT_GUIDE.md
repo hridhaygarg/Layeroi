@@ -1,4 +1,4 @@
-# Vercel Deployment Guide - LayerROI Frontend
+# Vercel Deployment Guide - Layeroi Frontend
 
 ## Quick Start (5 minutes)
 
@@ -11,7 +11,7 @@
 2. **Import Project from GitHub**
    - Click "Add New..." → "Project"
    - Click "Import Git Repository"
-   - Search for and select: `hridhaygarg/LayerROI`
+   - Search for and select: `hridhaygarg/Layeroi`
    - Click "Import"
 
 3. **Configure Project**
@@ -75,7 +75,7 @@ If you need to set environment variables (API URLs, keys, etc.):
 ### Via CLI
 
 ```bash
-vercel env add REACT_APP_API_URL https://api.layerroi.com
+vercel env add REACT_APP_API_URL https://api.layeroi.com
 vercel --prod
 ```
 
@@ -87,7 +87,7 @@ If you need to deploy from CI/CD or scripts:
 
 1. Go to https://vercel.com/account/tokens
 2. Click "Create Token"
-3. Name it: `LayerROI-Deploy`
+3. Name it: `Layeroi-Deploy`
 4. Copy the token
 5. Store securely in:
    - GitHub Secrets (for Actions)
@@ -109,7 +109,7 @@ The project includes `.github/workflows/deploy-frontend.yml` for automatic deplo
 
 ### Setup
 
-1. Go to GitHub repo settings: https://github.com/hridhaygarg/LayerROI/settings/secrets/actions
+1. Go to GitHub repo settings: https://github.com/hridhaygarg/Layeroi/settings/secrets/actions
 
 2. Add these secrets:
    - `VERCEL_TOKEN`: Your Vercel token
@@ -132,12 +132,12 @@ The project includes `.github/workflows/deploy-frontend.yml` for automatic deplo
 2. **Visit Your App**
    ```bash
    # Live URL appears in Vercel dashboard
-   https://layerroi.vercel.app
+   https://layeroi.vercel.app
    ```
 
 3. **Run Smoke Tests**
    ```bash
-   curl https://layerroi.vercel.app
+   curl https://layeroi.vercel.app
    # Should return HTML with React app
    ```
 
@@ -303,5 +303,5 @@ Your deployment is always recoverable:
 ---
 
 **Status:** ✅ Ready for Production Deployment
-**Version:** LayerROI Frontend v1.0
+**Version:** Layeroi Frontend v1.0
 **Last Updated:** 2026-04-18

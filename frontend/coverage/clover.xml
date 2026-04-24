@@ -4,7 +4,7 @@
     <metrics statements="2206" coveredstatements="685" conditionals="1553" coveredconditionals="530" methods="839" coveredmethods="197" elements="4598" coveredelements="1412" complexity="0" loc="2206" ncloc="2206" packages="13" files="113" classes="113"/>
     <package name="src">
       <metrics statements="85" coveredstatements="0" conditionals="146" coveredconditionals="0" methods="36" coveredmethods="0"/>
-      <file name="App.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/App.jsx">
+      <file name="App.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/App.jsx">
         <metrics statements="71" coveredstatements="0" conditionals="144" coveredconditionals="0" methods="35" coveredmethods="0"/>
         <line num="9" count="0" type="stmt"/>
         <line num="10" count="0" type="stmt"/>
@@ -78,12 +78,12 @@
         <line num="429" count="0" type="stmt"/>
         <line num="431" count="0" type="stmt"/>
       </file>
-      <file name="index.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/index.js">
+      <file name="index.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/index.js">
         <metrics statements="2" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="6" count="0" type="stmt"/>
         <line num="7" count="0" type="stmt"/>
       </file>
-      <file name="main.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/main.jsx">
+      <file name="main.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/main.jsx">
         <metrics statements="12" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="15" count="0" type="stmt"/>
         <line num="16" count="0" type="stmt"/>
@@ -101,7 +101,7 @@
     </package>
     <package name="src.api">
       <metrics statements="136" coveredstatements="10" conditionals="48" coveredconditionals="2" methods="36" coveredmethods="0"/>
-      <file name="analyticsApi.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/api/analyticsApi.js">
+      <file name="analyticsApi.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/api/analyticsApi.js">
         <metrics statements="22" coveredstatements="0" conditionals="20" coveredconditionals="0" methods="4" coveredmethods="0"/>
         <line num="3" count="0" type="stmt"/>
         <line num="8" count="0" type="stmt"/>
@@ -126,7 +126,7 @@
         <line num="44" count="0" type="stmt"/>
         <line num="45" count="0" type="stmt"/>
       </file>
-      <file name="client.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/api/client.js">
+      <file name="client.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/api/client.js">
         <metrics statements="16" coveredstatements="4" conditionals="8" coveredconditionals="2" methods="4" coveredmethods="0"/>
         <line num="4" count="1" type="cond" truecount="2" falsecount="0"/>
         <line num="6" count="1" type="stmt"/>
@@ -145,7 +145,7 @@
         <line num="38" count="0" type="stmt"/>
         <line num="42" count="0" type="stmt"/>
       </file>
-      <file name="integrationsApi.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/api/integrationsApi.js">
+      <file name="integrationsApi.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/api/integrationsApi.js">
         <metrics statements="22" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="7" coveredmethods="0"/>
         <line num="3" count="0" type="stmt"/>
         <line num="4" count="0" type="stmt"/>
@@ -170,7 +170,7 @@
         <line num="35" count="0" type="stmt"/>
         <line num="36" count="0" type="stmt"/>
       </file>
-      <file name="outreachApi.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/api/outreachApi.js">
+      <file name="outreachApi.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/api/outreachApi.js">
         <metrics statements="27" coveredstatements="0" conditionals="10" coveredconditionals="0" methods="7" coveredmethods="0"/>
         <line num="3" count="0" type="stmt"/>
         <line num="10" count="0" type="stmt"/>
@@ -200,7 +200,7 @@
         <line num="48" count="0" type="stmt"/>
         <line num="49" count="0" type="stmt"/>
       </file>
-      <file name="prospectApi.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/api/prospectApi.js">
+      <file name="prospectApi.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/api/prospectApi.js">
         <metrics statements="27" coveredstatements="6" conditionals="10" coveredconditionals="0" methods="7" coveredmethods="0"/>
         <line num="3" count="1" type="stmt"/>
         <line num="10" count="0" type="stmt"/>
@@ -230,7 +230,7 @@
         <line num="48" count="0" type="stmt"/>
         <line num="49" count="0" type="stmt"/>
       </file>
-      <file name="webhooksApi.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/api/webhooksApi.js">
+      <file name="webhooksApi.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/api/webhooksApi.js">
         <metrics statements="22" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="7" coveredmethods="0"/>
         <line num="3" count="0" type="stmt"/>
         <line num="4" count="0" type="stmt"/>
@@ -258,7 +258,7 @@
     </package>
     <package name="src.components">
       <metrics statements="148" coveredstatements="18" conditionals="210" coveredconditionals="21" methods="82" coveredmethods="8"/>
-      <file name="AgentMetrics.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/AgentMetrics.jsx">
+      <file name="AgentMetrics.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/AgentMetrics.jsx">
         <metrics statements="8" coveredstatements="0" conditionals="15" coveredconditionals="0" methods="4" coveredmethods="0"/>
         <line num="4" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="5" count="0" type="stmt"/>
@@ -269,7 +269,7 @@
         <line num="25" count="0" type="stmt"/>
         <line num="26" count="0" type="stmt"/>
       </file>
-      <file name="AgentPLTable.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/AgentPLTable.jsx">
+      <file name="AgentPLTable.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/AgentPLTable.jsx">
         <metrics statements="12" coveredstatements="0" conditionals="14" coveredconditionals="0" methods="6" coveredmethods="0"/>
         <line num="8" count="0" type="stmt"/>
         <line num="10" count="0" type="stmt"/>
@@ -284,11 +284,11 @@
         <line num="52" count="0" type="stmt"/>
         <line num="54" count="0" type="cond" truecount="0" falsecount="2"/>
       </file>
-      <file name="AgentRowExpanded.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/AgentRowExpanded.jsx">
+      <file name="AgentRowExpanded.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/AgentRowExpanded.jsx">
         <metrics statements="1" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="4" count="0" type="stmt"/>
       </file>
-      <file name="AnimatedSection.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/AnimatedSection.jsx">
+      <file name="AnimatedSection.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/AnimatedSection.jsx">
         <metrics statements="10" coveredstatements="0" conditionals="14" coveredconditionals="0" methods="2" coveredmethods="0"/>
         <line num="11" count="0" type="stmt"/>
         <line num="13" count="0" type="stmt"/>
@@ -301,7 +301,7 @@
         <line num="25" count="0" type="stmt"/>
         <line num="29" count="0" type="stmt"/>
       </file>
-      <file name="Dashboard.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/Dashboard.jsx">
+      <file name="Dashboard.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/Dashboard.jsx">
         <metrics statements="14" coveredstatements="0" conditionals="7" coveredconditionals="0" methods="9" coveredmethods="0"/>
         <line num="5" count="0" type="stmt"/>
         <line num="15" count="0" type="stmt"/>
@@ -318,7 +318,7 @@
         <line num="67" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="74" count="0" type="stmt"/>
       </file>
-      <file name="EmptyState.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/EmptyState.jsx">
+      <file name="EmptyState.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/EmptyState.jsx">
         <metrics statements="10" coveredstatements="0" conditionals="11" coveredconditionals="0" methods="5" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
         <line num="19" count="0" type="stmt"/>
@@ -331,7 +331,7 @@
         <line num="109" count="0" type="stmt"/>
         <line num="110" count="0" type="stmt"/>
       </file>
-      <file name="ErrorBoundary.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/ErrorBoundary.jsx">
+      <file name="ErrorBoundary.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/ErrorBoundary.jsx">
         <metrics statements="15" coveredstatements="0" conditionals="7" coveredconditionals="0" methods="8" coveredmethods="0"/>
         <line num="3" count="0" type="stmt"/>
         <line num="14" count="0" type="stmt"/>
@@ -349,7 +349,7 @@
         <line num="143" count="0" type="stmt"/>
         <line num="186" count="0" type="stmt"/>
       </file>
-      <file name="MetricCard.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/MetricCard.jsx">
+      <file name="MetricCard.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/MetricCard.jsx">
         <metrics statements="6" coveredstatements="0" conditionals="5" coveredconditionals="0" methods="3" coveredmethods="0"/>
         <line num="5" count="0" type="stmt"/>
         <line num="11" count="0" type="stmt"/>
@@ -358,7 +358,7 @@
         <line num="25" count="0" type="stmt"/>
         <line num="26" count="0" type="stmt"/>
       </file>
-      <file name="MobileMenu.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/MobileMenu.jsx">
+      <file name="MobileMenu.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/MobileMenu.jsx">
         <metrics statements="20" coveredstatements="18" conditionals="24" coveredconditionals="21" methods="10" coveredmethods="8"/>
         <line num="11" count="7" type="stmt"/>
         <line num="13" count="7" type="stmt"/>
@@ -381,7 +381,7 @@
         <line num="214" count="2" type="stmt"/>
         <line num="221" count="0" type="stmt"/>
       </file>
-      <file name="PremiumButton.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/PremiumButton.jsx">
+      <file name="PremiumButton.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/PremiumButton.jsx">
         <metrics statements="5" coveredstatements="0" conditionals="25" coveredconditionals="0" methods="2" coveredmethods="0"/>
         <line num="14" count="0" type="stmt"/>
         <line num="20" count="0" type="stmt"/>
@@ -389,24 +389,24 @@
         <line num="40" count="0" type="stmt"/>
         <line num="71" count="0" type="stmt"/>
       </file>
-      <file name="PremiumCard.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/PremiumCard.jsx">
+      <file name="PremiumCard.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/PremiumCard.jsx">
         <metrics statements="2" coveredstatements="0" conditionals="19" coveredconditionals="0" methods="2" coveredmethods="0"/>
         <line num="12" count="0" type="stmt"/>
         <line num="42" count="0" type="stmt"/>
       </file>
-      <file name="PremiumInput.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/PremiumInput.jsx">
+      <file name="PremiumInput.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/PremiumInput.jsx">
         <metrics statements="4" coveredstatements="0" conditionals="32" coveredconditionals="0" methods="3" coveredmethods="0"/>
         <line num="16" count="0" type="stmt"/>
         <line num="18" count="0" type="stmt"/>
         <line num="54" count="0" type="stmt"/>
         <line num="55" count="0" type="stmt"/>
       </file>
-      <file name="PremiumMetricCard.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/PremiumMetricCard.jsx">
+      <file name="PremiumMetricCard.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/PremiumMetricCard.jsx">
         <metrics statements="2" coveredstatements="0" conditionals="13" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="12" count="0" type="stmt"/>
         <line num="19" count="0" type="stmt"/>
       </file>
-      <file name="PremiumNav.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/PremiumNav.jsx">
+      <file name="PremiumNav.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/PremiumNav.jsx">
         <metrics statements="11" coveredstatements="0" conditionals="19" coveredconditionals="0" methods="8" coveredmethods="0"/>
         <line num="5" count="0" type="stmt"/>
         <line num="6" count="0" type="stmt"/>
@@ -420,7 +420,7 @@
         <line num="101" count="0" type="stmt"/>
         <line num="102" count="0" type="stmt"/>
       </file>
-      <file name="SpendValueChart.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/SpendValueChart.jsx">
+      <file name="SpendValueChart.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/SpendValueChart.jsx">
         <metrics statements="6" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="4" coveredmethods="0"/>
         <line num="6" count="0" type="stmt"/>
         <line num="17" count="0" type="stmt"/>
@@ -429,7 +429,7 @@
         <line num="21" count="0" type="stmt"/>
         <line num="43" count="0" type="stmt"/>
       </file>
-      <file name="Toast.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/Toast.jsx">
+      <file name="Toast.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/Toast.jsx">
         <metrics statements="22" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="14" coveredmethods="0"/>
         <line num="3" count="0" type="stmt"/>
         <line num="6" count="0" type="stmt"/>
@@ -457,7 +457,7 @@
     </package>
     <package name="src.components.core">
       <metrics statements="672" coveredstatements="418" conditionals="467" coveredconditionals="391" methods="181" coveredmethods="109"/>
-      <file name="Accordion.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/core/Accordion.jsx">
+      <file name="Accordion.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/core/Accordion.jsx">
         <metrics statements="20" coveredstatements="19" conditionals="22" coveredconditionals="17" methods="7" coveredmethods="6"/>
         <line num="5" count="1" type="stmt"/>
         <line num="12" count="25" type="stmt"/>
@@ -480,7 +480,7 @@
         <line num="58" count="5" type="stmt"/>
         <line num="95" count="1" type="stmt"/>
       </file>
-      <file name="Accordion.stories.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/core/Accordion.stories.jsx">
+      <file name="Accordion.stories.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/core/Accordion.stories.jsx">
         <metrics statements="14" coveredstatements="0" conditionals="4" coveredconditionals="0" methods="4" coveredmethods="0"/>
         <line num="16" count="0" type="stmt"/>
         <line num="34" count="0" type="stmt"/>
@@ -497,7 +497,7 @@
         <line num="75" count="0" type="stmt"/>
         <line num="96" count="0" type="stmt"/>
       </file>
-      <file name="Alert.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/core/Alert.jsx">
+      <file name="Alert.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/core/Alert.jsx">
         <metrics statements="7" coveredstatements="7" conditionals="12" coveredconditionals="11" methods="1" coveredmethods="1"/>
         <line num="4" count="1" type="stmt"/>
         <line num="39" count="1" type="stmt"/>
@@ -507,7 +507,7 @@
         <line num="62" count="18" type="stmt"/>
         <line num="98" count="1" type="stmt"/>
       </file>
-      <file name="Alert.stories.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/core/Alert.stories.jsx">
+      <file name="Alert.stories.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/core/Alert.stories.jsx">
         <metrics statements="13" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="3" coveredmethods="0"/>
         <line num="29" count="0" type="stmt"/>
         <line num="38" count="0" type="stmt"/>
@@ -523,7 +523,7 @@
         <line num="94" count="0" type="stmt"/>
         <line num="97" count="0" type="stmt"/>
       </file>
-      <file name="Avatar.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/core/Avatar.jsx">
+      <file name="Avatar.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/core/Avatar.jsx">
         <metrics statements="8" coveredstatements="8" conditionals="9" coveredconditionals="8" methods="1" coveredmethods="1"/>
         <line num="3" count="1" type="stmt"/>
         <line num="9" count="1" type="stmt"/>
@@ -534,7 +534,7 @@
         <line num="41" count="11" type="stmt"/>
         <line num="53" count="1" type="stmt"/>
       </file>
-      <file name="Avatar.stories.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/core/Avatar.stories.jsx">
+      <file name="Avatar.stories.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/core/Avatar.stories.jsx">
         <metrics statements="8" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="28" count="0" type="stmt"/>
         <line num="35" count="0" type="stmt"/>
@@ -545,7 +545,7 @@
         <line num="66" count="0" type="stmt"/>
         <line num="74" count="0" type="stmt"/>
       </file>
-      <file name="Badge.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/core/Badge.jsx">
+      <file name="Badge.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/core/Badge.jsx">
         <metrics statements="8" coveredstatements="8" conditionals="7" coveredconditionals="5" methods="1" coveredmethods="1"/>
         <line num="3" count="1" type="stmt"/>
         <line num="11" count="1" type="stmt"/>
@@ -556,7 +556,7 @@
         <line num="38" count="15" type="stmt"/>
         <line num="50" count="1" type="stmt"/>
       </file>
-      <file name="Badge.stories.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/core/Badge.stories.jsx">
+      <file name="Badge.stories.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/core/Badge.stories.jsx">
         <metrics statements="11" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
         <line num="25" count="0" type="stmt"/>
         <line num="33" count="0" type="stmt"/>
@@ -570,7 +570,7 @@
         <line num="93" count="0" type="stmt"/>
         <line num="95" count="0" type="stmt"/>
       </file>
-      <file name="Button.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/core/Button.jsx">
+      <file name="Button.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/core/Button.jsx">
         <metrics statements="7" coveredstatements="7" conditionals="14" coveredconditionals="14" methods="1" coveredmethods="1"/>
         <line num="4" count="1" type="stmt"/>
         <line num="19" count="19" type="stmt"/>
@@ -580,7 +580,7 @@
         <line num="44" count="19" type="stmt"/>
         <line num="58" count="1" type="stmt"/>
       </file>
-      <file name="Button.stories.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/core/Button.stories.jsx">
+      <file name="Button.stories.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/core/Button.stories.jsx">
         <metrics statements="8" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="37" count="0" type="stmt"/>
         <line num="45" count="0" type="stmt"/>
@@ -591,7 +591,7 @@
         <line num="85" count="0" type="stmt"/>
         <line num="93" count="0" type="stmt"/>
       </file>
-      <file name="Card.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/core/Card.jsx">
+      <file name="Card.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/core/Card.jsx">
         <metrics statements="25" coveredstatements="25" conditionals="7" coveredconditionals="6" methods="4" coveredmethods="4"/>
         <line num="3" count="1" type="stmt"/>
         <line num="9" count="1" type="stmt"/>
@@ -619,7 +619,7 @@
         <line num="89" count="1" type="stmt"/>
         <line num="90" count="1" type="stmt"/>
       </file>
-      <file name="Card.stories.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/core/Card.stories.jsx">
+      <file name="Card.stories.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/core/Card.stories.jsx">
         <metrics statements="5" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="20" count="0" type="stmt"/>
         <line num="27" count="0" type="stmt"/>
@@ -627,14 +627,14 @@
         <line num="41" count="0" type="stmt"/>
         <line num="62" count="0" type="stmt"/>
       </file>
-      <file name="Checkbox.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/core/Checkbox.jsx">
+      <file name="Checkbox.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/core/Checkbox.jsx">
         <metrics statements="4" coveredstatements="4" conditionals="15" coveredconditionals="15" methods="1" coveredmethods="1"/>
         <line num="4" count="1" type="stmt"/>
         <line num="17" count="19" type="cond" truecount="2" falsecount="0"/>
         <line num="19" count="19" type="stmt"/>
         <line num="57" count="1" type="stmt"/>
       </file>
-      <file name="Checkbox.stories.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/core/Checkbox.stories.jsx">
+      <file name="Checkbox.stories.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/core/Checkbox.stories.jsx">
         <metrics statements="20" coveredstatements="0" conditionals="4" coveredconditionals="0" methods="6" coveredmethods="0"/>
         <line num="24" count="0" type="stmt"/>
         <line num="31" count="0" type="stmt"/>
@@ -657,7 +657,7 @@
         <line num="98" count="0" type="stmt"/>
         <line num="102" count="0" type="stmt"/>
       </file>
-      <file name="DatePicker.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/core/DatePicker.jsx">
+      <file name="DatePicker.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/core/DatePicker.jsx">
         <metrics statements="36" coveredstatements="32" conditionals="17" coveredconditionals="12" methods="16" coveredmethods="13"/>
         <line num="4" count="1" type="stmt"/>
         <line num="16" count="20" type="stmt"/>
@@ -696,7 +696,7 @@
         <line num="145" count="1" type="stmt"/>
         <line num="170" count="1" type="stmt"/>
       </file>
-      <file name="Divider.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/core/Divider.jsx">
+      <file name="Divider.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/core/Divider.jsx">
         <metrics statements="6" coveredstatements="6" conditionals="5" coveredconditionals="5" methods="1" coveredmethods="1"/>
         <line num="3" count="1" type="stmt"/>
         <line num="13" count="11" type="stmt"/>
@@ -705,14 +705,14 @@
         <line num="23" count="11" type="stmt"/>
         <line num="34" count="1" type="stmt"/>
       </file>
-      <file name="EmptyState.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/core/EmptyState.jsx">
+      <file name="EmptyState.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/core/EmptyState.jsx">
         <metrics statements="4" coveredstatements="4" conditionals="11" coveredconditionals="10" methods="1" coveredmethods="1"/>
         <line num="4" count="1" type="stmt"/>
         <line num="11" count="15" type="cond" truecount="1" falsecount="1"/>
         <line num="13" count="15" type="stmt"/>
         <line num="40" count="1" type="stmt"/>
       </file>
-      <file name="EmptyState.stories.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/core/EmptyState.stories.jsx">
+      <file name="EmptyState.stories.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/core/EmptyState.stories.jsx">
         <metrics statements="12" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="0"/>
         <line num="27" count="0" type="stmt"/>
         <line num="34" count="0" type="stmt"/>
@@ -727,7 +727,7 @@
         <line num="94" count="0" type="stmt"/>
         <line num="99" count="0" type="stmt"/>
       </file>
-      <file name="Input.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/core/Input.jsx">
+      <file name="Input.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/core/Input.jsx">
         <metrics statements="6" coveredstatements="6" conditionals="12" coveredconditionals="12" methods="1" coveredmethods="1"/>
         <line num="4" count="1" type="stmt"/>
         <line num="21" count="26" type="stmt"/>
@@ -736,7 +736,7 @@
         <line num="31" count="26" type="stmt"/>
         <line num="59" count="1" type="stmt"/>
       </file>
-      <file name="Input.stories.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/core/Input.stories.jsx">
+      <file name="Input.stories.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/core/Input.stories.jsx">
         <metrics statements="7" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="37" count="0" type="stmt"/>
         <line num="44" count="0" type="stmt"/>
@@ -746,7 +746,7 @@
         <line num="74" count="0" type="stmt"/>
         <line num="82" count="0" type="stmt"/>
       </file>
-      <file name="List.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/core/List.jsx">
+      <file name="List.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/core/List.jsx">
         <metrics statements="32" coveredstatements="28" conditionals="31" coveredconditionals="25" methods="7" coveredmethods="6"/>
         <line num="4" count="1" type="stmt"/>
         <line num="10" count="24" type="stmt"/>
@@ -781,7 +781,7 @@
         <line num="83" count="1" type="stmt"/>
         <line num="96" count="1" type="stmt"/>
       </file>
-      <file name="List.stories.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/core/List.stories.jsx">
+      <file name="List.stories.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/core/List.stories.jsx">
         <metrics statements="13" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="0"/>
         <line num="20" count="0" type="stmt"/>
         <line num="27" count="0" type="stmt"/>
@@ -797,7 +797,7 @@
         <line num="91" count="0" type="stmt"/>
         <line num="93" count="0" type="stmt"/>
       </file>
-      <file name="LoadingState.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/core/LoadingState.jsx">
+      <file name="LoadingState.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/core/LoadingState.jsx">
         <metrics statements="16" coveredstatements="16" conditionals="7" coveredconditionals="6" methods="7" coveredmethods="7"/>
         <line num="3" count="1" type="stmt"/>
         <line num="8" count="16" type="stmt"/>
@@ -816,7 +816,7 @@
         <line num="76" count="1" type="stmt"/>
         <line num="80" count="1" type="stmt"/>
       </file>
-      <file name="Modal.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/core/Modal.jsx">
+      <file name="Modal.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/core/Modal.jsx">
         <metrics statements="24" coveredstatements="24" conditionals="17" coveredconditionals="13" methods="6" coveredmethods="6"/>
         <line num="5" count="1" type="stmt"/>
         <line num="11" count="1" type="stmt"/>
@@ -843,7 +843,7 @@
         <line num="81" count="2" type="stmt"/>
         <line num="120" count="1" type="stmt"/>
       </file>
-      <file name="Modal.stories.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/core/Modal.stories.jsx">
+      <file name="Modal.stories.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/core/Modal.stories.jsx">
         <metrics statements="20" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="12" coveredmethods="0"/>
         <line num="29" count="0" type="stmt"/>
         <line num="31" count="0" type="stmt"/>
@@ -866,7 +866,7 @@
         <line num="122" count="0" type="stmt"/>
         <line num="127" count="0" type="stmt"/>
       </file>
-      <file name="Pagination.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/core/Pagination.jsx">
+      <file name="Pagination.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/core/Pagination.jsx">
         <metrics statements="34" coveredstatements="34" conditionals="23" coveredconditionals="16" methods="9" coveredmethods="9"/>
         <line num="4" count="1" type="stmt"/>
         <line num="10" count="23" type="stmt"/>
@@ -903,7 +903,7 @@
         <line num="79" count="1" type="stmt"/>
         <line num="120" count="1" type="stmt"/>
       </file>
-      <file name="Progress.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/core/Progress.jsx">
+      <file name="Progress.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/core/Progress.jsx">
         <metrics statements="8" coveredstatements="8" conditionals="9" coveredconditionals="7" methods="1" coveredmethods="1"/>
         <line num="3" count="1" type="stmt"/>
         <line num="11" count="1" type="stmt"/>
@@ -914,7 +914,7 @@
         <line num="32" count="22" type="stmt"/>
         <line num="57" count="1" type="stmt"/>
       </file>
-      <file name="Progress.stories.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/core/Progress.stories.jsx">
+      <file name="Progress.stories.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/core/Progress.stories.jsx">
         <metrics statements="13" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="28" count="0" type="stmt"/>
         <line num="36" count="0" type="stmt"/>
@@ -930,14 +930,14 @@
         <line num="112" count="0" type="stmt"/>
         <line num="114" count="0" type="stmt"/>
       </file>
-      <file name="Radio.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/core/Radio.jsx">
+      <file name="Radio.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/core/Radio.jsx">
         <metrics statements="4" coveredstatements="4" conditionals="15" coveredconditionals="15" methods="1" coveredmethods="1"/>
         <line num="3" count="1" type="stmt"/>
         <line num="18" count="21" type="cond" truecount="2" falsecount="0"/>
         <line num="20" count="21" type="stmt"/>
         <line num="62" count="1" type="stmt"/>
       </file>
-      <file name="Radio.stories.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/core/Radio.stories.jsx">
+      <file name="Radio.stories.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/core/Radio.stories.jsx">
         <metrics statements="17" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="8" coveredmethods="0"/>
         <line num="24" count="0" type="stmt"/>
         <line num="31" count="0" type="stmt"/>
@@ -957,7 +957,7 @@
         <line num="110" count="0" type="stmt"/>
         <line num="117" count="0" type="stmt"/>
       </file>
-      <file name="SearchBox.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/core/SearchBox.jsx">
+      <file name="SearchBox.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/core/SearchBox.jsx">
         <metrics statements="8" coveredstatements="8" conditionals="6" coveredconditionals="6" methods="2" coveredmethods="2"/>
         <line num="4" count="1" type="stmt"/>
         <line num="17" count="15" type="stmt"/>
@@ -968,7 +968,7 @@
         <line num="30" count="15" type="stmt"/>
         <line num="58" count="1" type="stmt"/>
       </file>
-      <file name="Select.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/core/Select.jsx">
+      <file name="Select.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/core/Select.jsx">
         <metrics statements="79" coveredstatements="71" conditionals="98" coveredconditionals="87" methods="18" coveredmethods="17"/>
         <line num="4" count="1" type="stmt"/>
         <line num="21" count="121" type="stmt"/>
@@ -1050,7 +1050,7 @@
         <line num="205" count="4" type="stmt"/>
         <line num="248" count="1" type="stmt"/>
       </file>
-      <file name="Select.stories.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/core/Select.stories.jsx">
+      <file name="Select.stories.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/core/Select.stories.jsx">
         <metrics statements="7" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="36" count="0" type="stmt"/>
         <line num="43" count="0" type="stmt"/>
@@ -1060,7 +1060,7 @@
         <line num="75" count="0" type="stmt"/>
         <line num="84" count="0" type="stmt"/>
       </file>
-      <file name="Table.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/core/Table.jsx">
+      <file name="Table.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/core/Table.jsx">
         <metrics statements="38" coveredstatements="36" conditionals="51" coveredconditionals="42" methods="10" coveredmethods="10"/>
         <line num="4" count="1" type="stmt"/>
         <line num="17" count="22" type="stmt"/>
@@ -1101,7 +1101,7 @@
         <line num="138" count="189" type="stmt"/>
         <line num="160" count="1" type="stmt"/>
       </file>
-      <file name="Table.stories.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/core/Table.stories.jsx">
+      <file name="Table.stories.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/core/Table.stories.jsx">
         <metrics statements="10" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="31" count="0" type="stmt"/>
         <line num="38" count="0" type="stmt"/>
@@ -1114,7 +1114,7 @@
         <line num="98" count="0" type="stmt"/>
         <line num="110" count="0" type="stmt"/>
       </file>
-      <file name="Tabs.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/core/Tabs.jsx">
+      <file name="Tabs.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/core/Tabs.jsx">
         <metrics statements="25" coveredstatements="22" conditionals="18" coveredconditionals="13" methods="7" coveredmethods="7"/>
         <line num="3" count="1" type="cond" truecount="1" falsecount="0"/>
         <line num="4" count="18" type="stmt"/>
@@ -1142,7 +1142,7 @@
         <line num="57" count="2" type="cond" truecount="2" falsecount="0"/>
         <line num="86" count="1" type="stmt"/>
       </file>
-      <file name="Tabs.stories.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/core/Tabs.stories.jsx">
+      <file name="Tabs.stories.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/core/Tabs.stories.jsx">
         <metrics statements="8" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
         <line num="10" count="0" type="stmt"/>
         <line num="16" count="0" type="stmt"/>
@@ -1153,7 +1153,7 @@
         <line num="37" count="0" type="stmt"/>
         <line num="43" count="0" type="stmt"/>
       </file>
-      <file name="TextArea.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/core/TextArea.jsx">
+      <file name="TextArea.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/core/TextArea.jsx">
         <metrics statements="6" coveredstatements="6" conditionals="12" coveredconditionals="12" methods="1" coveredmethods="1"/>
         <line num="4" count="1" type="stmt"/>
         <line num="21" count="18" type="stmt"/>
@@ -1162,7 +1162,7 @@
         <line num="31" count="18" type="stmt"/>
         <line num="59" count="1" type="stmt"/>
       </file>
-      <file name="TextArea.stories.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/core/TextArea.stories.jsx">
+      <file name="TextArea.stories.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/core/TextArea.stories.jsx">
         <metrics statements="11" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
         <line num="36" count="0" type="stmt"/>
         <line num="43" count="0" type="stmt"/>
@@ -1176,7 +1176,7 @@
         <line num="93" count="0" type="stmt"/>
         <line num="98" count="0" type="stmt"/>
       </file>
-      <file name="TimePicker.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/core/TimePicker.jsx">
+      <file name="TimePicker.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/core/TimePicker.jsx">
         <metrics statements="23" coveredstatements="19" conditionals="13" coveredconditionals="13" methods="7" coveredmethods="6"/>
         <line num="4" count="1" type="stmt"/>
         <line num="16" count="25" type="stmt"/>
@@ -1202,7 +1202,7 @@
         <line num="104" count="1" type="stmt"/>
         <line num="116" count="1" type="stmt"/>
       </file>
-      <file name="Toast.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/core/Toast.jsx">
+      <file name="Toast.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/core/Toast.jsx">
         <metrics statements="12" coveredstatements="12" conditionals="7" coveredconditionals="6" methods="4" coveredmethods="4"/>
         <line num="4" count="1" type="stmt"/>
         <line num="35" count="1" type="stmt"/>
@@ -1217,7 +1217,7 @@
         <line num="67" count="14" type="stmt"/>
         <line num="83" count="1" type="stmt"/>
       </file>
-      <file name="Toast.stories.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/core/Toast.stories.jsx">
+      <file name="Toast.stories.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/core/Toast.stories.jsx">
         <metrics statements="14" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="8" coveredmethods="0"/>
         <line num="25" count="0" type="stmt"/>
         <line num="33" count="0" type="stmt"/>
@@ -1234,14 +1234,14 @@
         <line num="92" count="0" type="stmt"/>
         <line num="94" count="0" type="stmt"/>
       </file>
-      <file name="Toggle.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/core/Toggle.jsx">
+      <file name="Toggle.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/core/Toggle.jsx">
         <metrics statements="4" coveredstatements="4" conditionals="15" coveredconditionals="15" methods="1" coveredmethods="1"/>
         <line num="3" count="1" type="stmt"/>
         <line num="16" count="21" type="cond" truecount="2" falsecount="0"/>
         <line num="18" count="21" type="stmt"/>
         <line num="64" count="1" type="stmt"/>
       </file>
-      <file name="Toggle.stories.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/core/Toggle.stories.jsx">
+      <file name="Toggle.stories.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/core/Toggle.stories.jsx">
         <metrics statements="17" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="8" coveredmethods="0"/>
         <line num="24" count="0" type="stmt"/>
         <line num="31" count="0" type="stmt"/>
@@ -1261,13 +1261,13 @@
         <line num="106" count="0" type="stmt"/>
         <line num="111" count="0" type="stmt"/>
       </file>
-      <file name="index.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/components/core/index.js">
+      <file name="index.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/components/core/index.js">
         <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       </file>
     </package>
     <package name="src.config">
       <metrics statements="10" coveredstatements="0" conditionals="6" coveredconditionals="0" methods="9" coveredmethods="0"/>
-      <file name="api.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/config/api.js">
+      <file name="api.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/config/api.js">
         <metrics statements="10" coveredstatements="0" conditionals="6" coveredconditionals="0" methods="9" coveredmethods="0"/>
         <line num="1" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="3" count="0" type="stmt"/>
@@ -1283,7 +1283,7 @@
     </package>
     <package name="src.hooks">
       <metrics statements="292" coveredstatements="64" conditionals="82" coveredconditionals="7" methods="131" coveredmethods="23"/>
-      <file name="useAnalytics.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/hooks/useAnalytics.js">
+      <file name="useAnalytics.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/hooks/useAnalytics.js">
         <metrics statements="32" coveredstatements="0" conditionals="20" coveredconditionals="0" methods="11" coveredmethods="0"/>
         <line num="5" count="0" type="stmt"/>
         <line num="6" count="0" type="stmt"/>
@@ -1318,7 +1318,7 @@
         <line num="124" count="0" type="stmt"/>
         <line num="127" count="0" type="stmt"/>
       </file>
-      <file name="useCountUp.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/hooks/useCountUp.js">
+      <file name="useCountUp.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/hooks/useCountUp.js">
         <metrics statements="20" coveredstatements="0" conditionals="8" coveredconditionals="0" methods="6" coveredmethods="0"/>
         <line num="4" count="0" type="stmt"/>
         <line num="5" count="0" type="stmt"/>
@@ -1341,7 +1341,7 @@
         <line num="32" count="0" type="stmt"/>
         <line num="35" count="0" type="stmt"/>
       </file>
-      <file name="useIntegrations.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/hooks/useIntegrations.js">
+      <file name="useIntegrations.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/hooks/useIntegrations.js">
         <metrics statements="42" coveredstatements="0" conditionals="4" coveredconditionals="0" methods="23" coveredmethods="0"/>
         <line num="4" count="0" type="stmt"/>
         <line num="5" count="0" type="stmt"/>
@@ -1386,7 +1386,7 @@
         <line num="113" count="0" type="stmt"/>
         <line num="114" count="0" type="stmt"/>
       </file>
-      <file name="useIntersectionObserver.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/hooks/useIntersectionObserver.js">
+      <file name="useIntersectionObserver.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/hooks/useIntersectionObserver.js">
         <metrics statements="16" coveredstatements="0" conditionals="11" coveredconditionals="0" methods="4" coveredmethods="0"/>
         <line num="4" count="0" type="stmt"/>
         <line num="5" count="0" type="stmt"/>
@@ -1405,7 +1405,7 @@
         <line num="28" count="0" type="stmt"/>
         <line num="31" count="0" type="stmt"/>
       </file>
-      <file name="useMediaQuery.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/hooks/useMediaQuery.js">
+      <file name="useMediaQuery.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/hooks/useMediaQuery.js">
         <metrics statements="12" coveredstatements="9" conditionals="2" coveredconditionals="1" methods="5" coveredmethods="3"/>
         <line num="16" count="17" type="stmt"/>
         <line num="18" count="17" type="stmt"/>
@@ -1420,7 +1420,7 @@
         <line num="38" count="0" type="stmt"/>
         <line num="42" count="17" type="stmt"/>
       </file>
-      <file name="useOutreach.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/hooks/useOutreach.js">
+      <file name="useOutreach.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/hooks/useOutreach.js">
         <metrics statements="37" coveredstatements="0" conditionals="10" coveredconditionals="0" methods="20" coveredmethods="0"/>
         <line num="4" count="0" type="stmt"/>
         <line num="5" count="0" type="stmt"/>
@@ -1460,7 +1460,7 @@
         <line num="114" count="0" type="stmt"/>
         <line num="115" count="0" type="stmt"/>
       </file>
-      <file name="usePageTitle.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/hooks/usePageTitle.js">
+      <file name="usePageTitle.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/hooks/usePageTitle.js">
         <metrics statements="5" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="3" coveredmethods="0"/>
         <line num="8" count="0" type="stmt"/>
         <line num="9" count="0" type="stmt"/>
@@ -1468,7 +1468,7 @@
         <line num="12" count="0" type="stmt"/>
         <line num="13" count="0" type="stmt"/>
       </file>
-      <file name="useProspects.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/hooks/useProspects.js">
+      <file name="useProspects.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/hooks/useProspects.js">
         <metrics statements="40" coveredstatements="36" conditionals="10" coveredconditionals="4" methods="20" coveredmethods="17"/>
         <line num="5" count="1" type="stmt"/>
         <line num="6" count="1" type="stmt"/>
@@ -1511,7 +1511,7 @@
         <line num="129" count="1" type="stmt"/>
         <line num="130" count="1" type="stmt"/>
       </file>
-      <file name="useResponsive.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/hooks/useResponsive.js">
+      <file name="useResponsive.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/hooks/useResponsive.js">
         <metrics statements="9" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="18" count="2" type="stmt"/>
         <line num="21" count="2" type="stmt"/>
@@ -1523,7 +1523,7 @@
         <line num="39" count="2" type="stmt"/>
         <line num="41" count="2" type="stmt"/>
       </file>
-      <file name="useScrollProgress.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/hooks/useScrollProgress.js">
+      <file name="useScrollProgress.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/hooks/useScrollProgress.js">
         <metrics statements="10" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="4" coveredmethods="0"/>
         <line num="4" count="0" type="stmt"/>
         <line num="6" count="0" type="stmt"/>
@@ -1536,7 +1536,7 @@
         <line num="15" count="0" type="stmt"/>
         <line num="18" count="0" type="stmt"/>
       </file>
-      <file name="useWebSocket.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/hooks/useWebSocket.js">
+      <file name="useWebSocket.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/hooks/useWebSocket.js">
         <metrics statements="31" coveredstatements="10" conditionals="6" coveredconditionals="2" methods="13" coveredmethods="2"/>
         <line num="6" count="12" type="stmt"/>
         <line num="7" count="12" type="stmt"/>
@@ -1570,7 +1570,7 @@
         <line num="87" count="0" type="stmt"/>
         <line num="93" count="12" type="cond" truecount="1" falsecount="1"/>
       </file>
-      <file name="useWebhooks.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/hooks/useWebhooks.js">
+      <file name="useWebhooks.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/hooks/useWebhooks.js">
         <metrics statements="38" coveredstatements="0" conditionals="7" coveredconditionals="0" methods="21" coveredmethods="0"/>
         <line num="4" count="0" type="stmt"/>
         <line num="5" count="0" type="stmt"/>
@@ -1614,7 +1614,7 @@
     </package>
     <package name="src.layouts">
       <metrics statements="36" coveredstatements="28" conditionals="97" coveredconditionals="61" methods="11" coveredmethods="6"/>
-      <file name="MainLayout.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/layouts/MainLayout.jsx">
+      <file name="MainLayout.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/layouts/MainLayout.jsx">
         <metrics statements="10" coveredstatements="7" conditionals="21" coveredconditionals="11" methods="4" coveredmethods="1"/>
         <line num="8" count="3" type="stmt"/>
         <line num="9" count="3" type="stmt"/>
@@ -1627,7 +1627,7 @@
         <line num="56" count="0" type="stmt"/>
         <line num="59" count="0" type="stmt"/>
       </file>
-      <file name="Sidebar.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/layouts/Sidebar.jsx">
+      <file name="Sidebar.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/layouts/Sidebar.jsx">
         <metrics statements="15" coveredstatements="10" conditionals="38" coveredconditionals="21" methods="5" coveredmethods="3"/>
         <line num="5" count="4" type="stmt"/>
         <line num="7" count="4" type="stmt"/>
@@ -1645,7 +1645,7 @@
         <line num="126" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="127" count="0" type="stmt"/>
       </file>
-      <file name="TopBar.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/layouts/TopBar.jsx">
+      <file name="TopBar.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/layouts/TopBar.jsx">
         <metrics statements="11" coveredstatements="11" conditionals="38" coveredconditionals="29" methods="2" coveredmethods="2"/>
         <line num="5" count="3" type="stmt"/>
         <line num="6" count="3" type="stmt"/>
@@ -1662,7 +1662,7 @@
     </package>
     <package name="src.pages">
       <metrics statements="235" coveredstatements="0" conditionals="170" coveredconditionals="0" methods="107" coveredmethods="0"/>
-      <file name="DashboardPage.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/pages/DashboardPage.jsx">
+      <file name="DashboardPage.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/pages/DashboardPage.jsx">
         <metrics statements="27" coveredstatements="0" conditionals="14" coveredconditionals="0" methods="4" coveredmethods="0"/>
         <line num="9" count="0" type="stmt"/>
         <line num="10" count="0" type="stmt"/>
@@ -1692,7 +1692,7 @@
         <line num="56" count="0" type="stmt"/>
         <line num="66" count="0" type="stmt"/>
       </file>
-      <file name="Landing.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/pages/Landing.jsx">
+      <file name="Landing.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/pages/Landing.jsx">
         <metrics statements="118" coveredstatements="0" conditionals="98" coveredconditionals="0" methods="67" coveredmethods="0"/>
         <line num="9" count="0" type="stmt"/>
         <line num="35" count="0" type="stmt"/>
@@ -1813,7 +1813,7 @@
         <line num="1083" count="0" type="stmt"/>
         <line num="1084" count="0" type="stmt"/>
       </file>
-      <file name="Login.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/pages/Login.jsx">
+      <file name="Login.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/pages/Login.jsx">
         <metrics statements="22" coveredstatements="0" conditionals="14" coveredconditionals="0" methods="4" coveredmethods="0"/>
         <line num="5" count="0" type="stmt"/>
         <line num="16" count="0" type="stmt"/>
@@ -1838,7 +1838,7 @@
         <line num="69" count="0" type="stmt"/>
         <line num="88" count="0" type="stmt"/>
       </file>
-      <file name="OnboardingPage.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/pages/OnboardingPage.jsx">
+      <file name="OnboardingPage.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/pages/OnboardingPage.jsx">
         <metrics statements="7" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="4" coveredmethods="0"/>
         <line num="4" count="0" type="stmt"/>
         <line num="6" count="0" type="stmt"/>
@@ -1848,7 +1848,7 @@
         <line num="14" count="0" type="stmt"/>
         <line num="75" count="0" type="stmt"/>
       </file>
-      <file name="PremiumLanding.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/pages/PremiumLanding.jsx">
+      <file name="PremiumLanding.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/pages/PremiumLanding.jsx">
         <metrics statements="11" coveredstatements="0" conditionals="12" coveredconditionals="0" methods="6" coveredmethods="0"/>
         <line num="8" count="0" type="stmt"/>
         <line num="19" count="0" type="stmt"/>
@@ -1862,7 +1862,7 @@
         <line num="305" count="0" type="stmt"/>
         <line num="312" count="0" type="stmt"/>
       </file>
-      <file name="Signup.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/pages/Signup.jsx">
+      <file name="Signup.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/pages/Signup.jsx">
         <metrics statements="50" coveredstatements="0" conditionals="30" coveredconditionals="0" methods="22" coveredmethods="0"/>
         <line num="4" count="0" type="stmt"/>
         <line num="23" count="0" type="stmt"/>
@@ -1918,7 +1918,7 @@
     </package>
     <package name="src.screens">
       <metrics statements="276" coveredstatements="16" conditionals="178" coveredconditionals="4" methods="118" coveredmethods="2"/>
-      <file name="Agents.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/screens/Agents.jsx">
+      <file name="Agents.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/screens/Agents.jsx">
         <metrics statements="10" coveredstatements="0" conditionals="4" coveredconditionals="0" methods="6" coveredmethods="0"/>
         <line num="3" count="0" type="stmt"/>
         <line num="14" count="0" type="stmt"/>
@@ -1931,7 +1931,7 @@
         <line num="81" count="0" type="stmt"/>
         <line num="82" count="0" type="stmt"/>
       </file>
-      <file name="Budget.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/screens/Budget.jsx">
+      <file name="Budget.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/screens/Budget.jsx">
         <metrics statements="9" coveredstatements="0" conditionals="4" coveredconditionals="0" methods="3" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
         <line num="12" count="0" type="stmt"/>
@@ -1943,7 +1943,7 @@
         <line num="72" count="0" type="stmt"/>
         <line num="73" count="0" type="stmt"/>
       </file>
-      <file name="IntegrationsPanel.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/screens/IntegrationsPanel.jsx">
+      <file name="IntegrationsPanel.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/screens/IntegrationsPanel.jsx">
         <metrics statements="57" coveredstatements="16" conditionals="25" coveredconditionals="4" methods="29" coveredmethods="2"/>
         <line num="7" count="1" type="stmt"/>
         <line num="22" count="1" type="stmt"/>
@@ -2003,7 +2003,7 @@
         <line num="406" count="0" type="stmt"/>
         <line num="407" count="0" type="stmt"/>
       </file>
-      <file name="Onboarding.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/screens/Onboarding.jsx">
+      <file name="Onboarding.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/screens/Onboarding.jsx">
         <metrics statements="14" coveredstatements="0" conditionals="10" coveredconditionals="0" methods="8" coveredmethods="0"/>
         <line num="4" count="0" type="stmt"/>
         <line num="17" count="0" type="stmt"/>
@@ -2020,7 +2020,7 @@
         <line num="210" count="0" type="stmt"/>
         <line num="211" count="0" type="stmt"/>
       </file>
-      <file name="Outreach.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/screens/Outreach.jsx">
+      <file name="Outreach.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/screens/Outreach.jsx">
         <metrics statements="80" coveredstatements="0" conditionals="55" coveredconditionals="0" methods="22" coveredmethods="0"/>
         <line num="7" count="0" type="stmt"/>
         <line num="21" count="0" type="stmt"/>
@@ -2103,7 +2103,7 @@
         <line num="444" count="0" type="stmt"/>
         <line num="481" count="0" type="stmt"/>
       </file>
-      <file name="Overview.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/screens/Overview.jsx">
+      <file name="Overview.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/screens/Overview.jsx">
         <metrics statements="7" coveredstatements="0" conditionals="6" coveredconditionals="0" methods="4" coveredmethods="0"/>
         <line num="3" count="0" type="stmt"/>
         <line num="21" count="0" type="stmt"/>
@@ -2113,7 +2113,7 @@
         <line num="224" count="0" type="stmt"/>
         <line num="301" count="0" type="stmt"/>
       </file>
-      <file name="ProspectsPage.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/screens/ProspectsPage.jsx">
+      <file name="ProspectsPage.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/screens/ProspectsPage.jsx">
         <metrics statements="93" coveredstatements="0" conditionals="74" coveredconditionals="0" methods="41" coveredmethods="0"/>
         <line num="7" count="0" type="stmt"/>
         <line num="22" count="0" type="stmt"/>
@@ -2209,7 +2209,7 @@
         <line num="895" count="0" type="stmt"/>
         <line num="914" count="0" type="stmt"/>
       </file>
-      <file name="Report.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/screens/Report.jsx">
+      <file name="Report.jsx" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/screens/Report.jsx">
         <metrics statements="6" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="5" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
         <line num="12" count="0" type="stmt"/>
@@ -2221,14 +2221,14 @@
     </package>
     <package name="src.stores">
       <metrics statements="35" coveredstatements="14" conditionals="3" coveredconditionals="0" methods="41" coveredmethods="15"/>
-      <file name="analyticsStore.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/stores/analyticsStore.js">
+      <file name="analyticsStore.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/stores/analyticsStore.js">
         <metrics statements="4" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="5" coveredmethods="0"/>
         <line num="3" count="0" type="stmt"/>
         <line num="10" count="0" type="stmt"/>
         <line num="23" count="0" type="stmt"/>
         <line num="30" count="0" type="stmt"/>
       </file>
-      <file name="authStore.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/stores/authStore.js">
+      <file name="authStore.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/stores/authStore.js">
         <metrics statements="6" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="6" coveredmethods="1"/>
         <line num="3" count="1" type="stmt"/>
         <line num="12" count="0" type="stmt"/>
@@ -2237,7 +2237,7 @@
         <line num="27" count="0" type="stmt"/>
         <line num="34" count="0" type="stmt"/>
       </file>
-      <file name="prospectStore.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/stores/prospectStore.js">
+      <file name="prospectStore.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/stores/prospectStore.js">
         <metrics statements="9" coveredstatements="1" conditionals="2" coveredconditionals="0" methods="11" coveredmethods="1"/>
         <line num="3" count="1" type="stmt"/>
         <line num="6" count="0" type="stmt"/>
@@ -2249,7 +2249,7 @@
         <line num="51" count="0" type="stmt"/>
         <line num="52" count="0" type="stmt"/>
       </file>
-      <file name="uiStore.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/stores/uiStore.js">
+      <file name="uiStore.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/stores/uiStore.js">
         <metrics statements="16" coveredstatements="12" conditionals="1" coveredconditionals="0" methods="19" coveredmethods="13"/>
         <line num="4" count="1" type="stmt"/>
         <line num="6" count="1" type="stmt"/>
@@ -2271,37 +2271,37 @@
     </package>
     <package name="src.styles">
       <metrics statements="1" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-      <file name="theme.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/styles/theme.js">
+      <file name="theme.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/styles/theme.js">
         <metrics statements="1" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
       </file>
     </package>
     <package name="src.theme">
       <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-      <file name="colors.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/theme/colors.js">
+      <file name="colors.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/theme/colors.js">
         <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
       </file>
-      <file name="index.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/theme/index.js">
+      <file name="index.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/theme/index.js">
         <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="6" count="1" type="stmt"/>
       </file>
-      <file name="shadows.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/theme/shadows.js">
+      <file name="shadows.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/theme/shadows.js">
         <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
       </file>
-      <file name="spacing.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/theme/spacing.js">
+      <file name="spacing.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/theme/spacing.js">
         <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
       </file>
-      <file name="typography.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/theme/typography.js">
+      <file name="typography.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/theme/typography.js">
         <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
       </file>
     </package>
     <package name="src.utils">
       <metrics statements="275" coveredstatements="112" conditionals="146" coveredconditionals="44" methods="87" coveredmethods="34"/>
-      <file name="a11y.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/utils/a11y.js">
+      <file name="a11y.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/utils/a11y.js">
         <metrics statements="75" coveredstatements="31" conditionals="48" coveredconditionals="11" methods="28" coveredmethods="8"/>
         <line num="16" count="2" type="stmt"/>
         <line num="17" count="4" type="stmt"/>
@@ -2379,7 +2379,7 @@
         <line num="354" count="0" type="stmt"/>
         <line num="358" count="0" type="stmt"/>
       </file>
-      <file name="performance.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/utils/performance.js">
+      <file name="performance.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/utils/performance.js">
         <metrics statements="124" coveredstatements="20" conditionals="65" coveredconditionals="10" methods="39" coveredmethods="10"/>
         <line num="15" count="1" type="stmt"/>
         <line num="17" count="1" type="stmt"/>
@@ -2506,7 +2506,7 @@
         <line num="396" count="0" type="stmt"/>
         <line num="398" count="0" type="stmt"/>
       </file>
-      <file name="websocketManager.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layer-roi-phase-4-frontend/frontend/src/utils/websocketManager.js">
+      <file name="websocketManager.js" path="/Users/hridhaygarg/AgentCFO/.worktrees/feature/layeroi-phase-4-frontend/frontend/src/utils/websocketManager.js">
         <metrics statements="76" coveredstatements="61" conditionals="33" coveredconditionals="23" methods="20" coveredmethods="16"/>
         <line num="3" count="18" type="cond" truecount="1" falsecount="2"/>
         <line num="4" count="18" type="stmt"/>

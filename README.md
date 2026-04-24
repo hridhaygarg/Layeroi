@@ -1,4 +1,4 @@
-# Layer ROI
+# Layeroi
 
 AI agent financial control layer. Intercepts API calls to OpenAI/Anthropic, logs costs, tracks profitability per agent, and provides a CFO-readable P&L dashboard.
 

@@ -1,8 +1,8 @@
-# Layer ROI Complete System Upgrade - Implementation Plan
+# Layeroi Complete System Upgrade - Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking. This is an 80+ task plan organized by dependency phase. Execute in phase order. Within phases, tasks can be parallelized.
 
-**Goal:** Upgrade Layer ROI from good to world-class, institutional, enterprise-grade system with excellence across all 14 dimensions simultaneously.
+**Goal:** Upgrade Layeroi from good to world-class, institutional, enterprise-grade system with excellence across all 14 dimensions simultaneously.
 
 **Architecture:** Modular Monolith on Railway with clean service layers (auth, agents, outreach, analytics, integrations, webhooks). PostgreSQL + Redis. React 18 frontend. Real-time WebSocket support. Fully tested, monitored, documented.
 

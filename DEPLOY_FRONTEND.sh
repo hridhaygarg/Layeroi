@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# LayerROI Frontend Deployment Script
+# Layeroi Frontend Deployment Script
 # Supports: Vercel, Docker, and Static Hosting
 
 set -e
 
 echo "╔════════════════════════════════════════════════════════════╗"
-echo "║     LayerROI Frontend - Deployment Script v1.0             ║"
+echo "║     Layeroi Frontend - Deployment Script v1.0             ║"
 echo "╚════════════════════════════════════════════════════════════╝"
 echo ""
 
@@ -83,7 +83,7 @@ deploy_vercel() {
     echo -e "${GREEN}✓ Deployment to Vercel complete${NC}"
     echo ""
     echo -e "${GREEN}Next steps:${NC}"
-    echo "  1. Verify deployment: https://layerroi.vercel.app"
+    echo "  1. Verify deployment: https://layeroi.vercel.app"
     echo "  2. Run smoke tests"
     echo "  3. Monitor in Vercel dashboard"
 }
@@ -98,7 +98,7 @@ deploy_docker() {
         exit 1
     fi
 
-    local image_name="layerroi-frontend:latest"
+    local image_name="layeroi-frontend:latest"
 
     docker build -t "$image_name" .
 
@@ -117,7 +117,7 @@ deploy_static() {
     echo ""
     echo -e "${BLUE}→ Preparing static files for deployment...${NC}"
 
-    local archive="layerroi-frontend-build.tar.gz"
+    local archive="layeroi-frontend-build.tar.gz"
 
     tar czf "$archive" build/
 

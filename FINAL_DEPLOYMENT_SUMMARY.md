@@ -1,4 +1,4 @@
-# LayerROI PHASE 4 Frontend - Final Deployment Summary ✅
+# Layeroi PHASE 4 Frontend - Final Deployment Summary ✅
 
 **Date:** 2026-04-18
 **Status:** 🚀 LIVE IN PRODUCTION
@@ -112,7 +112,7 @@ Files:
 
 ### Source Code
 ```
-Repository: https://github.com/hridhaygarg/LayerROI
+Repository: https://github.com/hridhaygarg/Layeroi
 Branch: main
 All code: Committed & pushed
 Build config: vercel.json optimized
@@ -339,7 +339,7 @@ Your application is **production-ready** and **live**. Customers can now:
 
 ## 🎉 Summary
 
-**LayerROI PHASE 4 Frontend is complete, tested, deployed, and live.**
+**Layeroi PHASE 4 Frontend is complete, tested, deployed, and live.**
 
 Your application is serving customers at **https://layeroi.com** with:
 - ✅ All features implemented

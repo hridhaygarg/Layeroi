@@ -1,4 +1,4 @@
-# Layer ROI v2.0 — Deployment Guide
+# Layeroi v2.0 — Deployment Guide
 
 ## ⚠️ CRITICAL: Environment Variables
 
@@ -16,7 +16,7 @@ Copy the output and add to Railway variables.
 
 ```bash
 cd backend
-git remote add origin https://github.com/YOUR_USERNAME/layer-roi-backend.git
+git remote add origin https://github.com/YOUR_USERNAME/layeroi-backend.git
 git branch -M main
 git push -u origin main
 ```
@@ -172,7 +172,7 @@ curl -X POST https://api.layeroi.com/automations/intent
 
 If you configured Datadog, view metrics at:
 - https://app.datadoghq.com/dashboard
-- Filter by service: `layerroi-api`
+- Filter by service: `layeroi-api`
 - Check: Request count, latency, errors
 
 ### Railroad Logs

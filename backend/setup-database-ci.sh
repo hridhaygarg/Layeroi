@@ -11,7 +11,7 @@ if [ -z "$PGPASSWORD" ]; then
   exit 1
 fi
 
-echo "🚀 Layer ROI - Database Setup"
+echo "🚀 Layeroi - Database Setup"
 echo "════════════════════════════════════════"
 echo ""
 echo "⏳ Executing migration..."

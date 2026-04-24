@@ -1,8 +1,8 @@
-# Database Migration Setup - Layer ROI
+# Database Migration Setup - Layeroi
 
 ## Overview
 
-The Layer ROI outreach automation system requires a PostgreSQL table `outreach_queue` to store prospect data, generated messages, and engagement metrics.
+The Layeroi outreach automation system requires a PostgreSQL table `outreach_queue` to store prospect data, generated messages, and engagement metrics.
 
 **Status:** Migration SQL ready ✅ | Infrastructure in place ✅ | Execution required ⏳
 
@@ -74,7 +74,7 @@ cd backend
 node src/db/migrate.js
 
 # Expected output:
-# 🚀 Layer ROI Database Migration Runner
+# 🚀 Layeroi Database Migration Runner
 # ✅ Connected
 # ✅ Migration executed successfully
 # ✅ outreach_queue table verified

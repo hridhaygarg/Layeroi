@@ -1,8 +1,8 @@
-# LayerROI PHASE 4 Frontend - DEPLOYMENT READY ✅
+# Layeroi PHASE 4 Frontend - DEPLOYMENT READY ✅
 
 ## Executive Summary
 
-The LayerROI PHASE 4 Frontend is **100% production-ready** and pushed to GitHub. All code, build artifacts, and deployment configurations are complete and tested.
+The Layeroi PHASE 4 Frontend is **100% production-ready** and pushed to GitHub. All code, build artifacts, and deployment configurations are complete and tested.
 
 **Status:** Ready for immediate deployment to production customers.
 
@@ -42,7 +42,7 @@ The LayerROI PHASE 4 Frontend is **100% production-ready** and pushed to GitHub.
 
 ### 1. GitHub Repository
 ```
-Repository: https://github.com/hridhaygarg/LayerROI
+Repository: https://github.com/hridhaygarg/Layeroi
 Branch: main
 Status: All code committed and pushed
 ```
@@ -81,12 +81,12 @@ Usage: chmod +x DEPLOY_FRONTEND.sh && ./DEPLOY_FRONTEND.sh
 1. Go to: https://vercel.com
 2. Click: "Add New Project"
 3. Select: "Import Git Repository"
-4. Choose: hridhaygarg/LayerROI
+4. Choose: hridhaygarg/Layeroi
 5. Set Root Directory: frontend
 6. Click: Deploy
 ```
 
-**Result:** Live at `https://layerroi.vercel.app`
+**Result:** Live at `https://layeroi.vercel.app`
 
 **Documentation:** See `VERCEL_DEPLOYMENT_GUIDE.md`
 
@@ -98,16 +98,16 @@ Usage: chmod +x DEPLOY_FRONTEND.sh && ./DEPLOY_FRONTEND.sh
 
 ```bash
 cd frontend
-docker build -t layerroi-frontend:latest .
-docker run -p 3000:3000 layerroi-frontend:latest
+docker build -t layeroi-frontend:latest .
+docker run -p 3000:3000 layeroi-frontend:latest
 ```
 
 **Result:** App running on `http://localhost:3000`
 
 **For production:** Push to Docker registry
 ```bash
-docker tag layerroi-frontend your-registry.com/layerroi-frontend:1.0.0
-docker push your-registry.com/layerroi-frontend:1.0.0
+docker tag layeroi-frontend your-registry.com/layeroi-frontend:1.0.0
+docker push your-registry.com/layeroi-frontend:1.0.0
 ```
 
 ---
@@ -120,7 +120,7 @@ docker push your-registry.com/layerroi-frontend:1.0.0
 cd frontend
 npm run build
 # Upload build/ directory to your hosting:
-aws s3 sync build/ s3://your-bucket/layerroi
+aws s3 sync build/ s3://your-bucket/layeroi
 ```
 
 ---
@@ -254,7 +254,7 @@ All deployments can be reversed instantly:
 - **Vercel Docs:** https://vercel.com/docs
 - **React Docs:** https://react.dev
 - **Tailwind CSS:** https://tailwindcss.com
-- **Issues:** https://github.com/hridhaygarg/LayerROI/issues
+- **Issues:** https://github.com/hridhaygarg/Layeroi/issues
 
 ---
 
@@ -296,7 +296,7 @@ All deployments can be reversed instantly:
 ## File Structure
 
 ```
-LayerROI/
+Layeroi/
 ├── frontend/                    ← React app
 │   ├── build/                   ← Production bundle (READY)
 │   ├── src/
@@ -333,7 +333,7 @@ LayerROI/
 - **Solution:** Check WebSocket configuration, CORS settings
 
 ### Contact
-- GitHub Issues: https://github.com/hridhaygarg/LayerROI/issues
+- GitHub Issues: https://github.com/hridhaygarg/Layeroi/issues
 - Vercel Support: https://vercel.com/support
 
 ---
@@ -358,5 +358,5 @@ LayerROI/
 ---
 
 *Generated: 2026-04-18*
-*Version: LayerROI Frontend v1.0*
+*Version: Layeroi Frontend v1.0*
 *Status: PRODUCTION READY ✅*

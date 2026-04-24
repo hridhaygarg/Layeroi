@@ -1,8 +1,8 @@
-# Layer ROI System Upgrade - Comprehensive Design Specification
+# Layeroi System Upgrade - Comprehensive Design Specification
 
 > **Status:** Design approved | Ready for implementation planning
 
-**Goal:** Transform Layer ROI from good to world-class, institutional, enterprise-grade system with maximum utility across all 14 dimensions (backend, frontend, database, AI, automation, analytics, security, integrations, performance, DevOps, user features, mobile, advanced features, documentation).
+**Goal:** Transform Layeroi from good to world-class, institutional, enterprise-grade system with maximum utility across all 14 dimensions (backend, frontend, database, AI, automation, analytics, security, integrations, performance, DevOps, user features, mobile, advanced features, documentation).
 
 **Architecture:** Modular Monolith on Railway with clean service layers (auth, agents, outreach, analytics, integrations, webhooks), ready for future microservice extraction. PostgreSQL + Redis + React frontend with real-time WebSocket support. All 14 dimensions built simultaneously for complete excellence.
 
@@ -496,7 +496,7 @@ const stream = await client.messages.create({
   messages: [{
     role: "user",
     content: `Write email to ${prospect.name}, ${prospect.title} at ${prospect.company}.
-    Our value prop: Layer ROI helps sales teams automate outreach at scale.
+    Our value prop: Layeroi helps sales teams automate outreach at scale.
     Their context: ${prospect.research_data.key_info}`
   }]
 });
@@ -1061,7 +1061,7 @@ const sendScheduledReport = async (reportId, org_id) => {
 // TOTP (Google Authenticator, Authy)
 const generateMfaSecret = () => {
   const secret = speakeasy.generateSecret({
-    name: 'Layer ROI',
+    name: 'Layeroi',
     length: 32
   });
   return { secret: secret.base32, qr_code: secret.qr_svg };
@@ -1533,7 +1533,7 @@ jobs:
       - uses: docker/build-push-action@v4
         with:
           push: true
-          tags: ghcr.io/org/layer-roi:${{ github.sha }}
+          tags: ghcr.io/org/layeroi:${{ github.sha }}
 
   deploy:
     needs: build
@@ -1544,7 +1544,7 @@ jobs:
         run: |
           curl -X POST https://api.railway.app/deploy \
             -H "Authorization: Bearer ${{ secrets.RAILWAY_TOKEN }}" \
-            -d '{"service": "layer-roi", "image": "ghcr.io/org/layer-roi:${{ github.sha }}"}'
+            -d '{"service": "layeroi", "image": "ghcr.io/org/layeroi:${{ github.sha }}"}'
 ```
 
 **Branch Strategy:**
@@ -1800,7 +1800,7 @@ const getToken = async () => {
 // service-worker.js
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open('layer-roi-v1').then((cache) => {
+    caches.open('layeroi-v1').then((cache) => {
       return cache.addAll([
         '/',
         '/index.html',
@@ -2057,9 +2057,9 @@ const bulkAction = async (action, prospects) => {
 ### Customer Support
 
 **Support Channels:**
-- Email: support@layerroi.com (24hr SLA for paid tiers)
+- Email: support@layeroi.com (24hr SLA for paid tiers)
 - Slack community: Join 500+ users
-- Twitter support: @LayerROI support team
+- Twitter support: @Layeroi support team
 - Feature request voting board (upvote, comment)
 
 **Premium Support (Enterprise tier):**
@@ -2089,7 +2089,7 @@ const bulkAction = async (action, prospects) => {
 
 ## Implementation Approach
 
-This specification covers the complete Layer ROI system across 14 dimensions. Implementation will follow this sequence:
+This specification covers the complete Layeroi system across 14 dimensions. Implementation will follow this sequence:
 
 1. **Backend architecture refactor** (service layers, API contracts, database schema)
 2. **Frontend component library** (80+ components, responsive, accessible)

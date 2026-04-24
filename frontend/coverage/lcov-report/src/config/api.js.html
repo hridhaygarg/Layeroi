@@ -107,7 +107,7 @@ export const getHeaders = <span class="cstat-no" title="statement not covered" >
 <span class="cstat-no" title="statement not covered" >  return {</span>
     'Content-Type': 'application/json',
     ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
-    ...(apiKey ? { 'X-LayerROI-Key': apiKey } : {}),
+    ...(apiKey ? { 'X-Layeroi-Key': apiKey } : {}),
   };
 };
 &nbsp;

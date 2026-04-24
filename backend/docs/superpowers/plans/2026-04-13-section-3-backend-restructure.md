@@ -135,7 +135,7 @@ export const corsMiddleware = cors({
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Agent-Name', 'X-LayerROI-Key'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Agent-Name', 'X-Layeroi-Key'],
 });
 ```
 
@@ -1145,7 +1145,7 @@ process.on('SIGTERM', async () => {
 });
 
 app.listen(PORT, '0.0.0.0', () => {
-  logger.info('Layer ROI backend is LIVE', { port: PORT, environment: CONFIG.NODE_ENV });
+  logger.info('Layeroi backend is LIVE', { port: PORT, environment: CONFIG.NODE_ENV });
 });
 
 export default app;
@@ -1173,7 +1173,7 @@ git add src/server.js && git commit -m "refactor: restructure server.js to use m
 npm start
 ```
 
-Expected: Server starts without errors, logs "Layer ROI backend is LIVE"
+Expected: Server starts without errors, logs "Layeroi backend is LIVE"
 
 - [ ] **Step 2: Verify loop detector still exports properly**
 
@@ -1314,7 +1314,7 @@ Expected: See all new modules in api/routes, api/middleware, api/controllers, se
 timeout 5 npm start 2>&1 | grep -E "LIVE|Error|Cannot find" || true
 ```
 
-Expected: Should see "Layer ROI backend is LIVE"
+Expected: Should see "Layeroi backend is LIVE"
 
 - [ ] **Step 3: Test health endpoint**
 

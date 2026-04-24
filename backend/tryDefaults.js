@@ -14,7 +14,7 @@ const passwords = [
   'password',
   'supabase',
   'layeroi',
-  'LayerROI',
+  'Layeroi',
   'abc123',
   '123456',
   // Extract potential password from service role (unlikely)

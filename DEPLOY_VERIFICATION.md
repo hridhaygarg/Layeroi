@@ -27,7 +27,7 @@ Commits ahead: 0
 ### Deployment Pipeline
 
 #### Railway Auto-Deploy Status
-- Repository: GitHub (hridhaygarg/LayerROI)
+- Repository: GitHub (hridhaygarg/Layeroi)
 - Branch: main
 - Auto-deploy: ENABLED
 - Last push: Just now
