@@ -10,6 +10,10 @@ export const authMiddleware = (req, res, next) => {
   if (req.path.startsWith('/payments/')) {
     return next();
   }
+  // SDK ingestion handles its own auth via X-Layeroi-Key
+  if (req.path === '/v1/log') {
+    return next();
+  }
   if (publicEndpoints.includes(req.path)) {
     return next();
   }

@@ -3,11 +3,18 @@
   "version": "1.0.0",
   "description": "AI agent financial control layer",
   "type": "module",
-  "workspaces": ["backend", "frontend", "packages/*"],
+  "workspaces": [
+    "backend",
+    "frontend",
+    "packages/*"
+  ],
   "scripts": {
     "start": "bash start.sh"
   },
   "devDependencies": {
     "supabase": "^2.91.1"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.104.1"
   }
 }
