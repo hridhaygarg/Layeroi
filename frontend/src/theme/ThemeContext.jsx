@@ -38,4 +38,11 @@ export function ThemeProvider({ children }) {
   );
 }
 
-export const useTheme = () => useContext(ThemeContext);
+export const useTheme = () => {
+  const ctx = useContext(ThemeContext);
+  if (!ctx) {
+    console.warn('useTheme called outside ThemeProvider — falling back to dark theme');
+    return { mode: 'dark', setMode: () => {}, resolved: 'dark', colors: darkTheme };
+  }
+  return ctx;
+};

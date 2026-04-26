@@ -34,13 +34,13 @@ if (document.readyState === 'loading') {
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <ErrorBoundary>
-      <ThemeProvider>
+    <ThemeProvider>
+      <ErrorBoundary>
         <ToastProvider>
           <App />
         </ToastProvider>
-      </ThemeProvider>
-    </ErrorBoundary>
+      </ErrorBoundary>
+    </ThemeProvider>
   </React.StrictMode>,
 )
 // cache bust
