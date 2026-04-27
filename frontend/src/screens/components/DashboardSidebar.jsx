@@ -46,12 +46,12 @@ export function DashboardSidebar({ active, onNavigate, onUpgrade, onClose }) {
             width: '100%', display: 'flex', alignItems: 'center', gap: '12px',
             padding: '8px 12px', marginBottom: '1px', borderRadius: '6px',
             background: active === item.id ? 'var(--green-soft)' : 'transparent',
-            color: active === item.id ? '#22c55e' : 'var(--white-75)',
+            color: active === item.id ? 'var(--green)' : 'var(--white-70)',
             fontSize: '13.5px', fontWeight: active === item.id ? 600 : 500,
             textAlign: 'left', border: 'none', cursor: 'pointer',
             transition: 'background 140ms linear, color 140ms linear',
           }}
-          onMouseEnter={e => { if (active !== item.id) { e.currentTarget.style.background = 'rgba(255,255,255,0.03)'; e.currentTarget.style.color = 'white'; }}}
+          onMouseEnter={e => { if (active !== item.id) { e.currentTarget.style.background = 'var(--hover-overlay)'; e.currentTarget.style.color = 'var(--white)'; }}}
           onMouseLeave={e => { if (active !== item.id) { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--white-75)'; }}}>
             <Icon name={item.icon} size={17} />
             <span>{item.label}</span>
@@ -66,12 +66,12 @@ export function DashboardSidebar({ active, onNavigate, onUpgrade, onClose }) {
                 width: '100%', display: 'flex', alignItems: 'center', gap: '12px',
                 padding: '8px 12px', marginBottom: '1px', borderRadius: '6px',
                 background: active === item.id ? 'var(--green-soft)' : 'transparent',
-                color: active === item.id ? '#22c55e' : 'var(--white-75)',
+                color: active === item.id ? 'var(--green)' : 'var(--white-70)',
                 fontSize: '13.5px', fontWeight: active === item.id ? 600 : 500,
                 textAlign: 'left', border: 'none', cursor: 'pointer',
                 transition: 'background 140ms linear, color 140ms linear',
               }}
-              onMouseEnter={e => { if (active !== item.id) { e.currentTarget.style.background = 'rgba(255,255,255,0.03)'; e.currentTarget.style.color = 'white'; }}}
+              onMouseEnter={e => { if (active !== item.id) { e.currentTarget.style.background = 'var(--hover-overlay)'; e.currentTarget.style.color = 'var(--white)'; }}}
               onMouseLeave={e => { if (active !== item.id) { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--white-75)'; }}}>
                 <Icon name={item.icon} size={17} />
                 <span>{item.label}</span>
@@ -86,12 +86,12 @@ export function DashboardSidebar({ active, onNavigate, onUpgrade, onClose }) {
             width: '100%', display: 'flex', alignItems: 'center', gap: '12px',
             padding: '8px 12px', marginBottom: '1px', borderRadius: '6px',
             background: active === item.id ? 'var(--green-soft)' : 'transparent',
-            color: active === item.id ? '#22c55e' : 'var(--white-75)',
+            color: active === item.id ? 'var(--green)' : 'var(--white-70)',
             fontSize: '13.5px', fontWeight: active === item.id ? 600 : 500,
             textAlign: 'left', border: 'none', cursor: 'pointer',
             transition: 'background 140ms linear, color 140ms linear',
           }}
-          onMouseEnter={e => { if (active !== item.id) { e.currentTarget.style.background = 'rgba(255,255,255,0.03)'; e.currentTarget.style.color = 'white'; }}}
+          onMouseEnter={e => { if (active !== item.id) { e.currentTarget.style.background = 'var(--hover-overlay)'; e.currentTarget.style.color = 'var(--white)'; }}}
           onMouseLeave={e => { if (active !== item.id) { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--white-75)'; }}}>
             <Icon name={item.icon} size={17} />
             <span>{item.label}</span>
@@ -106,7 +106,7 @@ export function DashboardSidebar({ active, onNavigate, onUpgrade, onClose }) {
           border: `1px solid ${plan === 'free' ? 'rgba(34,197,94,0.22)' : 'var(--border-default)'}`,
           borderRadius: '10px', padding: '16px',
         }}>
-          <div className='mono' style={{ fontSize: '10.5px', color: plan === 'free' ? '#22c55e' : 'var(--white-55)', fontWeight: 700, letterSpacing: '0.1em', marginBottom: '8px' }}>
+          <div className='mono' style={{ fontSize: '10.5px', color: plan === 'free' ? 'var(--green)' : 'var(--white-50)', fontWeight: 700, letterSpacing: '0.1em', marginBottom: '8px' }}>
             {plan.toUpperCase()} PLAN
           </div>
           <div style={{ fontSize: '12.5px', color: 'var(--white-55)', marginBottom: plan === 'enterprise' ? 0 : '12px', lineHeight: 1.5 }}>
@@ -115,7 +115,7 @@ export function DashboardSidebar({ active, onNavigate, onUpgrade, onClose }) {
           {plan === 'free' && (
             <button onClick={onUpgrade} style={{
               width: '100%', padding: '8px 12px',
-              background: '#22c55e', color: '#050505',
+              background: 'var(--green)', color: 'var(--btn-primary-text)',
               borderRadius: '6px', fontSize: '12.5px', fontWeight: 600,
               border: 'none', cursor: 'pointer',
             }}>Upgrade plan →</button>
@@ -123,7 +123,7 @@ export function DashboardSidebar({ active, onNavigate, onUpgrade, onClose }) {
           {plan === 'starter' && (
             <button onClick={onUpgrade} style={{
               width: '100%', padding: '8px 12px',
-              background: '#22c55e', color: '#050505',
+              background: 'var(--green)', color: 'var(--btn-primary-text)',
               borderRadius: '6px', fontSize: '12.5px', fontWeight: 600,
               border: 'none', cursor: 'pointer',
             }}>Upgrade to Business →</button>
@@ -131,8 +131,8 @@ export function DashboardSidebar({ active, onNavigate, onUpgrade, onClose }) {
           {plan === 'business' && (
             <button onClick={onUpgrade} style={{
               width: '100%', padding: '8px 12px',
-              background: 'transparent', color: 'rgba(255,255,255,0.75)',
-              border: '1px solid rgba(255,255,255,0.09)',
+              background: 'transparent', color: 'var(--white-70)',
+              border: '1px solid var(--border-default)',
               borderRadius: '6px', fontSize: '12.5px', fontWeight: 500,
               cursor: 'pointer',
             }}>Manage plan</button>

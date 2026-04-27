@@ -99,6 +99,7 @@
   --quote-bg: rgba(34,197,94,0.04);
   --quote-border: rgba(34,197,94,0.18);
   --table-alt-bg: rgba(255,255,255,0.02);
+  --hover-overlay: rgba(255,255,255,0.04);
   --status-profit-bg: rgba(34,197,94,0.08);
   --status-loss-bg: rgba(239,68,68,0.08);
   --status-warn-bg: rgba(245,158,11,0.08);
@@ -159,6 +160,7 @@
   --quote-bg: rgba(22,163,74,0.04);
   --quote-border: rgba(22,163,74,0.16);
   --table-alt-bg: rgba(0,0,0,0.02);
+  --hover-overlay: rgba(15,23,42,0.04);
   --status-profit-bg: rgba(22,163,74,0.06);
   --status-loss-bg: rgba(220,38,38,0.06);
   --status-warn-bg: rgba(217,119,6,0.06);

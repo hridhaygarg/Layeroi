@@ -290,7 +290,7 @@ function DarkDashboard({ currentScreen, setCurrentScreen, screenNames, isMobile 
   const CurrentScreen = DashScreens[currentScreen] || DashScreens.overview;
 
   return (
-    <div style={{ minHeight: '100vh', background: 'var(--black, #050505)', color: 'white', fontFamily: 'Inter, -apple-system, sans-serif' }}>
+    <div style={{ minHeight: '100vh', background: 'var(--black)', color: 'var(--white)', fontFamily: 'Inter, -apple-system, sans-serif' }}>
       {/* Sidebar — desktop */}
       {sidebarOpen && !isMobile && (
         <DashboardSidebar active={currentScreen} onNavigate={setCurrentScreen} onUpgrade={() => setUpgradeOpen(true)} />

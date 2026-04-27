@@ -144,7 +144,7 @@ export default function Report() {
                 ))}
               </div>
               {data.agents.map((a, i) => (
-                <div key={a.id} style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 0.8fr 1fr', gap: '12px', padding: '14px 24px', borderBottom: i === data.agents.length - 1 ? 'none' : '1px solid rgba(255,255,255,0.06)', alignItems: 'center' }}>
+                <div key={a.id} style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 0.8fr 1fr', gap: '12px', padding: '14px 24px', borderBottom: i === data.agents.length - 1 ? 'none' : '1px solid var(--border-default)', alignItems: 'center' }}>
                   <span className='mono' style={{ fontSize: '13px', color: 'var(--white-90)' }}>{a.name}</span>
                   <span className='mono' style={{ fontSize: '12px', color: 'var(--white-50)' }}>{a.provider}</span>
                   <span className='mono' style={{ fontSize: '13px', color: 'var(--white-70)' }}>{fmt.currency(a.cost)}</span>
@@ -162,9 +162,9 @@ export default function Report() {
 }
 
 function KPICard({ label, value, sublabel, tone, highlight }) {
-  const color = tone === 'positive' || highlight ? '#22c55e' : 'white';
+  const color = tone === 'positive' || highlight ? 'var(--green)' : 'var(--white)';
   const bg = highlight ? 'linear-gradient(180deg, var(--status-profit-bg) 0%, var(--surface-1) 100%)' : 'var(--surface-1)';
-  const border = highlight ? 'rgba(34,197,94,0.22)' : 'var(--border-default)';
+  const border = highlight ? 'var(--green-border)' : 'var(--border-default)';
   return (
     <div style={{ background: bg, border: `1px solid ${border}`, borderRadius: '14px', padding: '20px' }}>
       <div className='mono' style={{ fontSize: '10px', color: 'var(--white-35)', letterSpacing: '0.12em', marginBottom: '12px' }}>{label}</div>
@@ -193,16 +193,16 @@ function buildSummary(data) {
 }
 
 function statusForAgent(agent, hasValue) {
-  if (!hasValue) return agent.cost > 0 ? { label: 'TRACKING', color: '#888' } : { label: 'NO DATA', color: '#888' };
+  if (!hasValue) return agent.cost > 0 ? { label: 'TRACKING', color: 'var(--white-35)' } : { label: 'NO DATA', color: 'var(--white-35)' };
   if (agent.roi == null) return { label: 'NO DATA', color: 'var(--white-35)' };
   if (agent.roi >= 3) return { label: 'PROFITABLE', color: 'var(--green)' };
-  if (agent.roi >= 1) return { label: 'MARGINAL', color: '#f59e0b' };
-  return { label: 'LOSING', color: '#ef4444' };
+  if (agent.roi >= 1) return { label: 'MARGINAL', color: 'var(--warning)' };
+  return { label: 'LOSING', color: 'var(--negative)' };
 }
 
 function roiColor(roi) {
-  if (roi == null) return 'rgba(255,255,255,0.38)';
-  if (roi >= 3) return '#22c55e';
-  if (roi >= 1) return '#f59e0b';
-  return '#ef4444';
+  if (roi == null) return 'var(--white-35)';
+  if (roi >= 3) return 'var(--green)';
+  if (roi >= 1) return 'var(--warning)';
+  return 'var(--negative)';
 }
