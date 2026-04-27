@@ -126,13 +126,13 @@
   --green-soft: rgba(22,163,74,0.08);
   --green-border: rgba(22,163,74,0.22);
 
-  /* Text — dark text on light bg (using same variable names) */
+  /* Text — dark text on light bg. Bumped for WCAG AA contrast on #fafafa bg */
   --white: #0a0a0a;
   --white-90: rgba(10,10,10,0.92);
-  --white-70: rgba(10,10,10,0.75);
-  --white-50: rgba(10,10,10,0.55);
-  --white-35: rgba(10,10,10,0.40);
-  --white-20: rgba(10,10,10,0.20);
+  --white-70: rgba(10,10,10,0.80);
+  --white-50: rgba(10,10,10,0.65);
+  --white-35: rgba(10,10,10,0.55);
+  --white-20: rgba(10,10,10,0.35);
 
   /* Data colours — same hues, adjusted for light bg */
   --positive: #16a34a;

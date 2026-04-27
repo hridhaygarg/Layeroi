@@ -890,7 +890,7 @@ function ROICalculator() {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', marginBottom: '32px' }} className="features-grid">
             <div style={{ background: 'var(--surface-1)', border: '1px solid var(--border-subtle)', borderRadius: '12px', padding: '28px' }}>
               <label className="mono" style={{ fontSize: '10px', color: 'var(--white-35)', letterSpacing: '0.1em', display: 'block', marginBottom: '16px' }}>NUMBER OF AI AGENTS</label>
-              <input type="range" min="1" max="100" value={agents} onChange={e => setAgents(+e.target.value)}
+              <input type="range" min="1" max="100" value={agents} onChange={e => setAgents(+e.target.value)} aria-label="Number of AI agents"
                 style={{ width: '100%', height: '4px', background: 'var(--surface-3)', borderRadius: '2px', outline: 'none', appearance: 'none', WebkitAppearance: 'none', cursor: 'pointer' }} />
               <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '12px' }}>
                 <span className="mono" style={{ fontSize: '11px', color: 'var(--white-35)' }}>1</span>
@@ -900,7 +900,7 @@ function ROICalculator() {
             </div>
             <div style={{ background: 'var(--surface-1)', border: '1px solid var(--border-subtle)', borderRadius: '12px', padding: '28px' }}>
               <label className="mono" style={{ fontSize: '10px', color: 'var(--white-35)', letterSpacing: '0.1em', display: 'block', marginBottom: '16px' }}>MONTHLY LLM SPEND ($)</label>
-              <input type="range" min="5000" max="500000" step="5000" value={spend} onChange={e => setSpend(+e.target.value)}
+              <input type="range" min="5000" max="500000" step="5000" value={spend} onChange={e => setSpend(+e.target.value)} aria-label="Monthly LLM spend"
                 style={{ width: '100%', height: '4px', background: 'var(--surface-3)', borderRadius: '2px', outline: 'none', appearance: 'none', WebkitAppearance: 'none', cursor: 'pointer' }} />
               <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '12px' }}>
                 <span className="mono" style={{ fontSize: '11px', color: 'var(--white-35)' }}>$5K</span>
