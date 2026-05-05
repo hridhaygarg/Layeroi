@@ -1,6 +1,7 @@
 import { getAllAgents } from '../../database/queries/index.js';
 import { supabase } from '../../config/database.js';
 import { logger } from '../../utils/logger.js';
+import { reseedIfStale } from '../../lib/reseed-if-stale.js';
 
 export async function listAllAgents(req, res) {
   try {
@@ -27,6 +28,9 @@ export async function listAllAgents(req, res) {
       .map(name => ({ name, provider: 'unknown', source: 'auto-discovered' }));
 
     const allAgents = [...registeredAgents, ...logOnlyAgents];
+
+    // Re-seed demo logs if month boundary crossed
+    if (orgId) await reseedIfStale(orgId);
 
     // If orgId provided, enrich with cost/value/tasks from api_logs
     if (orgId && allAgents.length > 0) {

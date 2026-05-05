@@ -1,6 +1,7 @@
 import { getAgentCosts, getAllAgents } from '../../database/queries/index.js';
 import { supabase } from '../../config/database.js';
 import { logger } from '../../utils/logger.js';
+import { reseedIfStale } from '../../lib/reseed-if-stale.js';
 
 export async function getAgentCostsSummary(req, res) {
   try {
@@ -25,6 +26,8 @@ export async function getAllCosts(req, res) {
       }
       return res.json({ costs });
     }
+
+    await reseedIfStale(orgId);
 
     // Aggregate from api_logs for this org (same approach as Reports)
     const monthStart = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
