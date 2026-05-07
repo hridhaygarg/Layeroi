@@ -5,7 +5,7 @@ const API = 'https://api.layeroi.com';
 
 const PROVIDERS = [
   { id: 'openai', name: 'OpenAI', desc: 'Import spend data from your OpenAI organization. Requires an admin API key (sk-admin-...).', keyLabel: 'Admin API Key', placeholder: 'sk-admin-...', helpUrl: 'https://platform.openai.com/settings/organization/admin-keys', ready: true },
-  { id: 'anthropic', name: 'Anthropic', desc: 'Import spend data from your Anthropic workspace. Requires an admin API key.', keyLabel: 'Admin API Key', placeholder: 'sk-ant-admin-...', helpUrl: 'https://console.anthropic.com/settings/admin-keys', ready: false },
+  { id: 'anthropic', name: 'Anthropic', desc: 'Import spend data from your Anthropic workspace. Requires an admin API key.', keyLabel: 'Admin API Key', placeholder: 'sk-ant-admin-...', helpUrl: 'https://console.anthropic.com/settings/admin-keys', ready: true },
   { id: 'bedrock', name: 'AWS Bedrock', desc: 'Import AI spend from AWS Cost Explorer filtered to Bedrock. Requires IAM credentials with CostExplorerReadOnly.', keyLabel: 'Access Key ID', placeholder: 'AKIA...', isAws: true, ready: false },
 ];
 
@@ -104,7 +104,7 @@ export default function Sources() {
         ))}
         <div style={{ gridColumn: '1 / -1', marginTop: '4px' }}>
           <p style={{ fontSize: '13px', color: '#a1a1aa', fontStyle: 'italic', margin: 0 }}>
-            Anthropic and AWS Bedrock integrations are in final testing. Use OpenAI for now — support for Anthropic and Bedrock ships in the next release.
+            AWS Bedrock integration is in final testing. OpenAI and Anthropic are fully supported — Bedrock ships in the next release.
           </p>
         </div>
       </section>
