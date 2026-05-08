@@ -33,6 +33,7 @@ import workspaceRoutes from './api/routes/workspace.js';
 import reportsRoutes from './api/routes/reports.js';
 import sourcesRoutes from './api/routes/sources.js';
 import ingestRoutes from './api/routes/ingest.js';
+import anthropicProxyRoutes from './api/routes/anthropicProxy.js';
 
 dotenv.config();
 
@@ -76,6 +77,7 @@ app.use(healthRoutes);
 app.use(docsRoutes);
 app.use(authRoutes);
 app.use(proxyRoutes);
+app.use(anthropicProxyRoutes);
 app.use(costsRoutes);
 app.use(agentsRoutes);
 app.use(statsRoutes);
